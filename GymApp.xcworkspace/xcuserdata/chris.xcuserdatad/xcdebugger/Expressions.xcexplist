@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "PlanCollcetionCell.init(frame:):PlanCollcetionCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "planName">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static PlanCreateRouter.buildPlanListView():PlanCreateRouter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "planList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCollectionViewCell.collectionView(_:layout:sizeForItemAt:):PlanCreateView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "label.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreateView.numberOfSections(in:):PlanCreateView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "section.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreateRouter.buildPlanEditView(plan:):PlanCreateRouter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plan.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.collectionView(_:didSelectItemAt:):PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "testList[0]">
+            </PersistentString>
+            <PersistentString
+               value = "planList?[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreateView.titleSectionView(width:height:):PlanCreateView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plan?.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "(null):(null)">
+      </ContextState>
+      <ContextState
+         contextName = "main:AppDelegate.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleRouter.sendTheChoseResult(sports:):SportModuleRouter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sports[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanEditViewController.viewDidLoad():PlanEditViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view1.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCollectionViewCell.collectionView(_:cellForItemAt:):PlanCreateView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.viewDidLoad():PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "planList?[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.showUpdatePlanView(plan:):PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "planList">
+            </PersistentString>
+            <PersistentString
+               value = "0x00006000035425d0">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

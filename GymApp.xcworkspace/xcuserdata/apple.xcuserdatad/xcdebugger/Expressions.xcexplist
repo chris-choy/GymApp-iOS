@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "PlanCreateRouter.receiveTheSportResult(sports:):PlanCreateRouter.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreateView.numberOfSections(in:):PlanCreateView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "planList[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreateRouter.buildPlanEditView(plan:):PlanCreateRouter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.presenter">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.collectionView(_:didSelectItemAt:):PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plans[indexPath.row].name">
+            </PersistentString>
+            <PersistentString
+               value = "planList?[0].name">
+            </PersistentString>
+            <PersistentString
+               value = "planList">
+            </PersistentString>
+            <PersistentString
+               value = "planList.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreateView.addPlanSection():PlanCreateView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view.frame">
+            </PersistentString>
+            <PersistentString
+               value = "tableView.frame">
+            </PersistentString>
+            <PersistentString
+               value = "collection.bounds.widh">
+            </PersistentString>
+            <PersistentString
+               value = "UIScreen.main.bounds">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreatePresenter.showAllPlans():PlanCreatePresenter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "p[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreateView.loadData(plans:):PlanCreateView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plans[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.loadData(plans:):PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plans[0].name">
+            </PersistentString>
+            <PersistentString
+               value = "plans.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.setupCollectionView():PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "planList?[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static PlanCreateRouter.buildPlanEditView(plan:):PlanCreateRouter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plan.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleView.showSports(sports:):SportModuleView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sports[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "GymAppTests.testPlanFetchByName():GymAppTests.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "p.planSections">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleRouter.sendTheChoseResult(sports:):SportModuleRouter.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PlanCreatePresenter.showEditPlan(plan:):PlanCreatePresenter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plans[0].name">
+            </PersistentString>
+            <PersistentString
+               value = "plan.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.viewDidLoad():PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "planList?[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleView.tableView(_:cellForRowAt:):SportModuleView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sports[indexPath.row].name">
+            </PersistentString>
+            <PersistentString
+               value = "sportList">
+            </PersistentString>
+            <PersistentString
+               value = "sportList?[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

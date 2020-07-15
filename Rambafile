@@ -1,0 +1,25 @@
+### Headers settings
+company: Chris
+
+### Xcode project settings
+project_name: GymApp
+xcodeproj_path: GymApp.xcodeproj
+
+### Code generation settings section
+# The main project target name
+project_target: GymApp
+
+# The file path for new modules
+project_file_path: GymApp/Modules
+
+# The Xcode group path to new modules
+project_group_path: GymApp/Modules
+
+### Dependencies settings section
+podfile_path: Podfile
+
+### Templates
+catalogs:
+- 'https://github.com/strongself/generamba-catalog'
+templates:
+- {name: swifty_viper}
