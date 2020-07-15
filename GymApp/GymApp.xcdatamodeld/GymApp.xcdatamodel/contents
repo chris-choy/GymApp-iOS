@@ -1,4 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F96" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Plan" representedClassName="Plan" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="planSections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlanSection"/>
+    </entity>
+    <entity name="PlanRow" representedClassName="PlanRow" syncable="YES" codeGenerationType="class">
+        <attribute name="lastValue" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="setNum" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="times" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="PlanSection" representedClassName="PlanSection" syncable="YES" codeGenerationType="class">
+        <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="planRows" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlanRow"/>
+        <relationship name="sport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sport"/>
+    </entity>
+    <entity name="Sport" representedClassName="Sport" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SportTag"/>
+        <relationship name="unit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SportUnit"/>
+    </entity>
+    <entity name="SportTag" representedClassName="SportTag" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sport"/>
+    </entity>
+    <entity name="SportUnit" representedClassName="SportUnit" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="sport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sport"/>
+    </entity>
+    <elements>
+        <element name="Plan" positionX="-587.1171875" positionY="-120.31640625" width="128" height="58"/>
+        <element name="PlanRow" positionX="-608.88671875" positionY="290.66796875" width="128" height="103"/>
+        <element name="PlanSection" positionX="-589.96484375" positionY="79.26171875" width="128" height="88"/>
+        <element name="Sport" positionX="-99.625" positionY="33.51171875" width="128" height="88"/>
+        <element name="SportTag" positionX="174.140625" positionY="231.83203125" width="128" height="73"/>
+        <element name="SportUnit" positionX="144.9453125" positionY="-252.79296875" width="128" height="73"/>
+    </elements>
 </model>

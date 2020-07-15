@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -18,6 +19,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+//        window?.rootViewController = BottomTabBarController()
+//        window?.rootViewController = PlanCreateRouter.build()
+        
+//        window?.rootViewController = PlanCreateRouter.buildPlanListView()
+        let manager = PlanCoreDataManager()
+//        let router = PlanCreateRouter()
+        if let plans = manager.fetchAllPlans() {
+            window?.rootViewController = PlanCreateRouter.buildPlanEditView(plan: plans[0])
+        }
+        
+        
+        
+        // 测试
+//        let v = PlanCreateView()
+//        window?.rootViewController = v
+////        let v = SportModuleView()
+//        let manager = PlanCoreDataManager()
+//        if let plans = manager.fetchAllPlans() {
+//
+//            v.loadData(plans: [plans[0]])
+//        }
+        // 测试 end
+        
+        
+        
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
