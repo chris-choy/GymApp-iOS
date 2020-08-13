@@ -19,24 +19,33 @@ class SportModulePresenter: SportModulePresenterProtocol {
     
     func viewDidLoad() {
         
-        showSportsList()
-
+//        showSportsList()
     }
     
     
     // For router to call.
-    func showSportsList(){
+    func showSportsList(sections: [PlanSectionModel]){
         
         if let sports = interactor?.fetchAllSports(){
-            view?.showSports(sports: sports)
+            
+            let sportModels = sports.toSportModels()
+            
+            var selectedList = Array(repeating: false, count: sportModels.count)
+            
+            for index in 0 ... selectedList.count-1 {
+                if(sections.contains(where: {$0.sport.name == sportModels[index].name})){
+                    selectedList[index] = true
+                }
+            }
+            
+            view?.loadData(selectedList: selectedList,data: sportModels)
         }
         
     }
     
-    func sendTheChoseResult(sports: [Sport]?) {
-//        router?.sendTheChoseResult(sports: sports)
-        if let s = sports {
-            planPresenter?.addSectionInView(sports: s)
+    func sendTheChoseResult(sports: [SportModel]?) {
+        if let sports = sports {
+            planPresenter?.addSectionInView(sports: sports)
         }
     }
     

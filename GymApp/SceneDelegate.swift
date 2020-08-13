@@ -26,8 +26,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        window?.rootViewController = PlanCreateRouter.buildPlanListView()
         let manager = PlanCoreDataManager()
 //        let router = PlanCreateRouter()
+        
+        
+        
         if let plans = manager.fetchAllPlans() {
-            window?.rootViewController = PlanCreateRouter.buildPlanEditView(plan: plans[0])
+            
+            let planModel : PlanModel?
+            if plans.count == 0{
+                planModel = PlanModel(objectId: nil, name: "PlanName")
+            } else {
+//                planModel = PlanModel(objectId: plans[0].objectID, name: plans[0].name!)
+                let array = plans[0].planSections?.allObjects as! [PlanSection]
+                planModel = PlanModel(objectId: plans[0].objectID, name: plans[0].name!, sectionList: array.toPlanSectionModels())
+            }
+            
+
+            
+            let vc = PlanCreateRouter.buildPlanEditView(plan: planModel!)
+            
+            let nav = UINavigationController(rootViewController: vc)
+            
+            window?.rootViewController = nav
         }
         
         

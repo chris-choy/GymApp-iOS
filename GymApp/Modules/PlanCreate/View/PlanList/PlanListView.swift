@@ -97,13 +97,10 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
         // Select to edit plan.
         // Build a PlanModule with the PlanEditPage.
         
-        
-//        let router  = PlanCreateRouter()
-        
-        if let plans = planList {
-            let planEditView = PlanCreateRouter.buildPlanEditView(plan: plans[indexPath.row])
-            navigationController?.pushViewController(planEditView, animated: true)
-        }
+//        if let plans = planList {
+//            let planEditView = PlanCreateRouter.buildPlanEditView(plan: plans[indexPath.row])
+//            navigationController?.pushViewController(planEditView, animated: true)
+//        }
     
     }
     
@@ -114,7 +111,14 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
 }
 
 extension PlanListViewController: PlanCreateViewProtocol {
-    func addSection(sections: [PlanSection]) {
+    func loadData(data: Any) {
+        viewDidLoad()
+        if data is [Plan] {
+            planList = data as? [Plan]
+        }
+    }
+    
+    func addSection(sections: [PlanSectionModel]) {
         
     }
     
@@ -123,10 +127,10 @@ extension PlanListViewController: PlanCreateViewProtocol {
     }
     
     
-    func loadData(plans: [Plan]) {
-        viewDidLoad()
-        planList = plans
-    }
+//    func loadData(plans: [Plan]) {
+//        viewDidLoad()
+//        planList = plans
+//    }
     
     
     

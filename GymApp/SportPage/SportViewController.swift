@@ -313,7 +313,7 @@ class SportViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         }
         
         if((tag.count == 1) && (unit.count == 1)){
-            addSport(name: name!, tag: tag[0], unit: unit[0])
+//            addSport(name: name!, tag: tag[0], unit: unit[0])
         }
         
     }

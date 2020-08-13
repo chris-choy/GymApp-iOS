@@ -114,27 +114,27 @@ extension SportViewController{
         }
     }
 // MARK: - Add
-    func addSport(name: String,tag: SportTag?,unit: SportUnit){
-//        let store = NSPersistentContainer(name: "GymApp")
-//        store.loadPersistentStores { (desc, err) in
-//            if let err = err {
-//                fatalError("core data error: \(err)")
-//            }
-//        }
-//        let context = store.viewContext
-        
-        let sport = NSEntityDescription.insertNewObject(forEntityName: "Sport", into: managedObjectContext!) as! Sport
-        sport.name = name
-        sport.tag = tag
-        sport.unit = unit
-        
-        
-        try! managedObjectContext!.save()
-        
-        fetchSportData()
-        tableView.reloadData()
-        removeSportAddingWin()
-    }
+//    func addSport(name: String,tag: SportTag?,unit: SportUnit){
+////        let store = NSPersistentContainer(name: "GymApp")
+////        store.loadPersistentStores { (desc, err) in
+////            if let err = err {
+////                fatalError("core data error: \(err)")
+////            }
+////        }
+////        let context = store.viewContext
+//        
+//        let sport = NSEntityDescription.insertNewObject(forEntityName: "Sport", into: managedObjectContext!) as! Sport
+//        sport.name = name
+//        sport.tag = tag
+//        sport.unit = unit
+//        
+//        
+//        try! managedObjectContext!.save()
+//        
+//        fetchSportData()
+//        tableView.reloadData()
+//        removeSportAddingWin()
+//    }
     
     func addTag(name: String) -> Bool{
         if(selectTag(name: name).count != 0){

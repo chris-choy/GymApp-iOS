@@ -7,16 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B6B848D2-5A3A-4BAA-A50B-14CF88323395"
+            uuid = "F7DDB7DA-52EC-4B22-B8E6-8B8658543932"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GymApp/Modules/PlanCreate/View/PlanCreate/PlanCreateView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "numberOfSections(in:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "92B34120-ADD9-4F2F-96E1-E769ECBA922C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GymApp/Modules/PlanCreate/Presenter/PlanCreatePresenter.swift"
+            filePath = "GymApp/Modules/PlanCreate/View/PlanCreate/PlanCreateView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "addSectionInView(sports:)"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
+            landmarkName = "getSnapshotOfSection(tableView:section:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

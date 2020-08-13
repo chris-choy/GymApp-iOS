@@ -11,50 +11,38 @@ import CoreData
 
 
 struct PlanSectionModel {
+    var sectionIndex: Int16
     let unit: String
-    
-    let rowList: [PlanRowModel]?
-    
+    var rowList: [PlanRowModel] = []
     let sport: SportModel
-    
-//    init(sectionObject: PlanSection) {
-//        unit = "Unit String"
-//        if let rows = sectionObject.planRows{
-//            rowList = row
-//        } else {
-//            rowList = nil
-//        }
-//
-//        sport = SportModel(name: "Sport Name", unit: UnitModel(name: Unit Name))
-//    }
-    
+}
+
+extension Array where Element == PlanSection {
+    func toPlanSectionModels() -> [PlanSectionModel]{
+        var set : [PlanSectionModel] = []
+        for s in self {
+            set.append(s.toPlanSectionModel())
+        }
+        
+        set.sort(by: {$1.sectionIndex > $0.sectionIndex})
+        return set
+    }
 }
 
 class PlanSectionCoreDataManager {
     var planSectionFC: NSFetchedResultsController<PlanSection>?
-    var managedObjectContext: NSManagedObjectContext?
-
-    func setupContext(){
-        if(managedObjectContext == nil){
-            let container = NSPersistentContainer(name: "GymApp")
-            container.loadPersistentStores { (desc, err) in
-                if let err = err {
-                    fatalError("core data error: \(err)")
-                }
-            }
-            managedObjectContext = container.viewContext
-        }
-    }
+    let managedObjectContext = CoreDataManagedContext.sharedInstance.managedObjectContext
+    let context = CoreDataManagedContext.sharedInstance.managedObjectContext
     
     
     // Fetch.
     func fetchPlanSections() {
-        setupContext()
+        
         let request : NSFetchRequest<PlanSection> = PlanSection.fetchRequest()
 
         request.sortDescriptors = [NSSortDescriptor(key: "setNum", ascending: false)]
         
-        planSectionFC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
+        planSectionFC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         
 //        do {
 //            try planSectionFC?.performFetch()
@@ -69,9 +57,8 @@ class PlanSectionCoreDataManager {
     }
     
     func createPlanSection(sport: Sport, rowList: NSSet?){
-        setupContext()
         
-        let planSection = NSEntityDescription.insertNewObject(forEntityName: "PlanSection", into: managedObjectContext!) as! PlanSection
+        let planSection = NSEntityDescription.insertNewObject(forEntityName: "PlanSection", into: managedObjectContext) as! PlanSection
         
         // Do something with planSection object.
         planSection.sport = sport
@@ -82,8 +69,103 @@ class PlanSectionCoreDataManager {
             planSection.planRows = nil
         }
         
-        try! managedObjectContext!.save()
+        try! managedObjectContext.save()
     }
     
+    func createPlanSection(model: PlanSectionModel) -> PlanSection?{
+
+        let sportManager = SportDataManager()
+        let rowManager = PlanRowCoreDataManager()
+        
+        let planSection = NSEntityDescription.insertNewObject(forEntityName: "PlanSection", into: context) as! PlanSection
+        
+        
+        // Do something with planSection object.
+        
+        // Set the index to sort.
+        planSection.sectionIndex = model.sectionIndex
+        
+        // Relate to Sport.
+        let sport = sportManager.fetchSport(name: model.sport.name)
+        if sport != nil {
+            planSection.sport = sport
+        } else {
+            print("Error: Sport(\(model.sport.name) not found.")
+            return nil
+        }
+        
+        // Create the rows object and relate to them.
+        for rowModel in model.rowList {
+            
+//            // test
+//            print(rowModel.value)
+//            // testend
+            
+            if let row = rowManager.createPlanRow(row: rowModel) {
+                planSection.addToPlanRows(row)
+            } else {
+                print("Error: RowCreate failed.")
+                return nil
+            }
+        }
+        
+        // For test.
+//        if let rows = planSection.planRows {
+//            for item in rows {
+//                print(item)
+//            }
+//        }
+        
+        // Fort test end.
+        
+        
+        do {
+            try context.save()
+        } catch (let err){
+            print(err)
+        }
+        
+        
+        return planSection
+    }
     
 }
+
+extension PlanSection {
+    func delete(){
+        let context = CoreDataManagedContext.sharedInstance.managedObjectContext
+        
+        // Clear rows.
+        if var rows = (self.planRows as? Set<PlanRow>){
+            for row in rows {
+                row.delete()
+                rows.removeFirst()
+            }
+        }
+        
+        if(planRows?.count == 0){
+            context.delete(self)
+        } else {
+            print("Error: planRows is not empty.")
+        }
+        
+        do {
+            try context.save()
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    func toPlanSectionModel() -> PlanSectionModel{
+        let rowArray = self.planRows?.allObjects as! [PlanRow]
+        
+        let model = PlanSectionModel(
+            sectionIndex: Int16(self.sectionIndex),
+            unit: self.sport!.unit!.name!,
+            rowList: rowArray.toPlanRowModels(),
+            sport: self.sport!.toSportModel())
+        
+        return model
+    }
+}
+

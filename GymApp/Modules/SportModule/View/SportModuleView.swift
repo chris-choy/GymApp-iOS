@@ -14,7 +14,9 @@ class SportModuleView: UITableViewController{
     
     let cellId = "cellId"
     
-    var sportList: [Sport]?
+    var sportList: [SportModel]?
+    
+//    var isChecked: [Bool]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,15 +31,40 @@ class SportModuleView: UITableViewController{
     }
     
     @objc func doneAction(){
-        if let indexList = tableView.indexPathsForSelectedRows {
-            
-            var sports : [Sport] = []
-            for index in indexList {
-                sports.append(sportList![index.row])
+//        if sportList != nil {
+//            if sportList!.count > 0 {
+//                var sports : [SportModel] = []
+//                for index in 0...sportList!.count-1 {
+//                    if(isChecked![index]){
+//                        sports.append(sportList![index])
+//                    }
+//                }
+//
+////                // Test.
+////                print(sports)
+////                // Test end.
+//                if sports.count > 0 {
+//                    presenter?.sendTheChoseResult(sports: sports)
+//                    self.dismiss(animated: true, completion: nil)
+//                }
+//            }
+//        }
+        
+        if let selectedIndexPath = tableView.indexPathsForSelectedRows {
+            var selectedSports : [SportModel] = []
+            for index in selectedIndexPath {
+                selectedSports.append(sportList![index.row])
             }
-            presenter?.sendTheChoseResult(sports: sports)
-            self.dismiss(animated: true, completion: nil)
+            
+            presenter?.sendTheChoseResult(sports: selectedSports)
         }
+        
+        
+        
+        
+        
+        self.dismiss(animated: true, completion: nil)
+        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -59,6 +86,12 @@ class SportModuleView: UITableViewController{
         
         if let sports = sportList {
             cell?.textLabel?.text = sports[indexPath.row].name
+//            if let isChecked = isChecked{
+//                if(isChecked[indexPath.row]){
+////                    cell?.select(self)
+//                    cell?.accessoryType = .checkmark
+//                }
+//            }
         }
         
         return cell!
@@ -66,18 +99,22 @@ class SportModuleView: UITableViewController{
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+//        isChecked?[indexPath.row] = true
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//        isChecked?[indexPath.row] = false
     }
     
 }
 
 extension SportModuleView: SportModuleViewProtocol {
     
-    func showSports(sports: [Sport]) {
-        sportList = sports
+    func loadData(selectedList: [Bool], data: [SportModel]) {
+        
+        sportList = data
+//        isChecked = selectedList
         tableView.reloadData()
     }
     

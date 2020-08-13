@@ -9,6 +9,18 @@
 import Foundation
 import CoreData
 
+struct SportUnitModel {
+    let name: String
+}
+
+extension SportUnit{
+    func toSportUnitModel() -> SportUnitModel{
+        let model = SportUnitModel(name: self.name!)
+        return model
+    }
+}
+
+
 class SportUnitDataManager {
     var fc: NSFetchedResultsController<SportUnit>?
     var managedObjectContext: NSManagedObjectContext?
@@ -72,16 +84,18 @@ class SportUnitDataManager {
     
     
     func fetchUnit(name: String) -> SportUnit? {
-        setupContext()
+//        setupContext()
+        
+        let context = CoreDataManagedContext.sharedInstance.managedObjectContext
 
         let request : NSFetchRequest<SportUnit> = SportUnit.fetchRequest()
         request.predicate = NSPredicate(format: "name = %@", name)
         
         do {
-            let result = try managedObjectContext?.fetch(request)
+            let result = try context.fetch(request)
             
-            if(result?.count == 1){
-                return result?.first as SportUnit?
+            if(result.count == 1){
+                return result.first as SportUnit?
             }
             else {
                 print("Error: More than one object existed.")

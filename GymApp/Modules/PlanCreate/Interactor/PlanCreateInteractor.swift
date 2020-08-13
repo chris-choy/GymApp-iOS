@@ -14,11 +14,19 @@ class PlanCreateInteractor: PlanCreateInteractorProtocol{
     let planManager = PlanCoreDataManager()
     
     func fetchPlan(name: String) -> Plan? {
-        return PlanCoreDataManager().fetchPlan(name: name)
+        return planManager.fetchPlan(name: name)
     }
     
     func fetchAllPlans() -> [Plan]? {
         return planManager.fetchAllPlans()
+    }
+    
+    func updatePlan(plan: PlanModel) -> Bool {
+        if(planManager.updatePlan(plan: plan)){
+            return true
+        } else {
+            return false
+        }
     }
     
 }

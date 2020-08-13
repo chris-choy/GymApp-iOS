@@ -24,62 +24,39 @@ class SportModuleRouter: SportModuleRouterProtocol {
         presenter.router = router
         presenter.interactor = interactor
         
-//        presenter.viewDidLoad()
-        presenter.showSportsList()
+        presenter.viewDidLoad()
         
         
         let nav = UINavigationController(rootViewController: view)
         return nav
     }
     
-//    static func build() -> UIViewController {
-//            // Use this method to create the module and the viewcontroller.
-//            let view = SportModuleView()
-//            let presenter : SportModulePresenterProtocol = SportModulePresenter()
-//            let router : SportModuleRouterProtocol = SportModuleRouter()
-//            let interactor: SportModuleInteractorProtocol = SportModuleInteractor()
-//
-//            view.presenter = presenter
-//            presenter.view = view
-//            presenter.router = router
-//            presenter.interactor = interactor
-//
-//            presenter.viewDidLoad()
-//
-//
-//
-//            let nav = UINavigationController(rootViewController: view)
-//            return nav
-//    }
-    
-    static func buildListForChose(planPresenter: PlanCreatePresenterProtocol) -> UIViewController {
+    static func buildListForChose(sections: [PlanSectionModel],planPresenter: PlanCreatePresenterProtocol) -> UIViewController {
+        
         let view = SportModuleView()
         let presenter : SportModulePresenterProtocol = SportModulePresenter()
         let router : SportModuleRouterProtocol = SportModuleRouter()
         let interactor: SportModuleInteractorProtocol = SportModuleInteractor()
         
-//        router.setPlanRouter(router: planRouter)
-        
         view.presenter = presenter
+        
         presenter.view = view
         presenter.router = router
         presenter.interactor = interactor
         presenter.planPresenter = planPresenter
         
-        presenter.viewDidLoad()
+        presenter.showSportsList(sections: sections)
         
         let nav = UINavigationController(rootViewController: view)
         
         return nav
     }
     
-//    func setPlanRouter(router: PlanCreateRouterProtocol) {
-//        planRouter = router
-//    }
+
     
-    func sendTheChoseResult(sports: [Sport]?) {
-        if let sports = sports {
-//            planRouter?.receiveTheSportResult(sports: sports)
-        }
+    func sendTheChoseResult(sports: [SportModel]?) {
+//        if let sports = sports {
+////            planRouter?.receiveTheSportResult(sports: sports)
+//        }
     }
 }

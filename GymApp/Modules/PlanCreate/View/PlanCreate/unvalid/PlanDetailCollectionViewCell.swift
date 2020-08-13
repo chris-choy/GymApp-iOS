@@ -111,7 +111,7 @@ class PlanDetailCollectionViewCell: UICollectionViewCell{
 //        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "|-16-[v0]-16-[v1]-[v2]-8-[v3]-[v4(16)]-[v5]-16-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0":setNumLabel,"v1":lastValueLabel , "v2":valueLabel, "v3":unitLabel, "v4":multiplicationSymbol,"v5":timesLabel]))
         
         
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "|-16-[v0]", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0":setNumLabel,"v1":lastValueLabel , "v2":valueLabel, "v3":unitLabel, "v4":multiplicationSymbol,"v5":timesLabel]))
+//        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "|-16-[v0]", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0":setNumLabel,"v1":lastValueLabel , "v2":valueLabel, "v3":unitLabel, "v4":multiplicationSymbol,"v5":timesLabel]))
         
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "[v2]-8-[v3]-[v4(16)]-[v5]-16-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0":setNumLabel,"v1":lastValueLabel , "v2":valueLabel, "v3":unitLabel, "v4":multiplicationSymbol,"v5":timesLabel]))
         

@@ -9,6 +9,10 @@
 import XCTest
 @testable import GymApp
 
+
+//        print(FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask))
+
+
 class GymAppTests: XCTestCase {
 
     override func setUp() {
@@ -52,11 +56,6 @@ class GymAppTests: XCTestCase {
 //        let planModel = PlanModel(name: "Plan Test", sectionList: nil)
 //        XCTAssertNil(planManager.createPlan(planModel: planModel))
         
-        
-        
-        
-        
-        
     }
     
     func testPlanFetchByName(){
@@ -64,21 +63,31 @@ class GymAppTests: XCTestCase {
         
         if let p = planManager.fetchPlan(name: "Plan Test 1") {
             print("Success! name = \(p.name!)")
-            if let section = p.planSections {
-                print("asdf")
-            }
+//            if let section = p.planSections {
+//                print("asdf")
+//            }
         }
         
     }
     
     func testSportModuel(){
         
+//        print(FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask))
+
+        
         let manager = SportDataManager()
         
         
+        
+        
 //        manager.fetchAllSport()
-        // 创建运动 name="SportTest" unit="kg"
-//        let s = manager.createSport(name: "SportTest 3", unit: "kg")
+//         创建运动 name="SportTest" unit="kg"
+//        var s = manager.createSport(name: "Sport 1", unit: "kg")
+//        s = manager.createSport(name: "Sport 2", unit: "kg")
+//        s = manager.createSport(name: "Sport 3", unit: "kg")
+        
+        
+        
 //        XCTAssertNotNil(s)
 //        XCTAssertEqual(s?.name, "SportTest 3")
         
@@ -96,10 +105,93 @@ class GymAppTests: XCTestCase {
         let result = manager.fetchAllSport()
         XCTAssertNotNil(result)
 
+        print("count = \(result!.count)")
+
         for item in result! {
-            print(item.name)
+            print("\(item.name!) unit=\(item.unit?.name!)")
         }
-//        XCTAssertEqual(result?.count, 1)
+//        XCTAssertEqual(result?.count, 0)
+        
+        
+        // 删除测试
+//        manager.deleteSport(name: "Sport 1")
+//        manager.deleteSport(name: "Sport 2")
+//        manager.deleteSport(name: "Sport 3")
+//        let result = manager.fetchAllSport()
+//        XCTAssertEqual(result?.count, 0)
+        
+    }
+    
+    func testFetchAllPlans(){
+        let manager = PlanCoreDataManager()
+        
+        let result = manager.fetchAllPlans()
+        XCTAssertNotNil(result)
+
+        print("count = \(result!.count)")
+
+        for item in result! {
+            print("name = \(item.name!)")
+        }
+    }
+    
+    func testPlanFetchById(){
+        let manager = PlanCoreDataManager()
+        let result = manager.fetchPlan(name: "Plan Test 1")
+        
+        let result2 = manager.fetchPlan(id: result!.objectID)
+        
+        XCTAssertEqual(result?.name, result2?.name)
+    }
+    
+    func testUpdatePlan(){
+        
+        print(FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask))
+
+        // 思路：
+        // 1.先取回object转化成model
+        // 2.将修改之后的model存储到object
+        
+        
+        let planManager = PlanCoreDataManager()
+        let sportManager = SportDataManager()
+        
+        // Fetch Result.
+        let result = planManager.fetchPlan(name: "Plan Test 1")
+        var planModel = result?.toPlanModel()
+        
+        // 操作前结果输出
+        print("Begin !!!!!!!!!!!!")
+//        print("Do Before!")
+        print(planModel!)
+        print("\n Before \n")
+        
+        // 开始操作
+        // 取回sport1,创建row1和row2，构建section1
+        let row1 = PlanRowModel(lastValue: 11, value: 11, times: 11)
+        let row2 = PlanRowModel(lastValue: 22, value: 22, times: 22)
+        let section1 = PlanSectionModel(
+            unit: "kg",
+            rowList: [row1,row2],
+            sport: (sportManager.fetchSport(name: "Sport 1")?.toSportModel())!)
+        
+        planModel?.sectionList.append(section1)
+        
+        
+        
+        
+        // 操作结束 ，输出操作后的planModel
+//        print(planModel!)
+        
+        
+        // 进行update操作
+        planManager.updatePlan(plan: planModel!)
+        
+        // 取回结果看看
+        let result2 = planManager.fetchPlan(name: "Plan Test 1")
+        print("\nResult:")
+        print(result2!.toPlanModel())
+
     }
     
     
@@ -111,7 +203,7 @@ class GymAppTests: XCTestCase {
         
         // 测试创建重复
         if let u = manager.createUnit(name: "kg") {
-            print (u.name)
+            print (u.name!)
         }
         else {
             print("failed")
@@ -133,17 +225,17 @@ class GymAppTests: XCTestCase {
 //            let u = manager.createUnit(name: "unit test9")
 //            XCTAssertNotNil(u)
 //            XCTAssertEqual(u?.name, "unit test9")
-        
-//        let result = manager.fetchAllUnit()
-//        XCTAssertNotNil(result)
-//        XCTAssertEqual(result?.count, 2)
-//        if let r = result {
-//            XCTAssertEqual(r[0].name, "unit test")
-//            XCTAssertEqual(r[1].name, "unit test9")
-//            for i in r {
-//                print(i.name)
+//
+//            let result = manager.fetchAllUnit()
+//            XCTAssertNotNil(result)
+////            XCTAssertEqual(result?.count, 2)
+//            if let r = result {
+////                XCTAssertEqual(r[0].name, "unit test")
+////                XCTAssertEqual(r[1].name, "unit test9")
+//                for i in r {
+//                    print(i.name)
+//                }
 //            }
-//        }
         
     }
 

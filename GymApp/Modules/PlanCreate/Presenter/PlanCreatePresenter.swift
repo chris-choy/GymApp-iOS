@@ -17,7 +17,7 @@ import CoreData
 
 
 class PlanCreatePresenter: PlanCreatePresenterProtocol {
-
+    
     var view : PlanCreateViewProtocol?
     var router: PlanCreateRouterProtocol?
     var interactor: PlanCreateInteractorProtocol?
@@ -35,33 +35,37 @@ class PlanCreatePresenter: PlanCreatePresenterProtocol {
     // Tell the view to do.
     func showAllPlans(){
         if let p = interactor!.fetchAllPlans() {
-            view?.loadData(plans: p)
+            view?.loadData(data: p)
         }
     }
     
-    func showEditPlan(plan: Plan) {
-        let plans = [plan]
-        view?.loadData(plans: plans)
+    func showEditPlan(plan: PlanModel) {
+        view?.loadData(data: plan)
     }
     
-    func buildSportListView() -> UIViewController{
-        return router!.showSportList(presenter: self)
+    func buildSportListView(sections: [PlanSectionModel]) -> UIViewController{
+        return router!.showSportList(sections: sections, presenter: self)
     }
     
-    func addSectionInView(sports: [Sport]) {
-        print("addSectionInView")
-        for s in sports{
-            print(s.name!)
+    func addSectionInView(sports: [SportModel]) {
+        
+        var sections: [PlanSectionModel] = []
+        
+        for sport in sports {
+            let section = PlanSectionModel(
+                sectionIndex: 0,
+                unit: sport.unit.name,
+                sport: sport)
+            sections.append(section)
         }
-        
-//        var sections =
-        
-//        let section = PlanSection
-        
-//        section.sport = sport
-//        sections.append(section)
-        
-        // 在这里添加view的动作
-//        view?.addSection(sections: sections)
+        view?.addSection(sections: sections)
+    }
+    
+    func savePlan(plan: PlanModel) -> Bool {
+        if(interactor!.updatePlan(plan: plan)) {
+            return true
+        } else {
+            return false
+        }
     }
 }

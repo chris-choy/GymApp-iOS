@@ -8,19 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		18341C37013E40A5B69C13AB /* Pods_GymAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E3CB5A18DE7EBBB2E9C9CE /* Pods_GymAppTests.framework */; };
+		18B3253724DC60E000C7CE94 /* PlanTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B3253624DC60E000C7CE94 /* PlanTableHeaderView.swift */; };
 		5CD89DA6AEDE5CC36B2EA587 /* Pods_GymApp_GymAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 402C2A3BEE33E5AF31A07636 /* Pods_GymApp_GymAppUITests.framework */; };
 		8301807124B1C4B2000D7DFD /* SportModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8301806A24B1C4B2000D7DFD /* SportModulePresenter.swift */; };
 		8301807224B1C4B2000D7DFD /* SportModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8301806B24B1C4B2000D7DFD /* SportModuleRouter.swift */; };
 		8301807324B1C4B2000D7DFD /* SportModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8301806C24B1C4B2000D7DFD /* SportModuleProtocols.swift */; };
 		8301807424B1C4B2000D7DFD /* SportModuleInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8301806D24B1C4B2000D7DFD /* SportModuleInteractor.swift */; };
 		8301807524B1C4B2000D7DFD /* SportModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8301806E24B1C4B2000D7DFD /* SportModuleView.swift */; };
+		830D37F524C7E499003EDD93 /* GymApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 830D37F324C7E498003EDD93 /* GymApp.xcdatamodeld */; };
+		8329905224BF0B330070D65E /* CoreDataManagedContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8329905124BF0B330070D65E /* CoreDataManagedContext.swift */; };
 		832D8690244DC94F000C9902 /* multipleSimulatorsStartup.sh in Resources */ = {isa = PBXBuildFile; fileRef = 832D868E244DC94F000C9902 /* multipleSimulatorsStartup.sh */; };
 		832D8691244DC94F000C9902 /* SimulatorsList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 832D868F244DC94F000C9902 /* SimulatorsList.txt */; };
 		83571AEE2447F2EA00572C7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571AED2447F2EA00572C7C /* AppDelegate.swift */; };
 		83571AF02447F2EA00572C7C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571AEF2447F2EA00572C7C /* SceneDelegate.swift */; };
 		83571AF22447F2EA00572C7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571AF12447F2EA00572C7C /* ViewController.swift */; };
 		83571AF52447F2EA00572C7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83571AF32447F2EA00572C7C /* Main.storyboard */; };
-		83571AF82447F2EA00572C7C /* GymApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 83571AF62447F2EA00572C7C /* GymApp.xcdatamodeld */; };
 		83571AFA2447F2EB00572C7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83571AF92447F2EB00572C7C /* Assets.xcassets */; };
 		83571AFD2447F2EB00572C7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83571AFB2447F2EB00572C7C /* LaunchScreen.storyboard */; };
 		83571B082447F2EB00572C7C /* GymAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571B072447F2EB00572C7C /* GymAppTests.swift */; };
@@ -42,18 +44,18 @@
 		8387BEF324B31BC0001E58A8 /* PlanCollcetionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEE124B31BC0001E58A8 /* PlanCollcetionCell.swift */; };
 		8387BEF424B31BC0001E58A8 /* PlanListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEE224B31BC0001E58A8 /* PlanListView.swift */; };
 		8387BEF524B31BC0001E58A8 /* PlanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEE424B31BC0001E58A8 /* PlanCollectionViewCell.swift */; };
-		8387BEF624B31BC0001E58A8 /* PlanTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEE524B31BC0001E58A8 /* PlanTableviewCell.swift */; };
+		8387BEF624B31BC0001E58A8 /* PlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEE524B31BC0001E58A8 /* PlanTableViewCell.swift */; };
 		8387BEF724B31BC0001E58A8 /* PlanCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEE624B31BC0001E58A8 /* PlanCreateView.swift */; };
 		8387BEF824B31BC0001E58A8 /* PlanDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEE724B31BC0001E58A8 /* PlanDetailCollectionViewCell.swift */; };
 		8387BEF924B31BC0001E58A8 /* PlanCreateProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEE924B31BC0001E58A8 /* PlanCreateProtocols.swift */; };
 		8387BEFA24B31BC0001E58A8 /* PlanCreateInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEEB24B31BC0001E58A8 /* PlanCreateInteractor.swift */; };
 		8387BEFB24B31BC0001E58A8 /* PlanCreateRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387BEED24B31BC0001E58A8 /* PlanCreateRouter.swift */; };
+		838EF64B24C1559B004430FA /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 838EF64A24C1559B004430FA /* add.png */; };
+		83ACD87C24DCFEF6006BAFA6 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 83ACD87B24DCFEF6006BAFA6 /* close.png */; };
 		83B83AA1249C6846001C4655 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B83AA0249C6846001C4655 /* cross.png */; };
 		83B84A0124513BCA00EFA509 /* PlanEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B84A0024513BCA00EFA509 /* PlanEditViewController.swift */; };
 		83C0F5E424B1CDF70022F55C /* SportEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C0F5E324B1CDF70022F55C /* SportEntity.swift */; };
 		83C0F5E824B1D8220022F55C /* SportUnitEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C0F5E724B1D8220022F55C /* SportUnitEntity.swift */; };
-		83C2EBD224AF2134003392F7 /* SportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C2EBD124AF2134003392F7 /* SportModel.swift */; };
-		83C2EBD424AF21BA003392F7 /* UnitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C2EBD324AF21BA003392F7 /* UnitModel.swift */; };
 		83FA081F244C4E63008EBE0B /* FilterButton.json in Resources */ = {isa = PBXBuildFile; fileRef = 83FA081E244C4E63008EBE0B /* FilterButton.json */; };
 		83FA0821244C51D9008EBE0B /* filter.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FA0820244C51D9008EBE0B /* filter.png */; };
 		F1FE73CE7D265333B74DABED /* Pods_GymApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A856413492CEAD7E099236 /* Pods_GymApp.framework */; };
@@ -77,6 +79,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18B3253624DC60E000C7CE94 /* PlanTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTableHeaderView.swift; sourceTree = "<group>"; };
 		2D150A2BDC63D45C7AC322FB /* Pods-GymApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymApp.debug.xcconfig"; path = "Target Support Files/Pods-GymApp/Pods-GymApp.debug.xcconfig"; sourceTree = "<group>"; };
 		402C2A3BEE33E5AF31A07636 /* Pods_GymApp_GymAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GymApp_GymAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49AD6BBE090CDB6B078265B0 /* Pods-GymApp-GymAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymApp-GymAppUITests.release.xcconfig"; path = "Target Support Files/Pods-GymApp-GymAppUITests/Pods-GymApp-GymAppUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +88,8 @@
 		8301806C24B1C4B2000D7DFD /* SportModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportModuleProtocols.swift; sourceTree = "<group>"; };
 		8301806D24B1C4B2000D7DFD /* SportModuleInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportModuleInteractor.swift; sourceTree = "<group>"; };
 		8301806E24B1C4B2000D7DFD /* SportModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportModuleView.swift; sourceTree = "<group>"; };
+		830D37F424C7E498003EDD93 /* GymApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GymApp.xcdatamodel; sourceTree = "<group>"; };
+		8329905124BF0B330070D65E /* CoreDataManagedContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagedContext.swift; sourceTree = "<group>"; };
 		832D868E244DC94F000C9902 /* multipleSimulatorsStartup.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = multipleSimulatorsStartup.sh; sourceTree = "<group>"; };
 		832D868F244DC94F000C9902 /* SimulatorsList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimulatorsList.txt; sourceTree = "<group>"; };
 		83571AEA2447F2EA00572C7C /* GymApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,7 +97,6 @@
 		83571AEF2447F2EA00572C7C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		83571AF12447F2EA00572C7C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		83571AF42447F2EA00572C7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		83571AF72447F2EA00572C7C /* GymApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GymApp.xcdatamodel; sourceTree = "<group>"; };
 		83571AF92447F2EB00572C7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		83571AFC2447F2EB00572C7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83571AFE2447F2EB00572C7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -119,18 +123,18 @@
 		8387BEE124B31BC0001E58A8 /* PlanCollcetionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCollcetionCell.swift; sourceTree = "<group>"; };
 		8387BEE224B31BC0001E58A8 /* PlanListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanListView.swift; sourceTree = "<group>"; };
 		8387BEE424B31BC0001E58A8 /* PlanCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCollectionViewCell.swift; sourceTree = "<group>"; };
-		8387BEE524B31BC0001E58A8 /* PlanTableviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanTableviewCell.swift; sourceTree = "<group>"; };
+		8387BEE524B31BC0001E58A8 /* PlanTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanTableViewCell.swift; sourceTree = "<group>"; };
 		8387BEE624B31BC0001E58A8 /* PlanCreateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCreateView.swift; sourceTree = "<group>"; };
 		8387BEE724B31BC0001E58A8 /* PlanDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		8387BEE924B31BC0001E58A8 /* PlanCreateProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCreateProtocols.swift; sourceTree = "<group>"; };
 		8387BEEB24B31BC0001E58A8 /* PlanCreateInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCreateInteractor.swift; sourceTree = "<group>"; };
 		8387BEED24B31BC0001E58A8 /* PlanCreateRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCreateRouter.swift; sourceTree = "<group>"; };
+		838EF64A24C1559B004430FA /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		83ACD87B24DCFEF6006BAFA6 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		83B83AA0249C6846001C4655 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
 		83B84A0024513BCA00EFA509 /* PlanEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanEditViewController.swift; sourceTree = "<group>"; };
 		83C0F5E324B1CDF70022F55C /* SportEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SportEntity.swift; sourceTree = "<group>"; };
 		83C0F5E724B1D8220022F55C /* SportUnitEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportUnitEntity.swift; sourceTree = "<group>"; };
-		83C2EBD124AF2134003392F7 /* SportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportModel.swift; sourceTree = "<group>"; };
-		83C2EBD324AF21BA003392F7 /* UnitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitModel.swift; sourceTree = "<group>"; };
 		83FA081E244C4E63008EBE0B /* FilterButton.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FilterButton.json; sourceTree = "<group>"; };
 		83FA0820244C51D9008EBE0B /* filter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter.png; sourceTree = "<group>"; };
 		A5918EB147B188AAE6BF80C1 /* Pods-GymAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymAppTests.release.xcconfig"; path = "Target Support Files/Pods-GymAppTests/Pods-GymAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -169,6 +173,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18B3253524DC60A100C7CE94 /* unvalid */ = {
+			isa = PBXGroup;
+			children = (
+				8387BEE424B31BC0001E58A8 /* PlanCollectionViewCell.swift */,
+				8387BEE724B31BC0001E58A8 /* PlanDetailCollectionViewCell.swift */,
+			);
+			path = unvalid;
+			sourceTree = "<group>";
+		};
 		535DF00606C5A85FFDA7545B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +258,7 @@
 		83571AEC2447F2EA00572C7C /* GymApp */ = {
 			isa = PBXGroup;
 			children = (
+				830D37F324C7E498003EDD93 /* GymApp.xcdatamodeld */,
 				83571B2E24480C3F00572C7C /* Assets */,
 				83571B29244809EB00572C7C /* PlanPage */,
 				83571B242448097900572C7C /* SportPage */,
@@ -255,9 +269,9 @@
 				83571AF92447F2EB00572C7C /* Assets.xcassets */,
 				83571AFB2447F2EB00572C7C /* LaunchScreen.storyboard */,
 				83571AFE2447F2EB00572C7C /* Info.plist */,
-				83571AF62447F2EA00572C7C /* GymApp.xcdatamodeld */,
 				83571B202448090400572C7C /* BottomTabBarController.swift */,
 				73769E3AABA697F9E7B5DFFB /* Modules */,
+				8329905124BF0B330070D65E /* CoreDataManagedContext.swift */,
 			);
 			path = GymApp;
 			sourceTree = "<group>";
@@ -283,7 +297,6 @@
 		83571B242448097900572C7C /* SportPage */ = {
 			isa = PBXGroup;
 			children = (
-				83C2EBD524AF2250003392F7 /* Entity */,
 				83571B222448097300572C7C /* SportViewController.swift */,
 				83571B25244809B700572C7C /* SportVC+CoreData.swift */,
 				83571B27244809D400572C7C /* SportVC+DropDownMenu.swift */,
@@ -304,12 +317,14 @@
 		83571B2E24480C3F00572C7C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				83ACD87B24DCFEF6006BAFA6 /* close.png */,
 				8363351124486908005DD44B /* checkbox.json */,
 				8363351224486909005DD44B /* checkbox2.json */,
 				8363351324486909005DD44B /* checkbox3.json */,
 				83FA081E244C4E63008EBE0B /* FilterButton.json */,
 				83FA0820244C51D9008EBE0B /* filter.png */,
 				83571B2F24480C4C00572C7C /* Theme.swift */,
+				838EF64A24C1559B004430FA /* add.png */,
 				83B83AA0249C6846001C4655 /* cross.png */,
 			);
 			path = Assets;
@@ -367,10 +382,10 @@
 		8387BEE324B31BC0001E58A8 /* PlanCreate */ = {
 			isa = PBXGroup;
 			children = (
+				18B3253524DC60A100C7CE94 /* unvalid */,
 				8387BEE624B31BC0001E58A8 /* PlanCreateView.swift */,
-				8387BEE424B31BC0001E58A8 /* PlanCollectionViewCell.swift */,
-				8387BEE524B31BC0001E58A8 /* PlanTableviewCell.swift */,
-				8387BEE724B31BC0001E58A8 /* PlanDetailCollectionViewCell.swift */,
+				8387BEE524B31BC0001E58A8 /* PlanTableViewCell.swift */,
+				18B3253624DC60E000C7CE94 /* PlanTableHeaderView.swift */,
 			);
 			path = PlanCreate;
 			sourceTree = "<group>";
@@ -397,15 +412,6 @@
 				8387BEED24B31BC0001E58A8 /* PlanCreateRouter.swift */,
 			);
 			path = Router;
-			sourceTree = "<group>";
-		};
-		83C2EBD524AF2250003392F7 /* Entity */ = {
-			isa = PBXGroup;
-			children = (
-				83C2EBD124AF2134003392F7 /* SportModel.swift */,
-				83C2EBD324AF21BA003392F7 /* UnitModel.swift */,
-			);
-			path = Entity;
 			sourceTree = "<group>";
 		};
 		C56E1CBC3139EF400981B180 /* Pods */ = {
@@ -535,9 +541,11 @@
 				8363351424486909005DD44B /* checkbox.json in Resources */,
 				83571AFD2447F2EB00572C7C /* LaunchScreen.storyboard in Resources */,
 				83FA081F244C4E63008EBE0B /* FilterButton.json in Resources */,
+				838EF64B24C1559B004430FA /* add.png in Resources */,
 				83FA0821244C51D9008EBE0B /* filter.png in Resources */,
 				83571AFA2447F2EB00572C7C /* Assets.xcassets in Resources */,
 				83571AF52447F2EA00572C7C /* Main.storyboard in Resources */,
+				83ACD87C24DCFEF6006BAFA6 /* close.png in Resources */,
 				832D8690244DC94F000C9902 /* multipleSimulatorsStartup.sh in Resources */,
 				832D8691244DC94F000C9902 /* SimulatorsList.txt in Resources */,
 				83B83AA1249C6846001C4655 /* cross.png in Resources */,
@@ -689,9 +697,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8387BEFA24B31BC0001E58A8 /* PlanCreateInteractor.swift in Sources */,
-				83C2EBD424AF21BA003392F7 /* UnitModel.swift in Sources */,
 				8301807524B1C4B2000D7DFD /* SportModuleView.swift in Sources */,
 				8301807124B1C4B2000D7DFD /* SportModulePresenter.swift in Sources */,
+				18B3253724DC60E000C7CE94 /* PlanTableHeaderView.swift in Sources */,
 				83571B26244809B700572C7C /* SportVC+CoreData.swift in Sources */,
 				8387BEFB24B31BC0001E58A8 /* PlanCreateRouter.swift in Sources */,
 				8387BEF824B31BC0001E58A8 /* PlanDetailCollectionViewCell.swift in Sources */,
@@ -704,20 +712,20 @@
 				8301807224B1C4B2000D7DFD /* SportModuleRouter.swift in Sources */,
 				8387BEF024B31BC0001E58A8 /* Plan.swift in Sources */,
 				83571B212448090400572C7C /* BottomTabBarController.swift in Sources */,
+				830D37F524C7E499003EDD93 /* GymApp.xcdatamodeld in Sources */,
 				8387BEEF24B31BC0001E58A8 /* PlanRow.swift in Sources */,
 				83571B3024480C4C00572C7C /* Theme.swift in Sources */,
+				8329905224BF0B330070D65E /* CoreDataManagedContext.swift in Sources */,
 				83571B28244809D400572C7C /* SportVC+DropDownMenu.swift in Sources */,
-				83571AF82447F2EA00572C7C /* GymApp.xcdatamodeld in Sources */,
 				8387BEEE24B31BC0001E58A8 /* PlanSection.swift in Sources */,
 				83571AEE2447F2EA00572C7C /* AppDelegate.swift in Sources */,
 				8387BEF724B31BC0001E58A8 /* PlanCreateView.swift in Sources */,
 				83571AF02447F2EA00572C7C /* SceneDelegate.swift in Sources */,
-				83C2EBD224AF2134003392F7 /* SportModel.swift in Sources */,
 				83571B232448097300572C7C /* SportViewController.swift in Sources */,
 				8387BEF924B31BC0001E58A8 /* PlanCreateProtocols.swift in Sources */,
 				83C0F5E424B1CDF70022F55C /* SportEntity.swift in Sources */,
 				8301807324B1C4B2000D7DFD /* SportModuleProtocols.swift in Sources */,
-				8387BEF624B31BC0001E58A8 /* PlanTableviewCell.swift in Sources */,
+				8387BEF624B31BC0001E58A8 /* PlanTableViewCell.swift in Sources */,
 				83571B2B24480A0A00572C7C /* PlanDetailViewController.swift in Sources */,
 				8301807424B1C4B2000D7DFD /* SportModuleInteractor.swift in Sources */,
 				83B84A0124513BCA00EFA509 /* PlanEditViewController.swift in Sources */,
@@ -1063,12 +1071,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		83571AF62447F2EA00572C7C /* GymApp.xcdatamodeld */ = {
+		830D37F324C7E498003EDD93 /* GymApp.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				83571AF72447F2EA00572C7C /* GymApp.xcdatamodel */,
+				830D37F424C7E498003EDD93 /* GymApp.xcdatamodel */,
 			);
-			currentVersion = 83571AF72447F2EA00572C7C /* GymApp.xcdatamodel */;
+			currentVersion = 830D37F424C7E498003EDD93 /* GymApp.xcdatamodel */;
 			path = GymApp.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

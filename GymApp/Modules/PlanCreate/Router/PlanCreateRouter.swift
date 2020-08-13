@@ -10,6 +10,8 @@ import UIKit
 
 class PlanCreateRouter: PlanCreateRouterProtocol {
     
+    
+    // Build page.
     static func build() -> UIViewController {
         // Use this method to create the module and the viewcontroller.
         
@@ -49,12 +51,7 @@ class PlanCreateRouter: PlanCreateRouterProtocol {
         return nav
     }
     
-    func goToPlanEdit(plan: Plan) {
-        
-    }
-    
-    
-    static func buildPlanEditView(plan: Plan) -> UIViewController {
+    static func buildPlanEditView(plan: PlanModel) -> UIViewController {
         // Use this method to create the module and the viewcontroller.
         
         let view = PlanCreateView()
@@ -73,8 +70,15 @@ class PlanCreateRouter: PlanCreateRouterProtocol {
         
     }
     
-    func showSportList(presenter: PlanCreatePresenterProtocol) -> UIViewController{
-        let sportListVC = SportModuleRouter.buildListForChose(planPresenter: presenter)
+    
+    // Navigation
+    func goToPlanEdit(plan: Plan) {
+        
+    }
+    
+    func showSportList(sections: [PlanSectionModel], presenter: PlanCreatePresenterProtocol) -> UIViewController{
+        
+        let sportListVC = SportModuleRouter.buildListForChose(sections: sections, planPresenter: presenter)
         sportListVC.modalPresentationStyle = .popover
         
     
@@ -82,15 +86,10 @@ class PlanCreateRouter: PlanCreateRouterProtocol {
         return sportListVC
     }
     
-//    func setPresenter(presenter: PlanCreatePresenterProtocol){
-//        self.presenter = presenter
-//    }
-    
     func receiveTheSportResult(sports: [Sport]) {
         print(self)
 //        presenter?.addSectionInView(sports: sports)
     }
     
-    
-    
+ 
 }

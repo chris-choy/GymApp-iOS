@@ -13,21 +13,17 @@ protocol SportModuleViewProtocol : class {
     var presenter: SportModulePresenterProtocol? {set get}
     
     // Add some methods here.
-    func showSports(sports: [Sport])
+    func loadData(selectedList: [Bool] ,data: [SportModel])
     
 }
 
 protocol SportModuleRouterProtocol: class {
     
-//    static func build() -> UIViewController
-    static func buildListForChose(planPresenter: PlanCreatePresenterProtocol) -> UIViewController
+    static func buildListForChose(sections: [PlanSectionModel], planPresenter: PlanCreatePresenterProtocol) -> UIViewController
     
-    // Test.
-    // For plan edit page to call.
     static func build(planPresenter: PlanCreatePresenterProtocol) -> UIViewController
     
-    func sendTheChoseResult(sports: [Sport]?)
-//    func setPlanRouter(router: PlanCreateRouterProtocol)
+    func sendTheChoseResult(sports: [SportModel]?)
 }
 
 protocol SportModulePresenterProtocol: class {
@@ -39,9 +35,9 @@ protocol SportModulePresenterProtocol: class {
     
     // For router to call.
     func viewDidLoad()
-    func showSportsList()
+    func showSportsList(sections: [PlanSectionModel])
     
-    func sendTheChoseResult(sports: [Sport]?)
+    func sendTheChoseResult(sports: [SportModel]?)
     
 }
 
