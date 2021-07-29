@@ -17,12 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //Use the code to create view
-        window = UIWindow()
-        window?.makeKeyAndVisible()
-        let navController = UINavigationController(rootViewController: SportViewController())
         
-        
-        window?.rootViewController = navController
+//        window = UIWindow()
+//        window?.makeKeyAndVisible()
+//        let navController = UINavigationController(rootViewController: ExercsingCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout()))
+//        
+//        
+//        window?.rootViewController = navController
         
         return true
     }

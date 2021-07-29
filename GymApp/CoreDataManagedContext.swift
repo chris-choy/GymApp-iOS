@@ -11,20 +11,6 @@ import CoreData
 
 class CoreDataManagedContext {
     
-//    static let context = setupContext()
-//
-//    func setupContext(){
-//        if(managedObjectContext == nil){
-//            let container = NSPersistentContainer(name: "GymApp")
-//            container.loadPersistentStores { (desc, err) in
-//                if let err = err {
-//                    fatalError("core data error: \(err)")
-//                }
-//            }
-//            managedObjectContext = container.viewContext
-//        }
-//    }
-    
     let managedObjectContext: NSManagedObjectContext = {
         let container = NSPersistentContainer(name: "GymApp")
         container.loadPersistentStores { (desc, err) in
@@ -41,15 +27,8 @@ class CoreDataManagedContext {
     
     private init() {}
     
-    
-    
-//    getContext() -> NSManagedObjectContext {
-//        if managedObjectContext
-//    }
-    
-//    init() {
-//        if managedObjectContext == nil {
-//            setupContext()
-//        }
-//    }
 }
+
+
+// Print CoreData Path.
+

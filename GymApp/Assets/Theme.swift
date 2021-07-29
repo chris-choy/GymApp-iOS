@@ -63,7 +63,7 @@ extension Color {
         instanceColor = UIColor(hexString: "#ffffff")
             
         case .lightBackground:
-            instanceColor = UIColor(hexString: "#3d84a8")
+            instanceColor = UIColor(hexString: "#DBDBDB")
             
         case .intermidiateBackground:
             instanceColor = UIColor(hexString: "#46cdcf")

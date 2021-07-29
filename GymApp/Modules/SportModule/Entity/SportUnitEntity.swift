@@ -9,70 +9,88 @@
 import Foundation
 import CoreData
 
-struct SportUnitModel {
+enum DataType {
+    case tag
+    case unit
+}
+
+struct SportUnitModel: Codable {
     let name: String
+
+    // var sports: [SportModel]?
+    // It can only store the name of the sport.
+    var sportNames: [String]?
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.singleValueContainer()
+        try container.encode(name)
+    
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        name = try container.decode(String.self)
+        sportNames = nil
+    }
+    
+    init(name: String, sportNames: [String]?) {
+        self.name = name
+        self.sportNames = sportNames
+    }
+    
 }
 
 extension SportUnit{
     func toSportUnitModel() -> SportUnitModel{
-        let model = SportUnitModel(name: self.name!)
-        return model
+        
+        if self.sport?.count != 0 {
+            let sports = self.sport?.allObjects as! [Sport]
+            
+            var sportNames : [String] = []
+            for s in sports {
+                sportNames.append(s.name!)
+            }
+            return SportUnitModel(name: self.name!, sportNames: sportNames)
+        }
+        else {
+            return SportUnitModel(name: self.name!, sportNames: nil)
+        }
+
+
+//        let sportArray = self.sport?.allObjects as! [Sport]
+//
+//        let model = SportUnitModel(name: self.name!,
+//                                   sports: sportArray.toSportModels())
+//        return model
+//
     }
 }
 
 
 class SportUnitDataManager {
     var fc: NSFetchedResultsController<SportUnit>?
-    var managedObjectContext: NSManagedObjectContext?
+    let managedObjectContext = CoreDataManagedContext.sharedInstance.managedObjectContext
+    
 
-    func setupContext(){
-        if(managedObjectContext == nil){
-            let container = NSPersistentContainer(name: "GymApp")
-            container.loadPersistentStores { (desc, err) in
-                if let err = err {
-                    fatalError("core data error: \(err)")
-                }
-            }
-            managedObjectContext = container.viewContext
-        }
-    }
-    
-    
-//    // Fetch.
-//    func fetchUnitData() {
-//    //        let store = NSPersistentContainer(name: "GymApp")
-//    //        store.loadPersistentStores { (desc, err) in
-//    //            if let err = err {
-//    //                fatalError("core data error: \(err)")
-//    //            }
-//    //        }
-//    //        let context = store.viewContext
-//
-//        let request : NSFetchRequest<Unit> = Unit.fetchRequest()
-//
-//        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
-//
-//        fc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
-//
-//        do {
-//            try fc?.performFetch()
-////            if let object = unitFC?.fetchedObjects {
-////                // Do something after readed.
-////
-////            }
-//        } catch  {
-//            print(error)
+//    func setupContext(){
+//        if(managedObjectContext == nil){
+//            let container = NSPersistentContainer(name: "GymApp")
+//            container.loadPersistentStores { (desc, err) in
+//                if let err = err {
+//                    fatalError("core data error: \(err)")
+//                }
+//            }
+//            managedObjectContext = container.viewContext
 //        }
-//
 //    }
     
     func fetchAllUnit() -> [SportUnit]?{
-        setupContext()
 
         let request : NSFetchRequest<SportUnit> = NSFetchRequest(entityName: "SportUnit")
         
         do {
-            let result = try managedObjectContext?.fetch(request)
+            let result = try managedObjectContext.fetch(request)
             return result
         } catch {
             print("fetchAllUnit Error.")
@@ -122,14 +140,30 @@ class SportUnitDataManager {
     
     
     func createUnit(name: String) -> SportUnit?{
-        setupContext()
         if !isAlreadyExits(name: name) {
-            let unit = NSEntityDescription.insertNewObject(forEntityName: "SportUnit", into: managedObjectContext!) as! SportUnit
+            let unit = NSEntityDescription.insertNewObject(forEntityName: "SportUnit", into: managedObjectContext) as! SportUnit
             
             unit.name = name
-            try! managedObjectContext!.save()
+            
+            try! managedObjectContext.save()
+        
             return unit
         }
         return nil
+    }
+}
+
+extension Array where Element == SportUnit {
+    func toSportUnitModels() -> [SportUnitModel]{
+        var set: [SportUnitModel] = []
+        for u in self {
+            set.append(u.toSportUnitModel())
+        }
+        
+        // Sort by the setNum.
+        // Because the CoreData saved the data not in order.
+//        set.sort(by: {$0.setNum < $1.setNum})
+        
+        return set
     }
 }

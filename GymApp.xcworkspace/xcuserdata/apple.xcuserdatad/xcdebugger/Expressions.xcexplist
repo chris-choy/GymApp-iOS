@@ -72,7 +72,24 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SportModuleRouter.sendTheChoseResult(sports:):SportModuleRouter.swift">
+         contextName = "SportUnitTest.testFetchAllUnit():SportUnitTest.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "fetchResult?[1].name">
+            </PersistentString>
+            <PersistentString
+               value = "fetchResult?[2].name">
+            </PersistentString>
+            <PersistentString
+               value = "fetchResult[0]">
+            </PersistentString>
+            <PersistentString
+               value = "fetchResult[0].name">
+            </PersistentString>
+            <PersistentString
+               value = "fetchResult?[0].name">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "PlanCreateView.loadData(plans:):PlanCreateView.swift">
@@ -81,6 +98,9 @@
                value = "plans[0].name">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleRouter.sendTheChoseResult(sports:):SportModuleRouter.swift">
       </ContextState>
       <ContextState
          contextName = "PlanCreateRouter.receiveTheSportResult(sports:):PlanCreateRouter.swift">
@@ -116,10 +136,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SportModuleView.showSports(sports:):SportModuleView.swift">
+         contextName = "PlanCreateView.getSnapshotOfSection(tableView:section:):PlanCreateView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "sports[0].name">
+               value = "image.cgImage">
+            </PersistentString>
+            <PersistentString
+               value = "image.cgImage!.cropping(to: rect)!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -135,13 +158,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "PlanCreateView.getSnapshotOfSection(tableView:section:):PlanCreateView.swift">
+         contextName = "SportModuleView.showSports(sports:):SportModuleView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "image.cgImage">
-            </PersistentString>
-            <PersistentString
-               value = "image.cgImage!.cropping(to: rect)!">
+               value = "sports[0].name">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -161,6 +181,22 @@
          <PersistentStrings>
             <PersistentString
                value = "planList?[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanEditView.saveAction():PlanEditView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plan?.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportDropDownMenu.init(frame:):SportDropDownMenu.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "presenter">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -187,10 +223,53 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "SportUnit.toSportUnitModel():SportUnitEntity.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.name">
+            </PersistentString>
+            <PersistentString
+               value = "self.sport">
+            </PersistentString>
+            <PersistentString
+               value = "self.sport?.count">
+            </PersistentString>
+            <PersistentString
+               value = "self.sport?">
+            </PersistentString>
+            <PersistentString
+               value = "self.count">
+            </PersistentString>
+            <PersistentString
+               value = "self.sport?.allObjects[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "Sport.toSportModel():SportEntity.swift">
          <PersistentStrings>
             <PersistentString
+               value = "self.name">
+            </PersistentString>
+            <PersistentString
                value = "self.unit?.toSportUnitModel()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanCoreDataManager.createPlan(plan:):Plan.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "managedObjectContext">
+            </PersistentString>
+            <PersistentString
+               value = "planObject.name">
+            </PersistentString>
+            <PersistentString
+               value = "planObject.planSections?.allObjects[0].name">
+            </PersistentString>
+            <PersistentString
+               value = "planObject.planSections">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -203,10 +282,38 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Array&lt;A&gt;.toSportModels():SportEntity.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+            <PersistentString
+               value = "self">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PlanListViewController.viewDidLoad():PlanListView.swift">
          <PersistentStrings>
             <PersistentString
                value = "planList?[0].name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportDropDownMenu.setupViews():SportDropDownMenu.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "navigationBar">
+            </PersistentString>
+            <PersistentString
+               value = "navigationBar.topItem?.rightBarButtonItem">
+            </PersistentString>
+            <PersistentString
+               value = "navigationBar.topItem?.title">
+            </PersistentString>
+            <PersistentString
+               value = "navigationBar.topItem?">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

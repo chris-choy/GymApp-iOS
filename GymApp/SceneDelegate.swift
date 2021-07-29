@@ -18,16 +18,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        
+        
         
 //        window?.rootViewController = BottomTabBarController()
-//        window?.rootViewController = PlanCreateRouter.build()
+
         
-//        window?.rootViewController = PlanCreateRouter.buildPlanListView()
+        
+        // 用于测试PlanEditModule
+        /*
         let manager = PlanCoreDataManager()
-//        let router = PlanCreateRouter()
-        
-        
         
         if let plans = manager.fetchAllPlans() {
             
@@ -42,28 +44,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
 
             
-            let vc = PlanCreateRouter.buildPlanEditView(plan: planModel!)
+            let vc = PlanEditRouter.buildPlanEditView(plan: planModel!)
             
             let nav = UINavigationController(rootViewController: vc)
             
             window?.rootViewController = nav
+            
         }
+        */
+        
+        
+        let window = UIWindow(windowScene: windowScene)
+        
+        
+        // VC 选择
+//        let vc = BottomTabBarController()
+        
+        let vc = LoginModuleRouter.build()
+//        let vc = LoadingViewController()
+        
+        
+//        let vc = PickerVIewTeTableViewController()
+        
+        
+//        let vc = SportViewController()
+//        let vc = SportModuleView()
+//        let vc = ExercisingModuleView()
+//        let vc = PlanTestVC()
+//        let vc = NewPlanTestVC()
+//        let vc = PlanEditView()
         
         
         
-        // 测试
-//        let v = PlanCreateView()
-//        window?.rootViewController = v
-////        let v = SportModuleView()
-//        let manager = PlanCoreDataManager()
-//        if let plans = manager.fetchAllPlans() {
-//
-//            v.loadData(plans: [plans[0]])
-//        }
-        // 测试 end
-        
-        
-        
+//        let nav = UINavigationController(rootViewController: vc)
+        window.rootViewController = vc
+        window.makeKeyAndVisible()
+        self.window = window
         
     }
 

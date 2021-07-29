@@ -9,22 +9,99 @@
 import Foundation
 import CoreData
 
-struct SportModel {
+
+struct SportModel : Codable{
+    var id: Int
+    var objectId: NSManagedObjectID?
+    
     var name: String
     var unit: SportUnitModel
+    
+    var user_id: Int
+    var last_changed: Int
+    
+    enum CodingKeys: String, CodingKey{
+        case id = "id"
+        case name = "name"
+        case unit = "unit"
+        case user_id = "user_id"
+        case last_changed = "last_changed"
+    }
+    
+    func encode(to encoder: Encoder) throws {
+//        enum CodingKeys: String, CodingKey{
+//            case id = "id"
+//            case name = "name"
+//            case unit = "unit"
+//        }
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(unit, forKey: .unit)
+        try container.encode(user_id, forKey: .user_id)
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decode(Int.self, forKey: .id)
+        objectId = nil
+        name = try container.decode(String.self, forKey: .name)
+        unit = try container.decode(SportUnitModel.self, forKey: .unit)
+        user_id = try container.decode(Int.self, forKey: .user_id)
+        last_changed = try container.decode(Int.self, forKey: .last_changed)
+    }
+    
+    init(id: Int,
+         objectId: NSManagedObjectID?,
+         name: String,
+         unit: SportUnitModel,
+         user_id:Int,
+         last_changed: Int) {
+        self.id = id
+        self.objectId = objectId
+        self.name = name
+        self.unit = unit
+        self.user_id = user_id
+        self.last_changed = last_changed
+    }
+    
 }
+
+struct SportResponseModel : Codable {
+    var id : Int
+    var name: String
+    var unit: String
+//    var user_id: Int
+}
+
 
 extension Sport{
     func toSportModel() -> SportModel{
         let model = SportModel(
+            id: Int(id),
+            objectId: objectID,
             name: self.name!,
-            unit: (self.unit?.toSportUnitModel())!
+            unit: self.unit!.toSportUnitModel(),
+            user_id: Int(self.user_id),
+            last_changed: Int(self.last_changed)
         )
 
         return model
     }
 }
 
+extension SportModel {
+    func toSportResponseModel() -> SportResponseModel{
+        let resModel = SportResponseModel(id: id, name: name, unit: unit.name)
+        return resModel
+    }
+}
+
+
+// MARK: Array
 extension Array where Element == Sport {
     func toSportModels() -> [SportModel]{
         
@@ -34,109 +111,5 @@ extension Array where Element == Sport {
         }
         
         return models
-    }
-}
-
-class SportDataManager {
-    var fc: NSFetchedResultsController<Sport>?
-    let managedObjectContext = CoreDataManagedContext.sharedInstance.managedObjectContext
-
-//    func setupContext(){
-//        if(managedObjectContext == nil){
-//            let container = NSPersistentContainer(name: "GymApp")
-//            container.loadPersistentStores { (desc, err) in
-//                if let err = err {
-//                    fatalError("core data error: \(err)")
-//                }
-//            }
-//            managedObjectContext = container.viewContext
-//        }
-//    }
-    
-    
-    func fetchAllSport() -> [Sport]?{
-        
-        
-        let request : NSFetchRequest<Sport> = NSFetchRequest(entityName: "Sport")
-        
-        do {
-            let result = try managedObjectContext.fetch(request)
-            
-            return result
-        } catch {
-            print(error)
-        }
-        
-        return nil
-    }
-    
-    func fetchSport(name: String) -> Sport? {
-
-        let request : NSFetchRequest<Sport> = Sport.fetchRequest()
-        request.predicate = NSPredicate(format: "name = %@", name)
-        
-        do {
-            let result = try managedObjectContext.fetch(request)
-            
-            switch result.count {
-            case 1:
-                return result.first as Sport?
-            case 0:
-//                print("Not exist.")
-                // Not exist.
-                return nil
-            default:
-                print("Error: More than one object existed.")
-                return nil
-            }
-            
-        } catch {
-            print("Failed.")
-        }
-        
-        
-        return nil
-    }
-    
-    
-    func createSport(name: String, unit: String) -> Sport?{
-//        setupContext()
-//        let context = CoreDataManagedContext.sharedInstance.managedObjectContext
-        
-        if (fetchSport(name: name) != nil){
-            print("Error: \"\(name)\" is already existed.")
-            return nil
-        }
-        
-        let sport = NSEntityDescription.insertNewObject(forEntityName: "Sport", into: managedObjectContext) as! Sport
-        sport.name = name
-        
-        if let u = SportUnitDataManager().fetchUnit(name: unit) {
-            sport.unit = u
-            try! managedObjectContext.save()
-            return sport
-        } else {
-            print("The unit \"\(name)\" is not existed.")
-            return nil
-        }
-
-//        try! context.save()
-        
-        
-        
-    }
-    
-    func deleteSport(name: String) {
-        
-        
-        if let sport = fetchSport(name: name) {
-            managedObjectContext.delete(sport)
-            try! managedObjectContext.save()
-            print("done")
-        } else {
-            print("Can't find the sport.")
-        }
-        
-        
     }
 }
