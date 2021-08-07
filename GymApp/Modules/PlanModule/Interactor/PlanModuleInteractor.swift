@@ -33,7 +33,44 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
         return nil
     }
     
-    func updatePlan(plan: PlanModel) -> Bool {
+    func updatePlan(plan: PlanModel) {
+        
+        do {
+            let planJson = try JSONEncoder().encode(plan)
+            
+            // test
+            print(String(data: planJson, encoding: .utf8))
+            // test end.
+            
+            // 1. Update to database.
+            PlanService.shared.updatePlan(requestPlan: planJson) { res in
+                switch(res){
+                case .success(_):
+                    
+                    // Tell the view to update the plan data.
+//                    self.presenter?.showAllPlans()
+                    
+                    DispatchQueue.main.async {
+//                        self.presenter?.showAllPlans()
+//                        self.presenter?.
+                        self.presenter?.showUpdateSuccessfully()
+                    }
+                    
+                    
+                case .failure(let err):
+                    DispatchQueue.main.async {
+                        self.presenter?.showUpdateError()
+                    }
+                    print(err)
+                }
+            }
+        } catch {
+            print("error")
+        }
+        
+        /*
+        
+        // 2. Save to coredata.
         if (plan.objectId != nil) {
             if(planManager.updatePlan(plan: plan)){
                 return true
@@ -42,6 +79,8 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
             }
         }
         return false
+ 
+        */
     }
     
     private func loadSport(){
@@ -77,46 +116,11 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
                     }
                 } else {
                     // Tell the view that there is error.
-                    self.presenter?.showErrorAlert()
+                    DispatchQueue.main.async {
+                        self.presenter?.showErrorAlert()
+                    }
+                    
                 }
-                
-                
-                
-//                do {
-//                    let plansResponse = try JSONDecoder().decode([PlanModel].self, from: result)
-//                    for planModel in plansResponse {
-//
-//                        let planCoredataManager = PlanCoreDataManager()
-//                        // Check for the plans and its timestamp.
-//                        if let p = planCoredataManager.fetchPlan(id: planModel.id){
-//                            if (p.last_changed != planModel.last_changed){
-//                                // Update the plan.
-//                                print("需要更新plan的数据。")
-//
-//                                // Delete the old data and create the new data.
-//                                planCoredataManager.deletePlan(id: p.objectID)
-//
-//                                // Create the new plan.
-//                                planCoredataManager.createPlan(model: planModel)
-//
-//                            }
-//                        } else {
-//                            // Create plan.
-//                            if let result = planCoredataManager.createPlan(model: planModel) {
-//                                print("创建成功。")
-//                            } else {
-//                                print("创建失败。")
-//                            }
-//                        }
-//
-//                    }
-//
-//                } catch  {
-//                    print(error.localizedDescription)
-//                }
-                
-                
-                
                 
             }
             
@@ -138,15 +142,15 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
         
         // Output the plan json string.
         do {
-            let data = try JSONEncoder().encode(requestPlan)
-            if let str = String(data: data, encoding: .utf8){
-                PlanService.shared.updatePlan(requestPlan: str, completion: {
-                    res in
-                    switch(res){
-                    case .success(_):
+            let json = try JSONEncoder().encode(requestPlan)
+            
+            PlanService.shared.updatePlan(requestPlan: json, completion: {
+                res in
+                switch(res){
+                case .success(_):
 //                        self.presenter?.loadData()
-                    print("a")
-                    
+                print("a")
+                
 //                        do {
 //                            let responsePlan = try JSONDecoder().decode(PlanModel.self, from: result)
 //
@@ -157,11 +161,10 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
 //                        } catch {
 //                            print(error)
 //                        }
-                    case .failure(let error):
-                        print(error)
-                    }
-                })
-            }
+                case .failure(let error):
+                    print(error)
+                }
+            })
             
         } catch {
             print(error)

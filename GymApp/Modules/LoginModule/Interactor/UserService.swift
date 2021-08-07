@@ -14,7 +14,7 @@ class UserService: NSObject {
     func signIn(username:String, password:String, completion: @escaping (Result< Jwt , Error>) -> ()){
         
         // Set request information.
-        let url = URL(string: "http://localhost:8080/api/login")!
+        let url = URL(string: "\(ConfigConstant.serverAdderss)/api/login")!
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"

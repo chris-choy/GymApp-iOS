@@ -7,15 +7,21 @@
 //
 
 import UIKit
+import Lottie
 
 private let collectionCellId = "PlanCollectionViewCell"
 
 class PlanEditView: UITableViewController, UITextFieldDelegate {
     
     
-    var presenter: PlanModulePresenterProtocol?
+//    var presenter: PlanModulePresenterProtocol?
+//    let listPresenter: PlanModulePresenterProtocol
     
-    let listPresenter: PlanModulePresenterProtocol
+    let listView: ForPlanEditViewProtocol
+    
+    
+    let loadingAnimationView = LoadingAnimationView()
+    
     
     let tableCellId = "tableCellId"
     let addButtonCellId = "addButtonCellId"
@@ -40,13 +46,21 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         let tf = UITextField()
 //        tf.text = "PlanTitle"
         tf.translatesAutoresizingMaskIntoConstraints = false
-
+        
+        
+        
         return tf
     }()
     
-    init(listPresenter: PlanModulePresenterProtocol) {
-        self.listPresenter = listPresenter
-        
+//    init(listPresenter: PlanModulePresenterProtocol) {
+//        self.listPresenter = listPresenter
+//
+//        super.init(nibName: nil, bundle: nil)
+//    }
+    
+    init(plan: PlanModel, listView: ForPlanEditViewProtocol) {
+        self.plan = plan
+        self.listView = listView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,9 +68,24 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    fileprivate func setupLoadingAnimationView() {
+        view.addSubview(loadingAnimationView)
+        
+//        let viewHeight: CGFloat = view.frame.size.height
+//        let tableViewContentHeight: CGFloat = tableView.contentSize.height
+//        let marginHeight: CGFloat = (viewHeight - tableViewContentHeight) / 2.0
+        
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -self.topBarHeight),
+        ])
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupLoadingAnimationView()
         
         title = "编辑计划"
         
@@ -70,7 +99,8 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveAction))
     
-
+        
+        
     }
 
     
@@ -338,11 +368,29 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         return true
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == titleTF{
+            return (textField.text?.count ?? 0) + string.count - range.length <= 11
+        } else {
+            return true
+        }
+        
+    }
+    
+    
     
     
     
     
 //MARK: View Method.
+    
+    @objc func titleTFEditAction(){
+        print("titleTFEditAction")
+        
+        plan?.name = titleTF.text!
+        print("name: \(plan?.name)")
+        
+    }
     
     fileprivate func titleSectionView(title: String,width: CGFloat, height: CGFloat) -> UIView{
         // Plan's title View.
@@ -353,14 +401,15 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         
         let titleLabel = UILabel()
         titleLabel.text = "名称："
-
         
         titleSectionView.addSubview(titleLabel)
         
         titleTF.text = title
         titleTF.placeholder = "请输入计划名称"
         
+        titleTF.addTarget(self, action: #selector(titleTFEditAction), for: .editingDidEnd)
         
+        titleTF.delegate = self
         
 
         titleTF.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
@@ -430,7 +479,8 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
 // MARK: Action Method
     
     @objc func addBtnAction(){
-        present(presenter!.buildSportListView(sections: plan!.sectionList), animated: true, completion: nil)
+        //
+//        present(presenter!.buildSportListView(sections: plan!.sectionList), animated: true, completion: nil)
     }
     
     func getSnapshotOfSection(tableView: UITableView, section: CGRect) -> UIImageView {
@@ -593,7 +643,10 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
     
     @objc func saveAction(){
         
+        plan?.name = titleTF.text!
+        
         if plan!.sectionList.count > 0 {
+            
             
             for sectionIndex in 0...plan!.sectionList.count-1 {
                 // Save planSection.
@@ -615,19 +668,28 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
             }
         }
         
+        setupLoadingAnimationView()
+        
+        loadingAnimationView.show()
+        
+        listView.savePlan(planModel: plan!)
+        
         // Output the plan json string.
-        do {
-            let data = try JSONEncoder().encode(plan)
-            let str = String(data: data, encoding: .utf8)
-            print("\(str)")
-
-            print("  ")
-            // Send the json to presenter and get the response plan from server.
-            
-            
-        } catch {
-            print(error)
-        }
+//        do {
+//            let data = try JSONEncoder().encode(plan)
+//            let str = String(data: data, encoding: .utf8)
+//            print("\(str)")
+//
+////            saveSuccessfully()
+//            saveError()
+//
+//            print("  ")
+//            // Send the json to presenter and get the response plan from server.
+//
+//
+//        } catch {
+//            print(error)
+//        }
         
         
         
@@ -679,20 +741,49 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
 }
 
 
-extension PlanEditView: PlanModuleViewProtocol {
-    func showErrorAlert() {
+extension PlanEditView {
+    
+    
+    public func saveSuccessfully(){
+        loadingAnimationView.hide()
+        
+//        AnimationView = .init(name:"loading-animation")
+        
+        let successAnimation = AnimationView(name: "success-animation")
+        
+//        tableView.addSubview(<#T##view: UIView##UIView#>)
+        
+        view.addSubview(successAnimation)
+        successAnimation.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            successAnimation.widthAnchor.constraint(equalTo: tableView.widthAnchor, multiplier: 0.4),
+            successAnimation.heightAnchor.constraint(equalTo: tableView.widthAnchor, multiplier: 0.4),
+            successAnimation.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            successAnimation.centerYAnchor.constraint(equalTo: tableView.centerYAnchor,constant: -topBarHeight),
+        ])
+        
+
+        
+        
+        successAnimation.play { finish in
+            if(finish){
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
+        
+//        navigationController?.popViewController(animated: true)
         
     }
     
-    func reloadData() {
+    public func showSaveError(){
         
-    }
-    
-    func saveSuccessfully(){
+        loadingAnimationView.hide()
         
-    }
-    
-    func saveError(){
+        let alert = UIAlertController(title: "提示", message: "保存出错，请稍后重试。", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
         
     }
     
@@ -702,13 +793,26 @@ extension PlanEditView: PlanModuleViewProtocol {
         tableView.reloadData()
     }
     
-    func loadData(data: Any) {
-        if data is PlanModel{
-            plan = data as? PlanModel
+//    func loadData(data: Any) {
+//        if data is PlanModel{
+//            plan = data as? PlanModel
+//        } else {
+//            return
+//        }
+//    }
+    
+    
+}
+
+
+extension UITableViewController {
+    var topBarHeight: CGFloat {
+        var top = self.navigationController?.navigationBar.frame.height ?? 0.0
+        if #available(iOS 13.0, *) {
+            top += UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
         } else {
-            return
+            top += UIApplication.shared.statusBarFrame.height
         }
+        return top
     }
-    
-    
 }

@@ -12,11 +12,13 @@ protocol PlanModuleViewProtocol : AnyObject {
     
     var presenter: PlanModulePresenterProtocol? {set get}
     
-    func loadData(data: Any)
+    func showData(planModel: [PlanModel])
     func addSection(sections: [PlanSectionModel])
-    func reloadData()
+//    func reloadData()
     
     func showErrorAlert()
+    func showUpdateError()
+    func showUpdateSuccessfully()
 
 }
 
@@ -48,16 +50,18 @@ protocol PlanModulePresenterProtocol: AnyObject {
     
     // The view to do.
     func showAllPlans()
-    func showEditPlan(plan: PlanModel)
+//    func showEditPlan(plan: PlanModel)
     func addSectionInView(sports: [SportModel])
     func showErrorAlert()
+    func showUpdateError()
+    func showUpdateSuccessfully()
     
     // For view to call.
     func buildSportListView(sections: [PlanSectionModel]) -> UIViewController
-    func buildPlanEditViewToEdit(plan: PlanModel) -> UIViewController
+//    func buildPlanEditViewToEdit(plan: PlanModel) -> UIViewController
     func buildPlanEditViewToCreate() -> UIViewController
     func buildExercisingModuleView(planModel: PlanModel) -> UIViewController
-    func savePlan(plan: PlanModel) -> Bool
+    func savePlan(plan: PlanModel)
     func createPlan(plan: PlanModel) -> PlanModel?
     
     // PlanService.
@@ -77,7 +81,7 @@ protocol PlanModuleInteractorProtocol: AnyObject {
     
     func fetchPlan(name: String) -> Plan?
     func fetchAllPlans() -> [Plan]?
-    func updatePlan(plan: PlanModel) -> Bool
+    func updatePlan(plan: PlanModel)
     func createPlan(plan: PlanModel) -> PlanModel?
     func savePlan(requestPlan: PlanModel) -> PlanModel?
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lottie
 
 class LoadingViewController: UIViewController {
     
@@ -19,7 +20,10 @@ class LoadingViewController: UIViewController {
     
     let stackview = UIStackView(frame: CGRect(x: 200, y: 200, width: 100, height: 100))
     
-
+    let successAnimation = AnimationView(name: "success-animation")
+//    let successAnimation = AnimationView(name: "success-animation-purple")
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,35 +51,49 @@ class LoadingViewController: UIViewController {
         
         
         
-        view.backgroundColor = .white
+        view.backgroundColor = .cyan
         
         setLoadingView()
         
     }
     
     func setLoadingView() {
-        view.addSubview(loadingView)
-        
-//        loadingView.center = view.center
-        
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(loadingView)
 //
-        NSLayoutConstraint.activate([
-            loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
+////        loadingView.center = view.center
+//
+//        loadingView.translatesAutoresizingMaskIntoConstraints = false
+////
+//        NSLayoutConstraint.activate([
+//            loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//        ])
+//
+////        loadingView.showLoadingAnimationView()
         
-//        loadingView.showLoadingAnimationView()
+        
+        
+        
+        view.addSubview(successAnimation)
+
+//        successAnimation.frame = CGRect(x: <#T##Double#>, y: <#T##Double#>, width: <#T##Double#>, height: <#T##Double#>)
+        
+        successAnimation.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        successAnimation.center = view.center
+//        successAnimation.backgroundColor = .white
         
     }
     
     
     @objc func showAction(){
-        loadingView.show()
+//        loadingView.show()
+        successAnimation.loopMode = .loop
+        successAnimation.play()
+        
     }
     
     @objc func hideAction(){
-        loadingView.hide()
+//        loadingView.hide()
     }
     
 

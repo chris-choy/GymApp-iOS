@@ -40,6 +40,7 @@ class PlanModuleRouter: PlanModuleRouterProtocol {
     static func buildPlanEditView(plan: PlanModel, listPresenter: PlanModulePresenterProtocol) -> UIViewController {
         // Use this method to create the module and the viewcontroller.
         
+        /*
         let view = PlanEditView(listPresenter: listPresenter )
         
         let presenter : PlanModulePresenterProtocol = PlanModulePresenter()
@@ -53,12 +54,14 @@ class PlanModuleRouter: PlanModuleRouterProtocol {
         presenter.showEditPlan(plan: plan)
         
         return view
-        
+         */
+        return UIViewController()
     }
     
     static func buildPlanEditViewToCreate(listPresenter: PlanModulePresenterProtocol) -> UIViewController {
         // Use this method to create the module and the viewcontroller.
         
+        /*
         let view = PlanEditView(listPresenter: listPresenter)
         
         
@@ -76,6 +79,8 @@ class PlanModuleRouter: PlanModuleRouterProtocol {
         presenter.showEditPlan(plan: PlanModel(id: 0, objectId: nil, name: "", sectionList: [], last_changed: 0, seq: 0, user_id: 0))
         
         return view
+         */
+        return UIViewController()
         
     }
     

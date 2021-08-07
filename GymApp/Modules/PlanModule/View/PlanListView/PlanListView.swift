@@ -20,7 +20,8 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
     
     let loadingAnimationView = LoadingAnimationView()
     
-
+    var planEditViewController: PlanEditView?
+    
 
     fileprivate func setupNavigationView() {
         title = "运动计划"
@@ -47,8 +48,17 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
     
     @objc func addAction(){
 
-        let vc = presenter!.buildPlanEditViewToCreate()
-//        navigationController?.pushViewController(vc, animated: true)
+//        let vc = presenter!.buildPlanEditViewToCreate()
+        // Create a empty plan model for editting.
+        let vc = PlanEditView(plan: PlanModel(id: 0,
+                                              objectId: nil,
+                                              name: "",
+                                              sectionList: [],
+                                              last_changed: 0,
+                                              seq: planList.count,
+                                              user_id: planList.first?.user_id ?? 0),
+                              listView: self)
+        
         let nav = UINavigationController(rootViewController: vc)
         self.present(nav, animated: true, completion: nil)
     }
@@ -72,6 +82,9 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        print("viewDidAppear")
+        
         super.viewDidAppear(animated)
         
         if introductionView != nil {
@@ -83,14 +96,13 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
             introductionView?.layer.shadowOffset = .zero
             introductionView?.layer.shadowRadius = introductionView!.layer.cornerRadius
             
-            
-//            self.layer.shadowColor = UIColor.black.cgColor
-//            self.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-//            self.layer.shadowRadius = 5
-//            self.layer.shadowOpacity = 0.2
-//            self.layer.masksToBounds = false
-//            self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.contentView.layer.cornerRadius).cgPath
         }
+        
+        if planEditViewController != nil {
+            loadData()
+            planEditViewController = nil
+        }
+        
     }
     
     
@@ -106,7 +118,7 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
     
     
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -118,20 +130,13 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
         
         setupNavigationView()
         setupCollectionView()
-    
-        
-        
+
     }
     
     func loadData() {
         loadingAnimationView.show()
-//        showLoadingAnimationView()
-
         presenter?.loadData()
     }
-    
-    
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return planList.count
@@ -184,10 +189,21 @@ extension PlanListViewController: ForBriefIntroductionViewProtocol {
     func editAction(planModel: PlanModel) {
         
         // Build a PlanModule with the PlanEditPage.
-        let vc = presenter?.buildPlanEditViewToEdit(plan: planModel)
-        navigationController?.pushViewController(vc!, animated: true)
-        introductionView?.removeFromSuperview()
-        introductionView = nil
+        
+//        let vc = presenter?.buildPlanEditViewToEdit(plan: planModel)
+        
+        
+        if planEditViewController == nil {
+            planEditViewController = PlanEditView(plan: planModel, listView: self)
+            
+            
+            navigationController?.pushViewController(planEditViewController!, animated: true)
+            introductionView?.removeFromSuperview()
+            introductionView = nil
+        }
+        
+        
+
         
         
     }
@@ -197,27 +213,36 @@ extension PlanListViewController: ForBriefIntroductionViewProtocol {
 
 
 extension PlanListViewController: PlanModuleViewProtocol {
-    func reloadData() {
-        
-    }
-    
-    func loadData(data: Any) {
-        if data is [PlanModel] {
-            
-            planList = data as! [PlanModel]
-        }
-        
-        collectionView.reloadData()
-        loadingAnimationView.hide()
-    }
-
     func addSection(sections: [PlanSectionModel]) {
         
     }
     
-    func addSection(sports: [Sport]) {
-        
+    
+    func showData(planModel: [PlanModel]) {
+        planList = planModel
+        collectionView.reloadData()
+        loadingAnimationView.hide()
     }
+    
+    func showUpdateError(){
+        if let planEditView = planEditViewController{
+            planEditView.showSaveError()
+        }
+    }
+    
+    func showUpdateSuccessfully(){
+        if let planEditView = planEditViewController{
+            planEditView.saveSuccessfully()
+        }
+    }
+
+//    func addSection(sections: [PlanSectionModel]) {
+//
+//    }
+//
+//    func addSection(sports: [Sport]) {
+//
+//    }
     
     func showErrorAlert(){
         let alert = UIAlertController(title: "提示", message: "读取数据出错", preferredStyle: .alert)
@@ -225,8 +250,18 @@ extension PlanListViewController: PlanModuleViewProtocol {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
-    
+}
+
+extension PlanListViewController: ForPlanEditViewProtocol{
+    func savePlan(planModel: PlanModel) {
+        presenter?.savePlan(plan: planModel)
+    }
+}
+
+
+
+protocol ForPlanEditViewProtocol {
+    func savePlan(planModel: PlanModel)
 }
 
 
@@ -234,8 +269,7 @@ class ShadowView: UIView {
     
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
-        
-        
+
     }
     
 }

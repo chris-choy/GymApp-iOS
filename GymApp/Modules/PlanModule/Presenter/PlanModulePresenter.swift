@@ -13,11 +13,17 @@ import CoreData
 
 
 class PlanModulePresenter: PlanModulePresenterProtocol {
+    
+    
+    
+    
     func savePlan(requestPlan: PlanModel) -> PlanModel? {
         return interactor?.savePlan(requestPlan: requestPlan)
     }
     
-    
+    func showUpdateError(){
+        view?.showUpdateError()
+    }
     
     
     
@@ -37,9 +43,9 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
         return PlanModuleRouter.buildPlanEditViewToCreate(listPresenter: self)
     }
     
-    func buildPlanEditViewToEdit(plan: PlanModel) -> UIViewController {
-        return PlanModuleRouter.buildPlanEditView(plan: plan, listPresenter: self)
-    }
+//    func buildPlanEditViewToEdit(plan: PlanModel) -> UIViewController {
+//        return PlanModuleRouter.buildPlanEditView(plan: plan, listPresenter: self)
+//    }
     
     // Sport
     func buildSportListView(sections: [PlanSectionModel]) -> UIViewController{
@@ -62,13 +68,13 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
     // Tell the view to do.
     func showAllPlans(){
         if let p = interactor!.fetchAllPlans() {
-            view?.loadData(data: p.toPlanModels())
+            view?.showData(planModel: p.toPlanModels())
         }
     }
     
-    func showEditPlan(plan: PlanModel) {
-        view?.loadData(data: plan)
-    }
+//    func showEditPlan(plan: PlanModel) {
+//        view?.showData(data: plan)
+//    }
     
     
     
@@ -89,15 +95,26 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
         view?.addSection(sections: sections)
     }
     
-    func savePlan(plan: PlanModel) -> Bool {
-//        if(interactor!.updatePlan(plan: plan)) {
-//            return true
-//        } else {
-//            return false
-//        }
-        
-        return interactor!.updatePlan(plan: plan)
+    func savePlan(plan: PlanModel) {
+
+        interactor!.updatePlan(plan: plan)
+
     }
+    
+    func save(plan:PlanModel, completion: @escaping(Result<PlanModel, Error>) -> ()) {
+        
+        if let result = interactor?.updatePlan(plan: plan) {
+            
+            
+//            completion(.success(result))
+            
+        } else {
+            return
+        }
+        
+    }
+    
+    
     
     func createPlan(plan: PlanModel) -> PlanModel? {
         return interactor?.createPlan(plan: plan)
@@ -108,6 +125,10 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
     
     func showErrorAlert(){
         view?.showErrorAlert()
+    }
+    
+    func showUpdateSuccessfully() {
+        view?.showUpdateSuccessfully()
     }
     
     func loadData() {

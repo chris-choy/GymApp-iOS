@@ -14,14 +14,14 @@ class PlanService: NSObject {
     let id_token = UserDefaults.standard.string(forKey: "id_token") as! String
     
     //#MARK: public
-    func updatePlan(requestPlan: String ,completion: @escaping (Result< (), Error>) -> ()){
+    func updatePlan(requestPlan: Data ,completion: @escaping (Result< (), Error>) -> ()){
         let url = URL(string: ConfigConstant.serverAdderss + "/plan/update")!
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         request.setValue("Bearer \(id_token)", forHTTPHeaderField: "Authorization")
-        request.httpBody = requestPlan.data(using: .utf8)
+        request.httpBody = requestPlan
         
         URLSession.shared.dataTask(with: request){
             data, response, error in
@@ -29,12 +29,20 @@ class PlanService: NSObject {
                   let response = response as? HTTPURLResponse,
                   error == nil else {
                 print("error", error ?? "Unknown error")
+                
+                if let error = error {
+                    completion(.failure(error))
+                }
                 return
             }
             
             guard response.statusCode == 200 else {
                 // check for http errors
                 print("There is error, status code =  \(response.statusCode)")
+                let err = URLError(URLError.Code(rawValue: response.statusCode))
+                
+                completion(.failure(err))
+                
                 return
             }
             
@@ -90,34 +98,66 @@ class PlanService: NSObject {
         
     }
     
+    
+    
     // MARK: fileprivate
+    
+    fileprivate func isUpToDate(new: PlanModel, old: PlanModel) -> Bool{
+        
+        // Check for the plans and its timestamp.
+        if ((old.last_changed == new.last_changed) &&
+                (new.sectionList.count == old.sectionList.count)){
+            
+            for s in 0 ... new.sectionList.count-1 {
+                // Check the section.
+                let oldSection = old.sectionList[s]
+                let newSection = new.sectionList[s]
+                
+                if(oldSection.last_changed == oldSection.last_changed &&
+                    oldSection.rowList.count == newSection.rowList.count){
+                    for r in 0 ... oldSection.rowList.count-1 {
+                        // Check the row.
+                        let oldRow = oldSection.rowList[r]
+                        let newRow = newSection.rowList[r]
+                        
+                        if (oldRow.last_changed != newRow.last_changed)  {
+                            // Row false.
+                            return false
+                        }
+                    }
+                } else {
+                    // Section false.
+                    return false
+                }
+            }
+    
+            return true
+        } else {
+            // Plan false.
+            return false
+        }
+        
+    }
+    
     fileprivate func syncToCoreData(result: Data){
         do {
             let plansResponse = try JSONDecoder().decode([PlanModel].self, from: result)
+            let planCoredataManager = PlanCoreDataManager()
+            
             for planModel in plansResponse {
                 
-                let planCoredataManager = PlanCoreDataManager()
-                // Check for the plans and its timestamp.
-                if let p = planCoredataManager.fetchPlan(id: planModel.id){
-                    if (p.last_changed != planModel.last_changed){
-                        // Update the plan.
-                        print("需要更新plan的数据。")
-                        
-                        // Delete the old data and create the new data.
-                        planCoredataManager.deletePlan(id: p.objectID)
-                        
-                        // Create the new plan.
-                        _ = planCoredataManager.createPlan(model: planModel)
-                        
-                    }
-                } else {
-                    // Create plan.
-                    if let result = planCoredataManager.createPlan(model: planModel) {
-                        print("创建成功。")
+                if let result = planCoredataManager.fetchPlan(id: planModel.id){
+                    if (isUpToDate(new: planModel, old: result.toPlanModel()) == false){
+                        // Delete and create the new plan.
+                        planCoredataManager.deletePlan(id: result.objectID)
                     } else {
-                        print("创建失败。")
+                        break
                     }
                 }
+                
+                // Not exists or isn't up-to-date.
+                // Create plan.
+                _ = planCoredataManager.createPlan(model: planModel)
                 
             }
             

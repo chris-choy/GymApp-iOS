@@ -18,7 +18,11 @@ class PlanCoreDataManager {
         let request : NSFetchRequest<Plan> = Plan.fetchRequest()
         
         do {
-            let result = try context.fetch(request)
+            var result = try context.fetch(request)
+            
+            // Plans are sorted by seq.
+            result.sort(by: {$0.seq < $1.seq })
+            
             return result
             
         } catch  {

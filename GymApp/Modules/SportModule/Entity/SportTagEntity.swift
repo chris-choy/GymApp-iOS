@@ -68,7 +68,6 @@ class SportTagDataManager {
                 return result.first as SportTag?
             }
             else {
-                print("It's not existed.")
                 return nil
             }
             

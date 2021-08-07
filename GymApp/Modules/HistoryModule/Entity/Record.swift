@@ -43,10 +43,7 @@ class RecordCoreDataManager {
         
         if let plan = planManager.fetchPlan(name: planName) {
             object.plan = plan
-        } else {
-            print("The plan is not existed.")
         }
-        
         
         // Record needs to relate to the record section.
         object.recordSectionList = NSOrderedSet(object: recordSection)
@@ -85,7 +82,6 @@ class RecordCoreDataManager {
             }
             
         } else {
-            print("The plan is not existed.")
             return nil
         }
         
