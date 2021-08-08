@@ -18,7 +18,8 @@ class SportDropDownMenu: UIView, UITableViewDataSource, UITableViewDelegate{
     
     let cellId = "cellId"
     
-    var unitList: [SportUnitModel] = []
+//    var unitList: [SportUnitModel] = []
+    var unitList = ["kg", "秒" , "分", "个"]
     var tagList: [SportTagModel] = []
     
 //    var presenter: SportModulePresenterProtocol
@@ -368,43 +369,43 @@ class TagManager: aaa{
 }
 
 
-class UnitManager: aaa {
-    var presenter: SportModulePresenterProtocol
-    
-    init(presenter: SportModulePresenterProtocol) {
-        self.presenter = presenter
-    }
-    
-    func createNewObject(name: String) -> String? {
-        if let newTag = presenter.createUnit(name: name) {
-            return newTag.name
-        }
-        return nil
-    }
-    
-    func isDataExists(name: String) -> Bool{
-        return presenter.isUnitExists(name: name)
-    }
-
-    func fetchAll() -> [String]? {
-        
-        if let result = presenter.getUnitList(){
-            var nameList : [String] = []
-            
-            for item in result {
-                nameList.append(item.name)
-            }
-            
-            return nameList
-            
-        }
-        
-        return nil
-    }
-    
-    func getTitle() -> String {
-        return "单位"
-    }
-
-}
+//class UnitManager: aaa {
+//    var presenter: SportModulePresenterProtocol
+//
+//    init(presenter: SportModulePresenterProtocol) {
+//        self.presenter = presenter
+//    }
+//
+//    func createNewObject(name: String) -> String? {
+//        if let newTag = presenter.createUnit(name: name) {
+//            return newTag.name
+//        }
+//        return nil
+//    }
+//
+//    func isDataExists(name: String) -> Bool{
+//        return presenter.isUnitExists(name: name)
+//    }
+//
+//    func fetchAll() -> [String]? {
+//
+//        if let result = presenter.getUnitList(){
+//            var nameList : [String] = []
+//
+//            for item in result {
+//                nameList.append(item.name)
+//            }
+//
+//            return nameList
+//
+//        }
+//
+//        return nil
+//    }
+//
+//    func getTitle() -> String {
+//        return "单位"
+//    }
+//
+//}
 

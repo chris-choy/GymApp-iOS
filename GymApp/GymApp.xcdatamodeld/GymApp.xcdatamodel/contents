@@ -56,17 +56,13 @@
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="last_changed" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="unit" optional="YES" attributeType="String"/>
         <attribute name="user_id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="tag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SportTag" inverseName="sport" inverseEntity="SportTag"/>
-        <relationship name="unit" maxCount="1" deletionRule="Nullify" destinationEntity="SportUnit" inverseName="sport" inverseEntity="SportUnit"/>
     </entity>
     <entity name="SportTag" representedClassName="SportTag" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="sport" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sport" inverseName="tag" inverseEntity="Sport"/>
-    </entity>
-    <entity name="SportUnit" representedClassName="SportUnit" syncable="YES" codeGenerationType="class">
-        <attribute name="name" attributeType="String"/>
-        <relationship name="sport" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sport" inverseName="unit" inverseEntity="Sport"/>
     </entity>
     <elements>
         <element name="Plan" positionX="-587.1171875" positionY="-120.31640625" width="128" height="134"/>
@@ -77,6 +73,5 @@
         <element name="RecordSection" positionX="174.0546875" positionY="298.34765625" width="128" height="119"/>
         <element name="Sport" positionX="-10.16796875" positionY="-91.13671875" width="128" height="133"/>
         <element name="SportTag" positionX="156.94140625" positionY="-207.95703125" width="128" height="73"/>
-        <element name="SportUnit" positionX="-220.1328125" positionY="-267.91015625" width="128" height="59"/>
     </elements>
 </model>

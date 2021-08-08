@@ -107,7 +107,7 @@ extension RecordSection {
         let rowList = self.recordRowList?.array as! [RecordRow]
         
         
-        return RecordSectionModel(sportName: sport.name, sportUnit: sport.unit.name, recordRowList: rowList.toRecordRowModels())
+        return RecordSectionModel(sportName: sport.name, sportUnit: sport.unit, recordRowList: rowList.toRecordRowModels())
         
     }
 }

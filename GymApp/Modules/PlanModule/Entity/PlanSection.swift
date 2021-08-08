@@ -36,7 +36,7 @@ struct PlanSectionModel: Codable {
         seq = try container.decode(Int16.self, forKey: .seq)
         rowList = try container.decode([PlanRowModel].self, forKey: .rowList)
         sport = try container.decode(SportModel.self, forKey: .sport)
-        unit = sport.unit.name
+        unit = sport.unit
         last_changed = try container.decode(Int.self, forKey: .last_changed)
         plan_id = try container.decode(Int.self, forKey: .plan_id)
     }

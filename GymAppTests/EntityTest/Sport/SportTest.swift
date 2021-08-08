@@ -7,9 +7,31 @@
 //
 
 import XCTest
+import CoreData
 @testable import GymApp
 
 class SportTest: XCTestCase {
+    
+    func testDeleteAllSport(){
+        let fetchPlanRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Sport")
+        let deletePlanRequest = NSBatchDeleteRequest(fetchRequest: fetchPlanRequest)
+        
+        let planSectionRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "SportTag")
+        let deleteSectionRequest = NSBatchDeleteRequest(fetchRequest: planSectionRequest)
+//
+//        let planRowRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "PlanRow")
+//        let deleteRowRequest = NSBatchDeleteRequest(fetchRequest: planRowRequest)
+
+        do {
+            try CoreDataManagedContext.sharedInstance.managedObjectContext.execute(deletePlanRequest)
+            try CoreDataManagedContext.sharedInstance.managedObjectContext.execute(deleteSectionRequest)
+//            try CoreDataManagedContext.sharedInstance.managedObjectContext.execute(deleteRowRequest)
+
+//            try myPersistentStoreCoordinator.execute(deleteRequest, with: CoreDataManagedContext.sharedInstance.managedObjectContext)
+        } catch let error as NSError {
+            // TODO: handle the error
+        }
+    }
     
     func testFetchAllSport(){
         let manager = SportDataManager()
@@ -35,4 +57,25 @@ class SportTest: XCTestCase {
         
         XCTAssertNotNil(result)
     }
+    
+//    func testSportCodable(){
+//        
+//        let str = ""
+//        
+//        do {
+//            let plans = try JSONDecoder().decode([PlanModel].self
+//                                                    , from: data)
+////            print(plan)
+//            
+//            for plan in plans {
+//                print(plan)
+//
+//            }
+//            
+//        } catch  {
+//            print(error.localizedDescription)
+//        }
+//        
+//        print("-------------------------End-------------------------")
+//    }
 }

@@ -80,6 +80,10 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
             loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -self.topBarHeight),
         ])
+        
+        loadingAnimationView.accessibilityElementsHidden = true
+//        loadingAnimationView.isUserInteractionEnabled = false
+        
     }
     
     override func viewDidLoad() {
@@ -153,12 +157,14 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                 cell.valueTF.delegate = self
                 
                 // test
-                cell.valueTF.becomeFirstResponder()
+//                cell.valueTF.becomeFirstResponder()
                 // testend.
                 
                 
                 cell.timesTF.delegate = self
-                cell.timesTF.becomeFirstResponder ()
+//                cell.timesTF.becomeFirstResponder ()
+                
+                
                 
                 if(plan?.sectionList.count != 0){
                     let value = plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-1)/2].value
@@ -745,7 +751,9 @@ extension PlanEditView {
     
     
     public func saveSuccessfully(){
+        
         loadingAnimationView.hide()
+        
         
 //        AnimationView = .init(name:"loading-animation")
         
@@ -780,6 +788,7 @@ extension PlanEditView {
     public func showSaveError(){
         
         loadingAnimationView.hide()
+        
         
         let alert = UIAlertController(title: "提示", message: "保存出错，请稍后重试。", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))

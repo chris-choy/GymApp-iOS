@@ -420,7 +420,7 @@ extension ExercisingModuleView: ExercisingModuleViewForOtherViewProtocol{
                 
                 let sport = planModel.sectionList[indexPath.section].sport
                 recordModel.recordSectionList.append(RecordSectionModel(sportName: sport.name,
-                                                                        sportUnit: sport.unit.name,
+                                                                        sportUnit: sport.unit,
                                                                         recordRowList: []))
             }
             
@@ -443,7 +443,7 @@ extension ExercisingModuleView: ExercisingModuleViewForOtherViewProtocol{
                 
                 let sport = planModel.sectionList[indexPath.section].sport
                 recordModel.recordSectionList.append(RecordSectionModel(sportName: sport.name,
-                                                                        sportUnit: sport.unit.name,
+                                                                        sportUnit: sport.unit,
                                                                         recordRowList: []))
             }
             

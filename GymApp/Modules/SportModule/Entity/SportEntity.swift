@@ -15,7 +15,7 @@ struct SportModel : Codable{
     var objectId: NSManagedObjectID?
     
     var name: String
-    var unit: SportUnitModel
+    var unit: String
     
     var user_id: Int
     var last_changed: Int
@@ -49,7 +49,7 @@ struct SportModel : Codable{
         id = try container.decode(Int.self, forKey: .id)
         objectId = nil
         name = try container.decode(String.self, forKey: .name)
-        unit = try container.decode(SportUnitModel.self, forKey: .unit)
+        unit = try container.decode(String.self, forKey: .unit)
         user_id = try container.decode(Int.self, forKey: .user_id)
         last_changed = try container.decode(Int.self, forKey: .last_changed)
     }
@@ -57,7 +57,7 @@ struct SportModel : Codable{
     init(id: Int,
          objectId: NSManagedObjectID?,
          name: String,
-         unit: SportUnitModel,
+         unit: String,
          user_id:Int,
          last_changed: Int) {
         self.id = id
@@ -84,7 +84,7 @@ extension Sport{
             id: Int(id),
             objectId: objectID,
             name: self.name!,
-            unit: self.unit!.toSportUnitModel(),
+            unit: self.unit!,
             user_id: Int(self.user_id),
             last_changed: Int(self.last_changed)
         )
@@ -95,7 +95,7 @@ extension Sport{
 
 extension SportModel {
     func toSportResponseModel() -> SportResponseModel{
-        let resModel = SportResponseModel(id: id, name: name, unit: unit.name)
+        let resModel = SportResponseModel(id: id, name: name, unit: unit)
         return resModel
     }
 }

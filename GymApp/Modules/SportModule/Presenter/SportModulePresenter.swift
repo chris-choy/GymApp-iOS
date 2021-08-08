@@ -109,6 +109,7 @@ class SportModulePresenter: SportModulePresenterProtocol {
     
     
     // Unit
+    /*
     func getUnitList() -> [SportUnitModel]? {
         let manager = SportUnitDataManager()
         if let result = manager.fetchAllUnit() {
@@ -140,5 +141,6 @@ class SportModulePresenter: SportModulePresenterProtocol {
             return false
         }
     }
+ */
     
 }

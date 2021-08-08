@@ -130,7 +130,7 @@ class SportService: NSObject {
         do {
             let sports = try JSONDecoder().decode([SportModel].self, from: data)
             
-            // 2. Check if they need to be updated.
+            // Check if they need to be updated.
             let manager = SportDataManager()
             for sport in sports {
                 if let sportInCD = manager.fetchSport(name: sport.name) {

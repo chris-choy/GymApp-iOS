@@ -769,6 +769,9 @@
          contextName = "PlanEditView.tableView(_:cellForRowAt:):PlanEditView.swift">
          <PersistentStrings>
             <PersistentString
+               value = "cell.valueTF.isFirstResponder">
+            </PersistentString>
+            <PersistentString
                value = "indexPath.row/2-1">
             </PersistentString>
             <PersistentString
@@ -806,6 +809,9 @@
             </PersistentString>
             <PersistentString
                value = "(indexPath.row-2)/2">
+            </PersistentString>
+            <PersistentString
+               value = "cell.timesTF.isEnabled">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -112,7 +112,7 @@ class PlanCodableTest: XCTestCase {
     
     func testSportCodable(){
         var result = """
-            {"id":3,"name":"sport1","unit":"unit1","user_id":4}
+            [ { "name" : "sport1", "unit" : "unit1", "id" : 3, "user_id" : 4, "last_changed" : 1627293361000 }, { "name" : "sport2", "unit" : "unit2", "id" : 4, "user_id" : 4, "last_changed" : 1627293366000 } ]
             """
         
         let data = Data(result.utf8)
@@ -123,7 +123,7 @@ class PlanCodableTest: XCTestCase {
 
         
         do {
-            let sport = try JSONDecoder().decode(SportModel.self
+            let sport = try JSONDecoder().decode([SportModel].self
                                                     , from: data)
             print(sport)
             

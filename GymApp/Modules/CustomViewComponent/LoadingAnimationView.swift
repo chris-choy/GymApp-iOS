@@ -33,17 +33,19 @@ class LoadingAnimationView: UIView {
             animationView.heightAnchor.constraint(equalTo: self.heightAnchor)
         ])
         animationView.loopMode = .loop
-        animationView.isHidden = true
+        hide()
     }
     
     public func show() {
         animationView.isHidden = false
+        self.isUserInteractionEnabled = true
         animationView.play()
     }
     
     public func hide() {
         animationView.pause()
         animationView.isHidden = true
+        self.isUserInteractionEnabled = false
     }
     
 }

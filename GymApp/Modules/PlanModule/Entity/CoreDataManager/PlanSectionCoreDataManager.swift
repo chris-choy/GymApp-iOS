@@ -131,7 +131,7 @@ extension PlanSection {
         let model = PlanSectionModel(
             id: Int(self.id),
             seq: Int16(self.seq),
-            unit: self.sport!.unit!.name!,
+            unit: self.sport!.unit!,
             rowList: rowArray.toPlanRowModels(),
             sport: self.sport!.toSportModel(),
             last_changed: Int(self.last_changed),

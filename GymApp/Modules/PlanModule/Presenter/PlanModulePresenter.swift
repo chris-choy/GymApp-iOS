@@ -86,7 +86,7 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
             let section = PlanSectionModel(
                 id: 0,
                 seq: 0,
-                unit: sport.unit.name,
+                unit: sport.unit,
                 rowList: [],
                 sport: sport,last_changed: 0,
                 plan_id: 0)

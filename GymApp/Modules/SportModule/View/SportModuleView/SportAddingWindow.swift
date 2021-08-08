@@ -284,7 +284,7 @@ class SportAddingWindow: UIView {
     }
     
     @objc func unitBtnAction() {
-        
+        /*
         if(dropDownMenu == nil) {
             dropDownMenu = SportDropDownMenu(dataManager: UnitManager(presenter: presenter), sourceButton: unitButton, parentWindow: self)
             addSubview(dropDownMenu!)
@@ -303,6 +303,8 @@ class SportAddingWindow: UIView {
             dropDownMenu?.removeFromSuperview()
             dropDownMenu = nil
         }
+ 
+ */
         
     }
     

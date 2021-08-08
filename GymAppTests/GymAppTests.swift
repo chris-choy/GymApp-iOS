@@ -78,7 +78,7 @@ class GymAppTests: XCTestCase {
         print("count = \(result!.count)")
 
         for item in result! {
-            print("\(item.name!) unit=\(item.unit?.name!)")
+            print("\(item.name!) unit=\(item.unit)")
         }
 //        XCTAssertEqual(result?.count, 0)
         

@@ -52,9 +52,9 @@ protocol SportModulePresenterProtocol: class {
     func isTagExists(name: String) -> Bool
     
     // Unit.
-    func getUnitList() -> [SportUnitModel]?
-    func createUnit(name: String) -> SportUnitModel?
-    func isUnitExists(name: String) -> Bool
+//    func getUnitList() -> [SportUnitModel]?
+//    func createUnit(name: String) -> SportUnitModel?
+//    func isUnitExists(name: String) -> Bool
 }
 
 protocol SportModuleInteractorProtocol: class {

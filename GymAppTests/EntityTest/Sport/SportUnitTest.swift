@@ -34,26 +34,26 @@ class SportUnitTest: XCTestCase {
 //    }
     
 
-    func testCreateUnit() {
-        let manager = SportUnitDataManager()
-        
-        let createResult = manager.createUnit(name: "unit1")
-        
-        let fetchResutl = manager.fetchAllUnit()
-        
-        XCTAssertEqual("unit1", createResult?.name)
-        
-        XCTAssertNotNil(fetchResutl)
-    }
-    
-    func testFetchAllUnit() {
-        let manager = SportUnitDataManager()
-        
-        let fetchResult = manager.fetchAllUnit()
-        
-        print(fetchResult?.toSportUnitModels())
-        
-    }
+//    func testCreateUnit() {
+//        let manager = SportUnitDataManager()
+//        
+//        let createResult = manager.createUnit(name: "unit1")
+//        
+//        let fetchResutl = manager.fetchAllUnit()
+//        
+//        XCTAssertEqual("unit1", createResult?.name)
+//        
+//        XCTAssertNotNil(fetchResutl)
+//    }
+//    
+//    func testFetchAllUnit() {
+//        let manager = SportUnitDataManager()
+//        
+//        let fetchResult = manager.fetchAllUnit()
+//        
+//        print(fetchResult?.toSportUnitModels())
+//        
+//    }
     
     
     

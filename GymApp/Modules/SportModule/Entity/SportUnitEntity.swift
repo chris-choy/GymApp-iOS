@@ -6,6 +6,8 @@
 //  Copyright © 2020 Chris. All rights reserved.
 //
 
+
+/*
 import Foundation
 import CoreData
 
@@ -167,3 +169,4 @@ extension Array where Element == SportUnit {
         return set
     }
 }
+*/

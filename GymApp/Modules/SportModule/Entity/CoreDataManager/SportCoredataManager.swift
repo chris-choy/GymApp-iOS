@@ -69,6 +69,7 @@ class SportDataManager {
             sport.last_changed = Int64(requestModel.last_changed)
             sport.id = Int32(requestModel.id)
             sport.user_id = Int64(requestModel.user_id)
+            sport.unit = requestModel.unit
             
             try managedObjectContext.save()
             
@@ -91,7 +92,7 @@ class SportDataManager {
         sport.name = model.name
         sport.id = Int32(model.id)
         sport.user_id = Int64(model.user_id)
-//        sport.unit = model.unit
+        sport.unit = model.unit
         // 这里还有未完成的unit创建。
 
         try! managedObjectContext.save()
@@ -111,6 +112,7 @@ class SportDataManager {
             return nil
         }
         
+        /*
         var unitObject : SportUnit?
         
         unitObject = SportUnitDataManager().fetchUnit(name: unit)
@@ -124,11 +126,12 @@ class SportDataManager {
             print("createSport: error in fetchUnit and createUnit.")
             return nil
         }
+         */
         
         // Create Sport
         let sport = NSEntityDescription.insertNewObject(forEntityName: "Sport", into: managedObjectContext) as! Sport
         sport.name = name
-        sport.unit = unitObject
+        sport.unit = unit
         
         try! managedObjectContext.save()
         return sport
