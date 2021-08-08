@@ -124,13 +124,13 @@
          contextName = "PlanListViewController.viewDidLoad():PlanListView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "introductionView?.frame">
-            </PersistentString>
-            <PersistentString
                value = "planList?[0].name">
             </PersistentString>
             <PersistentString
                value = "testView.bounds">
+            </PersistentString>
+            <PersistentString
+               value = "introductionView?.frame">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -169,6 +169,11 @@
       </ContextState>
       <ContextState
          contextName = "main:AppDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "section.rowList">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "UserService.getProfile(completion:):UserService.swift">
@@ -239,10 +244,10 @@
          contextName = "ExercisingModuleView.tableView(_:cellForRowAt:):ExercisingModuleView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "cell?.imageView?.isHidden">
+               value = "cell?.imageView">
             </PersistentString>
             <PersistentString
-               value = "cell?.imageView">
+               value = "cell?.imageView?.isHidden">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -306,7 +311,7 @@
          contextName = "RecordCollectionViewCell.setupTimeLabel():RecordCollectionViewCell.swift">
          <PersistentStrings>
             <PersistentString
-               value = "timeLabel.intrinsicContentSize.height">
+               value = "timeLabel.frame">
             </PersistentString>
             <PersistentString
                value = "timeImageView.image">
@@ -321,7 +326,7 @@
                value = "timeImageView.image?.size">
             </PersistentString>
             <PersistentString
-               value = "timeLabel.frame">
+               value = "timeLabel.intrinsicContentSize.height">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -367,13 +372,13 @@
          contextName = "RecordCollectionViewCell.getTheHeightOfCell():RecordCollectionViewCell.swift">
          <PersistentStrings>
             <PersistentString
-               value = "stackView.intrinsicContentSize">
-            </PersistentString>
-            <PersistentString
                value = "stackView.">
             </PersistentString>
             <PersistentString
                value = "stackView.frame">
+            </PersistentString>
+            <PersistentString
+               value = "stackView.intrinsicContentSize">
             </PersistentString>
             <PersistentString
                value = "stackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)">
@@ -438,7 +443,7 @@
          contextName = "ExercisingModuleView.viewDidLoad():ExercisingModuleView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "navigationController?">
+               value = "navigationController">
             </PersistentString>
             <PersistentString
                value = "navigationController?.title">
@@ -450,7 +455,7 @@
                value = "navigationController?.navigationBar.topItem?.title">
             </PersistentString>
             <PersistentString
-               value = "navigationController">
+               value = "navigationController?">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -476,6 +481,17 @@
             </PersistentString>
             <PersistentString
                value = "self.plan!.sectionList.count-1">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanEditView.tableView(_:numberOfRowsInSection:):PlanEditView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "plan?.sectionList[0].rowList.count">
+            </PersistentString>
+            <PersistentString
+               value = "plan?.sectionList[indexPath.section-1].rowList.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -717,13 +733,22 @@
                value = "tableView.numberOfRows">
             </PersistentString>
             <PersistentString
+               value = "tableView.numberOfRows(inSection: 1)">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath">
+            </PersistentString>
+            <PersistentString
                value = "indexPath.section">
+            </PersistentString>
+            <PersistentString
+               value = "restTimeIndexPath">
             </PersistentString>
             <PersistentString
                value = "indexPath.row">
             </PersistentString>
             <PersistentString
-               value = "indexPath">
+               value = "section.rowList.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -769,7 +794,7 @@
          contextName = "PlanEditView.tableView(_:cellForRowAt:):PlanEditView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "cell.valueTF.isFirstResponder">
+               value = "cell.timesTF.isEnabled">
             </PersistentString>
             <PersistentString
                value = "indexPath.row/2-1">
@@ -781,10 +806,10 @@
                value = "cell.timesTF.isFirstResponder">
             </PersistentString>
             <PersistentString
-               value = "plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-2)/2].restTime">
+               value = "indexPath.section">
             </PersistentString>
             <PersistentString
-               value = "indexPath.section">
+               value = "plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-2)/2].restTime">
             </PersistentString>
             <PersistentString
                value = "cell.valueTF.window">
@@ -811,7 +836,7 @@
                value = "(indexPath.row-2)/2">
             </PersistentString>
             <PersistentString
-               value = "cell.timesTF.isEnabled">
+               value = "cell.valueTF.isFirstResponder">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

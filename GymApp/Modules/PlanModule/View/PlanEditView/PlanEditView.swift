@@ -316,6 +316,8 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                                 plan_id: section.plan_id,
                                 plan_section_id: section.id))
                 
+                plan?.sectionList[indexPath.section-1] = section
+                
                 let restTimeIndexPath = IndexPath(row: indexPath.row+1, section: indexPath.section)
                 tableView.insertRows(at: [indexPath,restTimeIndexPath], with: .fade)
             }
