@@ -214,7 +214,7 @@ extension PlanListViewController: ForBriefIntroductionViewProtocol {
 
 extension PlanListViewController: PlanModuleViewProtocol {
     func addSection(sections: [PlanSectionModel]) {
-        
+        planEditViewController?.addSection(sections: sections)
     }
     
     
@@ -256,12 +256,17 @@ extension PlanListViewController: ForPlanEditViewProtocol{
     func savePlan(planModel: PlanModel) {
         presenter?.savePlan(plan: planModel)
     }
+    
+    func buildSportListView(sections: [PlanSectionModel]) -> UIViewController {
+        return presenter!.buildSportListView(sections: sections)
+    }
 }
 
 
 
 protocol ForPlanEditViewProtocol {
     func savePlan(planModel: PlanModel)
+    func buildSportListView(sections: [PlanSectionModel]) -> UIViewController
 }
 
 

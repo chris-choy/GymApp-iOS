@@ -486,8 +486,8 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
 // MARK: Action Method
     
     @objc func addBtnAction(){
-        //
 //        present(presenter!.buildSportListView(sections: plan!.sectionList), animated: true, completion: nil)
+        present(listView.buildSportListView(sections: plan!.sectionList),animated: true, completion: nil)
     }
     
     @objc func deleteRowAction(sender: CustomDeleteButton){
