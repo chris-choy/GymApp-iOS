@@ -146,10 +146,10 @@ class PlanService: NSObject {
             
             for planModel in plansResponse {
                 
-                if let result = planCoredataManager.fetchPlan(id: planModel.id){
-                    if (isUpToDate(new: planModel, old: result.toPlanModel()) == false){
+                if let oldPlan = planCoredataManager.fetchPlan(id: planModel.id){
+                    if (isUpToDate(new: planModel, old: oldPlan.toPlanModel()) == false){
                         // Delete and create the new plan.
-                        planCoredataManager.deletePlan(id: result.objectID)
+                        planCoredataManager.deletePlan(id: oldPlan.objectID)
                     } else {
                         break
                     }
@@ -162,7 +162,8 @@ class PlanService: NSObject {
             }
             
         } catch  {
-            print(error.localizedDescription)
+            
+            print("PlanService.syncToCoreData: " + error.localizedDescription)
         }
     }
     

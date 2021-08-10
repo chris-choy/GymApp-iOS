@@ -149,7 +149,8 @@ class SportService: NSObject {
             }
             
         } catch {
-            print(error)
+            
+            print("SportSerVice.syncToCoreData: \(error)")
         }
     }
     

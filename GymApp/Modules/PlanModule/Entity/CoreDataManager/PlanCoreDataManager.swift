@@ -64,7 +64,7 @@ class PlanCoreDataManager {
                 return result.first as Plan?
             }
             if(result.count == 0){
-                print("Error: \(name) is not existed")
+                print("\(name) is not existed")
             }
             else {
                 print("Error: More than one object existed.")
@@ -172,13 +172,14 @@ class PlanCoreDataManager {
             
             planObject.addToPlanSections(sectionObject)
         }
-        planObject.planSections?.allObjects
+//        planObject.planSections?.allObjects
         
         do {
             try context.save()
             return planObject
         } catch let err {
             print(err)
+            print(planObject)
             return nil
         }
 
@@ -318,7 +319,7 @@ class PlanCoreDataManager {
             }
             return true
         } else {
-            print("Error: \"\(plan.name)\" is not existed.")
+            print("Error in (updatePlan) that \"\(plan.name)\" is not existed.")
             return false
         }
     }

@@ -126,18 +126,18 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         switch indexPath.row {
         case 0:
             
-//             The title row.
+            //The title row.
             let cell = tableView.dequeueReusableCell(withIdentifier: tableCellId) as! PlanTableViewCell
             cell.setNumLabel.text = "组"
             cell.lastValueLabel.text = "上一次的记录"
-//            cell.valueTF.text = "数值"
             cell.valueTF.text = plan?.sectionList[indexPath.section-1].unit
             cell.valueTF.isEnabled = false
-//            cell.unitLabel.text = "单位"
             
             cell.timesTF.text = "次数"
             cell.timesTF.isEnabled = false
             cell.multiplicationSymbol.image = nil
+            cell.deleteBtn.isHidden = true
+            cell.deleteBtn.isUserInteractionEnabled = false
 //            cell.backgroundColor = .lightGray
             return cell
             
@@ -155,17 +155,8 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                 // PlanRow
                 let cell = tableView.dequeueReusableCell(withIdentifier: tableCellId) as! PlanTableViewCell
                 cell.valueTF.delegate = self
-                
-                // test
-//                cell.valueTF.becomeFirstResponder()
-                // testend.
-                
-                
                 cell.timesTF.delegate = self
-//                cell.timesTF.becomeFirstResponder ()
-                
-                
-                
+
                 if(plan?.sectionList.count != 0){
                     let value = plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-1)/2].value
                     let times = plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-1)/2].times
@@ -201,6 +192,10 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                 // Set the layer.
                 cell.timesTF.backgroundColor = UIColor(red: 209, green: 209, blue: 214)
                 cell.timesTF.layer.cornerRadius = 8
+                
+                // Set the delete row btn.
+                cell.deleteBtn.indexPath = indexPath
+                cell.deleteBtn.addTarget(self, action: #selector(deleteRowAction), for: .touchUpInside)
                 
                 return cell
             } else {
@@ -271,23 +266,27 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    fileprivate func deleteSection(sectionIndex: Int){
+        // Update button's tag.
+        if sectionIndex+1 <= self.plan!.sectionList.count {
+            for index in sectionIndex+1 ... self.plan!.sectionList.count {
+                self.updateDeleteSectionBtn(section: index)
+            }
+        }
+        
+        self.plan!.sectionList.remove(at: sectionIndex)
+        
+        self.tableView.deleteSections(IndexSet(arrayLiteral: sectionIndex+1), with: .fade)
+    }
+    
     @objc func deleteSectionAction(sender: UIButton){
         print("delete : \(sender.tag)")
         
         let alert = UIAlertController(title: "提示", message: "确定删除吗？", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "确定", style: .destructive, handler: { UIAlertAction in
-            let sectionIndex = sender.tag-1
+//            let sectionIndex = sender.tag-1
             
-            // Update deleteAction's tag.
-            if sender.tag+1 <= self.plan!.sectionList.count {
-                for index in sender.tag+1 ... self.plan!.sectionList.count {
-                    self.updateDeleteAction(section: index)
-                }
-            }
-            
-            self.plan!.sectionList.remove(at: sectionIndex)
-            
-            self.tableView.deleteSections(IndexSet(arrayLiteral: sender.tag), with: .fade)
+            self.deleteSection(sectionIndex: sender.tag-1)
             
         })
         
@@ -491,6 +490,63 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
 //        present(presenter!.buildSportListView(sections: plan!.sectionList), animated: true, completion: nil)
     }
     
+    @objc func deleteRowAction(sender: CustomDeleteButton){
+        /*
+          section and row are the index for the Cell.
+          sectionIndex and rowIndex are the indexs for the plan.
+         ------------------------------------------------------------
+          seciton = sectionIndex+1    ->    sectionIndex = section-1
+          row = 2*rowIndex+1          ->    rowIndex = (row-1)/2
+         */
+        
+        let rowIndex = (sender.indexPath.row-1)/2
+        let sectionIndex = sender.indexPath.section-1
+        
+        // The last one row in the section.
+        if plan?.sectionList[sectionIndex].rowList.count == 1 {
+            let alert = UIAlertController(title: "提示", message: "每个运动至少需要一组数据，是否继续删除？", preferredStyle: .alert)
+            let confirm = UIAlertAction(title: "确认", style: .destructive) { action in
+                // Delete section.
+                self.deleteSection(sectionIndex: sectionIndex)
+            }
+            let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            alert.addAction(cancel)
+            alert.addAction(confirm)
+            
+            present(alert, animated: true, completion: nil)
+        } else {
+            // 1. update the sender's indexPath and cell's seq.
+            // indexPath after rowIndex forward 1 step.
+            if(rowIndex != plan!.sectionList[sectionIndex].rowList.count-1){
+                // Not the latest one in the rowList.
+                // Otherwise there's no need to do the operation below.
+                for r in rowIndex+1 ... plan!.sectionList[sectionIndex].rowList.count-1 {
+                    // sender's indexPath.
+                    let cell = tableView.cellForRow(at: IndexPath(row: 2*r+1, section: sectionIndex+1)) as! PlanTableViewCell
+                    cell.deleteBtn.indexPath.row -= 2
+
+                    // cell's seq.
+                    if let seq = Int(cell.setNumLabel.text ?? "0") {
+                        cell.setNumLabel.text = "\(seq-1)"
+                    }
+                }
+
+            }
+
+            // 2. delete the row in plan data.
+            plan?.sectionList[sectionIndex].rowList.remove(at: rowIndex)
+
+            // 3. delete the row in tableView.
+            let restTimeCell = IndexPath(row: sender.indexPath.row+1, section: sender.indexPath.section)
+            tableView.deleteRows(at: [sender.indexPath, restTimeCell], with: .bottom)
+        }
+        
+        
+        
+        
+        
+    }
+    
     func getSnapshotOfSection(tableView: UITableView, section: CGRect) -> UIImageView {
 
         UIGraphicsBeginImageContextWithOptions(tableView.bounds.size, false, 0.0)
@@ -549,30 +605,22 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    fileprivate func updateDeleteAction(section: Int) {
-        
-        print("update: \(section)")
-        
-        // Reset the delete button action.
+    fileprivate func updateDeleteSectionBtn(section: Int) {
+
         var cell = tableView.headerView(forSection: section)
         var btns = cell?.subviews.filter{$0 is UIButton} as! [UIButton]
-        if btns.count == 1 {
-            
-            
-            if selectedIndexPath != nil {
-                // Move row.
-                btns[0].tag = section
-            } else {
-                // Delete row.
-                btns[0].tag = btns[0].tag - 1
-            }
-        }
         
         if let selectedSection = selectedIndexPath {
+            // For move section operation.
             cell = tableView.headerView(forSection: selectedSection.section)
             btns = cell?.subviews.filter{$0 is UIButton} as! [UIButton]
             if btns.count == 1 {
-                btns[0].tag = selectedIndexPath!.section
+                btns[0].tag = selectedSection.section
+            }
+        } else {
+            // For delete section operation.
+            if btns.count == 1 {
+                btns[0].tag = btns[0].tag - 1
             }
         }
         
@@ -633,7 +681,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                     toSection: locatedIndexPath!.section)
                     hideSection(section: locatedIndexPath!.section)
                     
-                    updateDeleteAction(section: locatedIndexPath!.section)
+                    updateDeleteSectionBtn(section: locatedIndexPath!.section)
                     
                     // Reset the selectedIndexPath which is represented the section holded.
                     selectedIndexPath!.section = locatedIndexPath!.section
@@ -655,7 +703,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         
         if plan!.sectionList.count > 0 {
             
-            
             for sectionIndex in 0...plan!.sectionList.count-1 {
                 // Save planSection.
                 // Processing the data.
@@ -667,6 +714,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                         // Save planRow.
                         plan?.sectionList[sectionIndex].rowList[rowIndex].value = Float.init(cell.valueTF.text!)!
                         plan?.sectionList[sectionIndex].rowList[rowIndex].times = Int.init(cell.timesTF.text!)!
+                        plan?.sectionList[sectionIndex].rowList[rowIndex].seq = Int.init(cell.setNumLabel.text!)!
                         
                         // Get the restTime.
                         let restCell = tableView.cellForRow(at: IndexPath(row: rowIndex*2+2, section: sectionIndex+1)) as! RestTimeTableViewCell

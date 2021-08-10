@@ -14,7 +14,7 @@ struct PlanRowModel: Codable {
     
     let id: Int
     
-    let seq: Int
+    var seq: Int
     var lastValue : Float = 0 // 暂时还没用上,故默认给个0.
     var value : Float
     var times: Int

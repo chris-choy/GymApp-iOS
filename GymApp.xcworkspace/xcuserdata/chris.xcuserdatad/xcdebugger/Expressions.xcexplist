@@ -168,6 +168,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PlanEditView.updateDeleteSectionBtn(section:):PlanEditView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "selectedIndexPath">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "main:AppDelegate.swift">
          <PersistentStrings>
             <PersistentString
@@ -382,6 +390,20 @@
             </PersistentString>
             <PersistentString
                value = "stackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanEditView.deleteRowAction(sender:):PlanEditView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cell.setNumLabel.text">
+            </PersistentString>
+            <PersistentString
+               value = "plan!.sectionList[sectionIndex].rowList.count-1">
+            </PersistentString>
+            <PersistentString
+               value = "plan?.sectionList[sectionIndex].rowList[r].seq">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -754,6 +776,14 @@
       </ContextState>
       <ContextState
          contextName = "PlanSection.toPlanSectionModel():PlanSectionCoreDataManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.toPlanSectionModel()">
+            </PersistentString>
+            <PersistentString
+               value = "self">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "PlanModelTest.testCreatePlanFromPlanModel():PlanModelTest.swift">

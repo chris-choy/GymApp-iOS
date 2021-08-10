@@ -31,24 +31,12 @@ class PlanTableViewCell: UITableViewCell {
         return label
         }()
     
-    /*
-    var unitLabel: UILabel = {
-       let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
-        
-        
-        // test
-        label.layer.borderWidth = 1
-        // testend
-        
-        // Calculate the text max size.
-//        label.maxSizeOfText(text: "单位")
-        
-        return label
+    let deleteBtn: CustomDeleteButton = {
+        let btn = CustomDeleteButton()
+        btn.setImage(UIImage(named: "close"), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
     }()
-    */
-    
     
     var valueTF: UITextField = {
        let tf = UITextField()
@@ -146,19 +134,37 @@ class PlanTableViewCell: UITableViewCell {
         contentView.addSubview(timesTF)
         contentView.addSubview(multiplicationSymbol)
         contentView.addSubview(valueTF)
+        contentView.addSubview(deleteBtn)
         
         
         NSLayoutConstraint.activate([
             setNumLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             lastValueLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-//            unitLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             timesTF.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             multiplicationSymbol.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            (valueTF).centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            valueTF.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            deleteBtn.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
         
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "|-16-[v0]-16-[v1]-16-[v2]-8-[v4(16)]-[v5]-16-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0":setNumLabel,"v1":lastValueLabel , "v2":valueTF, "v4":multiplicationSymbol,"v5":timesTF]))
+        NSLayoutConstraint.activate([
+            deleteBtn.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
+            deleteBtn.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8)
+        ])
+        
+        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(
+                                        withVisualFormat: "|-16-[v0]-16-[v1]-16-[v2]-8-[v4(16)]-[v5]-16-[v6]-16-|",
+                                        options: NSLayoutConstraint.FormatOptions(), metrics: nil,
+                                        views: ["v0":setNumLabel,
+                                                "v1":lastValueLabel ,
+                                                "v2":valueTF,
+                                                "v4":multiplicationSymbol,
+                                                "v5":timesTF,
+                                                "v6":deleteBtn] ))
     
     }
     
+}
+
+class CustomDeleteButton: UIButton {
+    var indexPath: IndexPath = []
 }
