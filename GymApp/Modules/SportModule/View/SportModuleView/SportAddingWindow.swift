@@ -10,6 +10,7 @@ import UIKit
 
 protocol ForAddingWindowProtocol {
     func updateTableView(newSport: SportModel)
+    func saveSport(sport: SportModel)
 //    func closeAddingWindow()
 }
 
@@ -85,21 +86,21 @@ class SportAddingWindow: UIView {
         return label
     }()
     
-    let tagButton: UIButton = {
-        let button = UIButton()
-        // View.
-        button.setTitle("点击选择分类", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = Color.lightBackground.value
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.cornerRadius = 8
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-//        button.addTarget(self, action: #selector(showTagMenuAction), for: .touchUpInside)
-        button.titleLabel?.textAlignment = .center
-        
-        return button
-    }()
+//    let tagButton: UIButton = {
+//        let button = UIButton()
+//        // View.
+//        button.setTitle("点击选择分类", for: .normal)
+//        button.setTitleColor(.black, for: .normal)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.backgroundColor = Color.lightBackground.value
+//        button.layer.borderColor = UIColor.lightGray.cgColor
+//        button.layer.cornerRadius = 8
+//        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+////        button.addTarget(self, action: #selector(showTagMenuAction), for: .touchUpInside)
+//        button.titleLabel?.textAlignment = .center
+//
+//        return button
+//    }()
     
     let unitLabel: UILabel = {
         let label = UILabel()
@@ -108,22 +109,17 @@ class SportAddingWindow: UIView {
         return label
     }()
     
-    let unitButton: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
+    let unitTextField: UITextField = {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
         
-        // View
-        btn.setTitle("点击选择单位", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = Color.lightBackground.value
-        btn.layer.borderColor = UIColor.lightGray.cgColor
-        btn.layer.cornerRadius = 8
-        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        return btn
+        tf.backgroundColor = Color.lightBackground.value
+        tf.layer.cornerRadius = 8
+        tf.setLeftPaddingPoints(10)
+        
+        return tf
     }()
-    
-    
+
     init(presenter: SportModulePresenterProtocol,
          parentView: ForAddingWindowProtocol,
          textFieldDelegate: UITextFieldDelegate){
@@ -138,8 +134,9 @@ class SportAddingWindow: UIView {
 
         // test
         layer.borderWidth = 1
-
+        layer.cornerRadius = 15
         // test end.
+        
     }
     
     required init?(coder: NSCoder) {
@@ -151,17 +148,18 @@ class SportAddingWindow: UIView {
         inputStackView.addArrangedSubview(nameLabel)
         inputStackView.addArrangedSubview(nameTextField)
         inputStackView.addArrangedSubview(unitLabel)
-        inputStackView.addArrangedSubview(unitButton)
-        inputStackView.addArrangedSubview(tagLabel)
-        inputStackView.addArrangedSubview(tagButton)
+        inputStackView.addArrangedSubview(unitTextField)
+//        inputStackView.addArrangedSubview(tagLabel)
+//        inputStackView.addArrangedSubview(tagButton)
         
         // Set unit & tag button
-        unitButton.addTarget(self, action: #selector(unitBtnAction), for: .touchUpInside)
-        tagButton.addTarget(self, action: #selector(tagBtnAction), for: .touchUpInside)
+//        unitButton.addTarget(self, action: #selector(unitBtnAction), for: .touchUpInside)
+//        tagButton.addTarget(self, action: #selector(tagBtnAction), for: .touchUpInside)
+        inputStackView.bringSubviewToFront(unitTextField)
         
         // Set the name textfield.
         nameTextField.delegate = textFieldDelegate
-        
+        unitTextField.delegate = textFieldDelegate
         
         // Title.
         addSubview(titleLabel)
@@ -202,13 +200,14 @@ class SportAddingWindow: UIView {
         
         // unitButton.
         NSLayoutConstraint.activate([
-            unitButton.heightAnchor.constraint(equalTo: nameTextField.heightAnchor)
+//            unitButton.heightAnchor.constraint(equalTo: nameTextField.heightAnchor)
+            unitTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor)
         ])
         
         // tagButton.
-        NSLayoutConstraint.activate([
-            tagButton.heightAnchor.constraint(equalTo: nameTextField.heightAnchor)
-        ])
+//        NSLayoutConstraint.activate([
+//            tagButton.heightAnchor.constraint(equalTo: nameTextField.heightAnchor)
+//        ])
         
         
         
@@ -239,9 +238,12 @@ class SportAddingWindow: UIView {
     
 // MARK: Action Method
     @objc func confirmAction() {
+        
+        // 1. Check the information.
         if let name = nameTextField.text,
-           let unit = unitButton.titleLabel?.text,
-           let tag = tagButton.titleLabel?.text
+//           let unit = unitButton.titleLabel?.text,
+           let unit = unitTextField.text
+//           let tag = tagButton.titleLabel?.text
         {
             if name.isEmpty  {
                 print("请输入")
@@ -257,25 +259,29 @@ class SportAddingWindow: UIView {
                 return
             }
             
-            if let result = presenter.createSport(name: name, unit: unit, tag: tag) {
+            
+            // 2. Start the operation.
+            let sport = SportModel(id: 0, objectId: nil, name: name, unit: unit, user_id: 0, last_changed: 0)
+            
+            do {
+                let str = try JSONEncoder().encode(sport)
+                print(String.init(data: str, encoding: .utf8))
+            } catch {
+                print("error")
+            }
+            
+            
+            /*
+            if let result = presenter.createSport(name: name, unit: unit, tag: "tag") {
                 parentView.updateTableView(newSport: result)
                 self.removeFromSuperview()
             }
             else {
                 print("添加失败！")
             }
+            */
             
         }
-//        let unit = unitButton.titleLabel?.text
-//        let tag = tagButton.titleLabel?.text
-
-
-        // Check the information.
-
-
-        
-
-        
         
     }
     
@@ -308,6 +314,7 @@ class SportAddingWindow: UIView {
         
     }
     
+    /*
     @objc func tagBtnAction() {
         
         if(dropDownMenu == nil) {
@@ -332,6 +339,7 @@ class SportAddingWindow: UIView {
         
         
     }
+ */
     
     
 }

@@ -10,6 +10,8 @@ import Foundation
 
 class SportModuleInteractor: SportModuleInteractorProtocol {
     
+    var presenter: SportModulePresenterProtocol?
+    
     let manager = SportDataManager()
     
     func fetchAllSports() -> [Sport]? {
@@ -21,16 +23,23 @@ class SportModuleInteractor: SportModuleInteractorProtocol {
         
     }
     
-    func fetchAllSportFromDB(){
+    
+    func fetchAllSportFromServer(){
         
         SportService.shared.getAllSports { res in
             switch(res){
             case .success(_):
-                print("a")
+                DispatchQueue.main.async {
+                    self.presenter?.loadSportManagerViewData()
+                }
             case.failure(let err):
-                print(err)
+                DispatchQueue.main.async {
+                    self.presenter?.loadSportFail()
+                    print(err)
+                }
             }
         }
+        
         
         // 1. Fetch from DB.
 //        SportService.shared.getAllSports { res in
@@ -68,7 +77,31 @@ class SportModuleInteractor: SportModuleInteractorProtocol {
 
     }
     
-    
-    
+    func saveSport(sport: SportModel, mode: SaveMode){
+        do {
+            let sportData = try JSONEncoder().encode(sport)
+            
+            SportService.shared.createSport(sport: sportData, mode: mode) { res in
+                switch(res){
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.presenter?.showCreateSuccess()
+                    }
+                    
+                case .failure(let err):
+                    
+                    DispatchQueue.main.async {
+                        self.presenter?.showFailMessage(message: "操作失败。")
+                    }
+                    
+                    print(err)
+                }
+            }
+        } catch {
+            self.presenter?.showFailMessage(message: "操作失败。")
+            print(error)
+        }
+        
+    }
     
 }

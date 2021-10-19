@@ -51,7 +51,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8305C4D5259B863D003450CB"
+               BlueprintIdentifier = "83571B0D2447F2EB00572C7C"
                BuildableName = "GymAppUITests.xctest"
                BlueprintName = "GymAppUITests"
                ReferencedContainer = "container:GymApp.xcodeproj">
@@ -79,6 +79,13 @@
             ReferencedContainer = "container:GymApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <AdditionalOptions>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

@@ -48,19 +48,22 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
     
     @objc func addAction(){
 
-//        let vc = presenter!.buildPlanEditViewToCreate()
         // Create a empty plan model for editting.
-        let vc = PlanEditView(plan: PlanModel(id: 0,
+        planEditViewController = PlanEditView(plan: PlanModel(id: 0,
                                               objectId: nil,
                                               name: "",
                                               sectionList: [],
                                               last_changed: 0,
-                                              seq: planList.count,
+                                              seq: planList.count+1,
                                               user_id: planList.first?.user_id ?? 0),
                               listView: self)
         
-        let nav = UINavigationController(rootViewController: vc)
-        self.present(nav, animated: true, completion: nil)
+//        let nav = UINavigationController(rootViewController: planEditViewController!)
+//        self.present(nav, animated: true, completion: nil)
+        navigationController?.modalPresentationStyle = .popover
+        
+        navigationController?.pushViewController(planEditViewController!, animated: true)
+        
     }
     
     fileprivate func setupCollectionView() {
@@ -82,8 +85,6 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        print("viewDidAppear")
         
         super.viewDidAppear(animated)
         
@@ -165,6 +166,14 @@ class PlanListViewController: UICollectionViewController, UICollectionViewDelega
             introductionView!.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
+        // Animation.
+        introductionView?.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        introductionView?.alpha = 0
+        UIView.animate(withDuration: 0.2) {
+            self.introductionView?.alpha = 1
+            self.introductionView?.transform = CGAffineTransform.identity
+        }
+        
     
     }
     
@@ -201,9 +210,6 @@ extension PlanListViewController: ForBriefIntroductionViewProtocol {
             introductionView?.removeFromSuperview()
             introductionView = nil
         }
-        
-        
-
         
         
     }

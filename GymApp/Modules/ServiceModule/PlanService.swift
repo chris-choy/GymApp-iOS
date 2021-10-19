@@ -17,6 +17,10 @@ class PlanService: NSObject {
     func updatePlan(requestPlan: Data ,completion: @escaping (Result< (), Error>) -> ()){
         let url = URL(string: ConfigConstant.serverAdderss + "/plan/update")!
         
+        // test
+        print(String.init(data: requestPlan, encoding: .utf8))
+        // test
+        
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
@@ -46,7 +50,11 @@ class PlanService: NSObject {
                 return
             }
             
-            self.syncToCoreData(result: data)
+            DispatchQueue.main.async {
+                self.syncToCoreData(result: data)
+            }
+            
+            
             
             completion(.success(()))
             
@@ -87,7 +95,10 @@ class PlanService: NSObject {
             }
             
             // Do with the result.
-            self.syncToCoreData(result: data)
+            DispatchQueue.main.async {
+                self.syncToCoreData(result: data)
+            }
+//            self.syncToCoreData(result: data)
             
             
             
@@ -108,29 +119,31 @@ class PlanService: NSObject {
         if ((old.last_changed == new.last_changed) &&
                 (new.sectionList.count == old.sectionList.count)){
             
-            for s in 0 ... new.sectionList.count-1 {
-                // Check the section.
-                let oldSection = old.sectionList[s]
-                let newSection = new.sectionList[s]
-                
-                if(oldSection.last_changed == oldSection.last_changed &&
-                    oldSection.rowList.count == newSection.rowList.count){
-                    for r in 0 ... oldSection.rowList.count-1 {
-                        // Check the row.
-                        let oldRow = oldSection.rowList[r]
-                        let newRow = newSection.rowList[r]
-                        
-                        if (oldRow.last_changed != newRow.last_changed)  {
-                            // Row false.
-                            return false
+            if new.sectionList.count > 0 {
+                for s in 0 ... new.sectionList.count-1 {
+                    // Check the section.
+                    let oldSection = old.sectionList[s]
+                    let newSection = new.sectionList[s]
+                    
+                    if(oldSection.last_changed == oldSection.last_changed &&
+                        oldSection.rowList.count == newSection.rowList.count){
+                        for r in 0 ... oldSection.rowList.count-1 {
+                            // Check the row.
+                            let oldRow = oldSection.rowList[r]
+                            let newRow = newSection.rowList[r]
+                            
+                            if (oldRow.last_changed != newRow.last_changed)  {
+                                // Row false.
+                                return false
+                            }
                         }
+                    } else {
+                        // Section false.
+                        return false
                     }
-                } else {
-                    // Section false.
-                    return false
                 }
             }
-    
+            
             return true
         } else {
             // Plan false.
@@ -144,22 +157,58 @@ class PlanService: NSObject {
             let plansResponse = try JSONDecoder().decode([PlanModel].self, from: result)
             let planCoredataManager = PlanCoreDataManager()
             
-            for planModel in plansResponse {
+            if let oldPlans = planCoredataManager.fetchAllPlans(){
+                var tags = [Bool](repeating: false, count: oldPlans.count)
                 
-                if let oldPlan = planCoredataManager.fetchPlan(id: planModel.id){
-                    if (isUpToDate(new: planModel, old: oldPlan.toPlanModel()) == false){
-                        // Delete and create the new plan.
-                        planCoredataManager.deletePlan(id: oldPlan.objectID)
-                    } else {
-                        break
+                if plansResponse.count == 0 {
+                    for plan in oldPlans {
+                        planCoredataManager.deletePlan(id: plan.objectID)
+                    }
+                } else {
+                    for planModel in plansResponse {
+                        
+                        if let oldPlanIndex = oldPlans.firstIndex(where: {$0.id == planModel.id}){
+                            
+                            tags[oldPlanIndex] = true
+                            
+                            if(isUpToDate(new: planModel, old: oldPlans[oldPlanIndex].toPlanModel())  == false ){
+                                // Delete and create the new plan.
+                                planCoredataManager.deletePlan(id: oldPlans[oldPlanIndex].objectID)
+                                _ = planCoredataManager.createPlan(model: planModel)
+                            }
+                        } else {
+                            // Not exists or isn't up-to-date.
+                            // Create plan.
+                            _ = planCoredataManager.createPlan(model: planModel)
+                        }
+                        
+                        
+                        // Delete the plan in coredata but not in result.
+                        while true {
+                            if let del = tags.firstIndex(where: { $0 == false }){
+                                tags[del] = true
+                                planCoredataManager.deletePlan(id: oldPlans[del].objectID)
+                            } else {
+                                break
+                            }
+                        }
                     }
                 }
                 
-                // Not exists or isn't up-to-date.
-                // Create plan.
-                _ = planCoredataManager.createPlan(model: planModel)
-                
             }
+            
+            
+            
+//            if plansResponse.count == 0 {
+//
+//            } else {
+//
+//
+//
+//
+//            }
+            
+            
             
         } catch  {
             

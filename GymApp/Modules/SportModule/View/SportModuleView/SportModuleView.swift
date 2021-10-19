@@ -19,57 +19,226 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
     
     var addingWin: SportAddingWindow?
     
+    var editViewController: SportEditViewController? = nil
+    
+    // HeaderStruct is for constructing the tableView's headerIndex.
+    struct HeaderStruct {
+        var letter: Character
+        var ni: [NameAndIndex]
+    }
+    
+    struct NameAndIndex{
+        var name: String
+        var index: Int
+    }
+    
+    var headerList : [HeaderStruct] = []
+    
+    let viewMode : ViewMode
+    
+    init(viewMode: ViewMode) {
+        self.viewMode = viewMode
+        super.init(style: .plain)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "运动管理"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(showSportAddingWindow))
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: sportCellId)
+        setupBar()
+        
+        switch viewMode {
+        case .manager:
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: sportCellId)
+        case .choice:
+            tableView.register(CheckMarkTableViewCell.self, forCellReuseIdentifier: sportCellId)
+        }
+        
+        tableView.allowsMultipleSelection = true
         
         
+        
+
         // test
-//        showSportAddingWindow()
+        presenter?.fetchAllSportFromServer()
         // test end
+        
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sportList.count
+    fileprivate func setupBar() {
+        
+        title = (viewMode == .manager) ? "运动管理" : "选择运动"
+        
+        let rightBtnTitle = (viewMode == .manager) ? "Add" : "完成"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: rightBtnTitle, style: .plain, target: self, action: #selector(rightBtnAction))
+        
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: sportCellId)!
-        cell.textLabel?.text = sportList[indexPath.row].name
-        return cell
-    }
-    
-    @objc func showSportAddingWindow() {
-        if let presenter = self.presenter {
-            addingWin = SportAddingWindow(presenter: presenter, parentView: self, textFieldDelegate: self)
-            if let addingWin = addingWin {
-                view.addSubview(addingWin)
-                
-                
-                // Set the constraints.
-                let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (navigationController?.navigationBar.frame.height ?? 0.0)
-                
-                addingWin.translatesAutoresizingMaskIntoConstraints = false
-                NSLayoutConstraint.activate([
-                    addingWin.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                    addingWin.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: -topBarHeight),
-                    addingWin.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.65),
-                    addingWin.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
-                ])
-            }
+    func setupIndexTitle(){
+        
+        headerList = []
+        
+        for index in 0..<sportList.count{
+
+            var name = sportList[index].name
             
-        } else {
-            print("Error : presenter is a nil.")
+            // 1. Whether the first letter is Latin Letter or Chinese Characters.
+            var pattern = "^[a-zA-Z\u{4e00}-\u{9fa5}]"
+            
+            if let _ = name.range(of: pattern,options: .regularExpression){
+                
+                // 2. Convert the Chinese Characters to PinYin.
+                pattern = "^[\u{4e00}-\u{9fa5}]"
+                if let _ = name.range(of: pattern, options: .regularExpression){
+                    let s = NSMutableString(string: "\(name)")
+                    CFStringTransform(s, nil, kCFStringTransformToLatin, false)
+                    CFStringTransform(s, nil, kCFStringTransformStripDiacritics, false)
+                    name = String(s)
+                }
+                
+                // 3. Get the index and characters.
+                if let headerIndex = headerList.firstIndex(where: {$0.letter == name.first}){
+                    headerList[headerIndex].ni.append(NameAndIndex(name: name, index: index))
+                } else {
+                    if let letter = name.first{
+                        headerList.append(HeaderStruct(letter: letter,
+                                                       ni: [NameAndIndex(name: name,
+                                                                         index: index)]))
+                    }
+                }
+            } else {
+                // 4. First character is not Latin Letter or Chinese Characters.
+                if let otherIndex = headerList.firstIndex(where: {$0.letter == "#"}){
+                    headerList[otherIndex].ni.append(NameAndIndex(name: name, index: index))
+                } else {
+                    // Create the '#' titleIndex.
+                    headerList.append(HeaderStruct(letter: "#",
+                                                   ni: [NameAndIndex(name: name,
+                                                                     index: index)]))
+                }
+                
+            }
+
+            
+            
+            
         }
         
         
+        // Sort.
+        headerList.sort(by: {$0.letter < $1.letter})
+        for i in 0..<headerList.count{
+            headerList[i].ni.sort(by: {$0.name < $1.name})
+        }
+        if let otherIndex = headerList.firstIndex(where: {$0.letter == "#"}){
+            let other = headerList.remove(at: otherIndex)
+            headerList.insert(other, at: headerList.count)
+        }
+        
+        
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return headerList[section].ni.count
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return headerList.count
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "\(headerList[section].letter)"
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let sportIndex = headerList[indexPath.section].ni[indexPath.row].index
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: sportCellId)!
+        cell.selectionStyle = .none
+        cell.textLabel?.text = sportList[sportIndex].name
+        
+        return cell
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        
+        var titles : [String] = []
+        
+        for t in headerList {
+            titles.append(String.init(t.letter))
+        }
+        
+        return titles
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        
+        return index
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch viewMode {
+        case .manager:
+            let index = headerList[indexPath.section].ni[indexPath.row].index
+            
+            editViewController = SportEditViewController(
+                sport: sportList[index],
+                listView: self,
+                editMode: .edit)
+            self.navigationController?.pushViewController( editViewController! , animated: true)
+        case .choice:
+            break
+            
+//            tableView.cellForRow(at: indexPath)?.isSelected = true
+//            if (tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark){
+//                tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//            } else {
+//                tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+//            }
+        }
+        
+        
+    }
+    
+    @objc func rightBtnAction() {
+        
+        switch viewMode {
+        case .manager:
+            // Open the Sport Edit view.
+            editViewController = SportEditViewController(
+                sport: SportModel(id: 0, objectId: nil, name: "", unit: "", user_id: 0, last_changed: 0),
+                listView: self,
+                editMode: .create)
+            self.navigationController?.pushViewController( editViewController! , animated: true)
+        case .choice:
+            // Return the sports' choice result.
+            if let selectedIndexPath = tableView.indexPathsForSelectedRows {
+                var selectedSports : [SportModel] = []
+                for indexPath in selectedIndexPath {
+                    let index = headerList[indexPath.section].ni[indexPath.row].index
+                    selectedSports.append(sportList[index])
+                }
+                
+                presenter?.sendTheChoseResult(sports: selectedSports)
+            }
+        
+            self.dismiss(animated: true, completion: nil)
+        }
+
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -89,10 +258,62 @@ extension SportModuleView: SportModuleViewProtocol{
         for data in datas {
             if data is [SportModel] {
                 sportList = data as! [SportModel]
+            
+                setupIndexTitle()
                 tableView.reloadData()
+                
             }
         }
         
+    }
+    
+    func showCreateSuccess() {
+        
+        /*
+        if let addingWin = addingWin {
+            addingWin.removeFromSuperview()
+            // show success alert.
+            
+        }
+ */
+        if let editViewController = editViewController {
+            editViewController.createSuccess()
+            editViewController.navigationController?.popToRootViewController(animated: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                let alert = UIAlertController(title: "提示", message: "成功", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+            
+            presenter?.fetchAllSportFromServer()
+            
+//            navigationController?.popToRootViewController(animated: true)
+        }
+        
+        editViewController = nil
+
+    }
+    
+    func showFailMessage(message: String) {
+
+        
+        if let editViewController = editViewController {
+            editViewController.showAlertMessage(message: "创建失败，网络连接错误。")
+        }
+        
+    }
+    
+    func loadSportFail(){
+        let alert = UIAlertController(title: "提示", message: "由于网络原因，加载运动出错。", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func loadSportSuccess(){
+//        tableView.reloadData()
     }
     
     
@@ -104,58 +325,29 @@ extension SportModuleView: ForAddingWindowProtocol {
         tableView.insertRows(at: [IndexPath(row: sportList.count-1, section: 0)], with: .left)
     }
     
+    func backToModuleView(){
+        editViewController?.navigationController?.popToRootViewController(animated: true)
+        editViewController = nil
+    }
+    
+    func saveSport(sport: SportModel) {
+        
+        // Check whether the sport's name was repeated.
+        
+        // Determin that create or update.
+        if sport.id == 0 {
+            // Crate a new sport.
+            if let _ = sportList.firstIndex(where: {$0.name == sport.name}) {
+                editViewController?.showAlertMessage(message: "\"\(sport.name)\"已存在，无法重复创建。")
+            } else {
+                presenter?.saveSport(sport: sport, mode: .create)
+            }
+        } else {
+            // Update the sport information.
+            presenter?.saveSport(sport: sport, mode: .edit)
+        }
+        
+    }
+    
 }
 
-//extension SportModuleView: ForDropDownWindowProtocol {
-//    func createUnitOrTag(name: String, dataType: DataType) {
-//        let alert = UIAlertController(title: "创建", message: "请输入需要创建的名称", preferredStyle: .alert)
-//
-//        alert.addTextField{(textField) in
-//            textField.keyboardType = .default
-//        }
-//
-//        // Set the confirm button.
-//        let confirmAction = UIAlertAction(title: "确认", style: .default){
-//            UIAlertAction in
-//            let tf = alert.textFields![0]
-//
-//            switch dataType{
-//            case .tag:
-//                print("")
-//                if let text = tf.text {
-//
-//                    if(text.isEmpty == false) {
-//                        // Check empty.
-//
-//                        if (self.presenter?.isTagExists(name: text) == false) {
-//                            // Check exists.
-//
-//                            if let newTag = self.presenter?.createTag(name: text) {
-//                                // Check success.
-//
-//                            } else {
-//                                print("Create Error.")
-//                            }
-//
-//                        } else {
-//                            print("empty")
-//                        }
-//                    } else {
-//                        print("输入空")
-//                    }
-//                }
-//                case .unit:
-//                    print("")
-//            }
-//        }
-//    }
-//
-//
-//
-//
-//    func closeDropDownWindow() {}
-//
-//
-//
-//
-//}

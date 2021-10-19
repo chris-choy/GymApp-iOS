@@ -15,7 +15,6 @@ class SportDataManager {
     
     func fetchAllSport() -> [Sport]?{
         
-        
         let request : NSFetchRequest<Sport> = NSFetchRequest(entityName: "Sport")
         
         do {
@@ -29,6 +28,34 @@ class SportDataManager {
             
         } catch {
             print(error)
+        }
+        
+        return nil
+    }
+    
+    func fetchSport(id: Int) -> Sport? {
+
+        let request : NSFetchRequest<Sport> = Sport.fetchRequest()
+        request.predicate = NSPredicate(format: "id = %d", id)
+        
+        do {
+            let result = try managedObjectContext.fetch(request)
+            
+            
+            switch result.count {
+            case 1:
+                return result.first as Sport?
+            case 0:
+//                print("Not exist.")
+                // Not exist.
+                return nil
+            default:
+                print("Error: More than one object existed.")
+                return nil
+            }
+            
+        } catch {
+            print("Failed.")
         }
         
         return nil

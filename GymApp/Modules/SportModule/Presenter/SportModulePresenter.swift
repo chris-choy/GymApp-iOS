@@ -12,6 +12,21 @@ class SportModulePresenter: SportModulePresenterProtocol {
     
     
     
+    func showCreateSuccess() {
+        view?.showCreateSuccess()
+    }
+    
+    func showFailMessage(message: String) {
+        view?.showFailMessage(message: message)
+    }
+    
+    func loadSportFail(){
+        
+    }
+    
+    
+    
+    
     var view : SportModuleViewProtocol?
     var router: SportModuleRouterProtocol?
     var interactor: SportModuleInteractorProtocol?
@@ -56,24 +71,21 @@ class SportModulePresenter: SportModulePresenterProtocol {
     
     func sendTheChoseResult(sports: [SportModel]?) {
         if let sports = sports {
-            planPresenter?.addSectionInView(sports: sports)
+            router?.sendTheChoseResult(sports: sports)
         }
     }
     
 // MARK: For View
     
     // Sport.
-    func createSport(name: String, unit: String, tag: String?) -> SportModel? {
-        let manager = SportDataManager()
-        if let result = manager.createSport(name: name, unit: unit) {
-            return result.toSportModel()
-        }
-        else {
-            return nil
-        }
-        
+    func saveSport(sport: SportModel, mode: SaveMode) {
+        interactor?.saveSport(sport: sport,mode: mode)
     }
-
+    
+    func fetchAllSportFromServer() {
+        interactor?.fetchAllSportFromServer()
+    }
+    
     // Tag.
     func getTagList() -> [SportTagModel]? {
         let manager = SportTagDataManager()

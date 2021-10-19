@@ -24,13 +24,15 @@ protocol PlanModuleViewProtocol : AnyObject {
 
 protocol PlanModuleRouterProtocol: AnyObject {
     
+    var presenter: PlanModulePresenterProtocol? {set get}
+    
     static func buildPlanEditView(plan: PlanModel, listPresenter: PlanModulePresenterProtocol) -> UIViewController
     static func buildPlanEditViewToCreate(listPresenter: PlanModulePresenterProtocol) -> UIViewController
 
     func showSportList(sections: [PlanSectionModel], presenter: PlanModulePresenterProtocol) -> UIViewController
     
     // For Sport Module to call.
-    func receiveTheSportResult(sports: [Sport])
+    func receiveTheSportResult(sports: [SportModel])
     
     // For PlanListView to create the Exercising View.
     func buildExercisingModuleView(planModel: PlanModel) -> UIViewController

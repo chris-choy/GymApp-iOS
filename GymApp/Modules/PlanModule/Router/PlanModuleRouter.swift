@@ -10,6 +10,8 @@ import UIKit
 
 class PlanModuleRouter: PlanModuleRouterProtocol {
     
+    var presenter: PlanModulePresenterProtocol?
+    
 // MARK: Build View Controller.
     
     // Build page.
@@ -28,10 +30,13 @@ class PlanModuleRouter: PlanModuleRouterProtocol {
         presenter.interactor = interactor
         interactor.presenter = presenter
         
+        router.presenter = presenter
+        
 //        let nav = UINavigationController(rootViewController: view)
         
         // Do something.
-        presenter.showAllPlans()
+//        presenter.showAllPlans()
+        interactor.loadData()
 
         return view
     }
@@ -112,17 +117,14 @@ class PlanModuleRouter: PlanModuleRouterProtocol {
     
     func showSportList(sections: [PlanSectionModel], presenter: PlanModulePresenterProtocol) -> UIViewController{
         
-        let sportListVC = SportModuleRouter.buildListForChose(sections: sections, planPresenter: presenter)
+        let sportListVC = SportModuleRouter.buildListForChose(sections: sections, planRouter: self)
         sportListVC.modalPresentationStyle = .popover
         
-    
-//        sportListVC.present(sportListVC, animated: true, completion: nil)
         return sportListVC
     }
     
-    func receiveTheSportResult(sports: [Sport]) {
-//        print(self)
-//        presenter?.addSectionInView(sports: sports)
+    func receiveTheSportResult(sports: [SportModel]) {
+        presenter?.addSectionInView(sports: sports)
     }
     
     

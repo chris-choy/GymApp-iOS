@@ -10,6 +10,9 @@ import UIKit
 
 class CountDownTextField: UITextField  {
     
+    var rowIndex : Int = 0
+    var sectionIndex : Int = 0
+    
     public var sec: Int = 0 {
         didSet {
             
@@ -52,6 +55,7 @@ class CountDownTextField: UITextField  {
         
         return toolbar
     }()
+    
     
     
     @objc func doneAction(){

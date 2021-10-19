@@ -31,24 +31,6 @@ class SportListView: UITableViewController{
     }
     
     @objc func doneAction(){
-//        if sportList != nil {
-//            if sportList!.count > 0 {
-//                var sports : [SportModel] = []
-//                for index in 0...sportList!.count-1 {
-//                    if(isChecked![index]){
-//                        sports.append(sportList![index])
-//                    }
-//                }
-//
-////                // Test.
-////                print(sports)
-////                // Test end.
-//                if sports.count > 0 {
-//                    presenter?.sendTheChoseResult(sports: sports)
-//                    self.dismiss(animated: true, completion: nil)
-//                }
-//            }
-//        }
         
         if let selectedIndexPath = tableView.indexPathsForSelectedRows {
             var selectedSports : [SportModel] = []
@@ -58,11 +40,7 @@ class SportListView: UITableViewController{
             
             presenter?.sendTheChoseResult(sports: selectedSports)
         }
-        
-        
-        
-        
-        
+    
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -114,6 +92,20 @@ class SportListView: UITableViewController{
 }
 
 extension SportListView: SportModuleViewProtocol {
+    func showFailMessage(message: String) {
+        
+    }
+    
+    func loadSportFail() {
+        
+    }
+    
+    func showCreateSuccess() {
+        
+    }
+    
+
+    
     func loadData(datas: [Any]) {
         
         for data in datas {

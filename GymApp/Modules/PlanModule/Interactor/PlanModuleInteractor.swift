@@ -38,10 +38,8 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
         do {
             let planJson = try JSONEncoder().encode(plan)
             
-            // test
-            print(String(data: planJson, encoding: .utf8))
-            // test end.
-            
+            print(String(decoding: planJson, as: UTF8.self))
+
             // 1. Update to database.
             PlanService.shared.updatePlan(requestPlan: planJson) { res in
                 switch(res){
@@ -56,7 +54,6 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
                         self.presenter?.showUpdateSuccessfully()
                     }
                     
-                    
                 case .failure(let err):
                     DispatchQueue.main.async {
                         self.presenter?.showUpdateError()
@@ -68,19 +65,6 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
             print("error")
         }
         
-        /*
-        
-        // 2. Save to coredata.
-        if (plan.objectId != nil) {
-            if(planManager.updatePlan(plan: plan)){
-                return true
-            } else {
-                return false
-            }
-        }
-        return false
- 
-        */
     }
     
     private func loadSport(){
@@ -90,49 +74,71 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
     
     fileprivate func loadPlan() {
         
-        var isSportOk = false
+//        var isSportOk = false
         
         SportService.shared.getAllSports { res in
             switch res {
             case .failure(let err):
                 print(err)
+                print("读取错误")
+                self.presenter?.showErrorAlert()
             case .success(_):
-                isSportOk = true
+//                print(Unmanaged.passUnretained(isSportOk).toOpaque())
+                
+//                isSportOk = true
+                print("读取成功")
+                
+                // 2. Load Plan data.
+                PlanService.shared.getAllPlans(completion: {
+                    (res) in
+                    
+                    switch res {
+                    case .failure(let err):
+                        print(err)
+                        self.presenter?.showErrorAlert()
+                    case .success(_):
+                        // Convert the result to PlanResponseModel.
+                        DispatchQueue.main.async {
+                            self.presenter?.showAllPlans()
+                        }
+                        
+                    }
+                })
+                
             }
         }
         
-        // 2. Load Plan data.
-        PlanService.shared.getAllPlans(completion: {
-            (res) in
-            
-            switch res {
-            case .failure(let err):
-                print(err)
-            case .success(_):
-                // Convert the result to PlanResponseModel.
-                if isSportOk {
-                    DispatchQueue.main.async {
-                        self.presenter?.showAllPlans()
-                    }
-                } else {
-                    // Tell the view that there is error.
-                    DispatchQueue.main.async {
-                        self.presenter?.showErrorAlert()
-                    }
-                    
-                }
-                
-            }
-            
-            
-            
-        })
+//        // 2. Load Plan data.
+//        PlanService.shared.getAllPlans(completion: {
+//            (res) in
+//
+//            switch res {
+//            case .failure(let err):
+//                print(err)
+//            case .success(_):
+//                // Convert the result to PlanResponseModel.
+//                if isSportOk {
+//                    DispatchQueue.main.async {
+//                        self.presenter?.showAllPlans()
+//                    }
+//                } else {
+//                    // Tell the view that there is error.
+//                    DispatchQueue.main.async {
+//                        self.presenter?.showErrorAlert()
+//                    }
+//
+//                }
+//
+//            }
+//        })
+        
+        
     }
     
     func loadData() {
         
         // 1. Load Sport data.
-        loadSport()
+//        loadSport()
         
         loadPlan()
     }

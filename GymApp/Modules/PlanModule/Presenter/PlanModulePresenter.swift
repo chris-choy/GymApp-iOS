@@ -67,6 +67,7 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
     
     // Tell the view to do.
     func showAllPlans(){
+        
         if let p = interactor!.fetchAllPlans() {
             view?.showData(planModel: p.toPlanModels())
         }

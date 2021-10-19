@@ -357,7 +357,6 @@ extension Plan{
         
         let sectionArray = self.planSections!.allObjects as! [PlanSection]
         
-        
         let model = PlanModel(
             id: Int(self.id),
             objectId: self.objectID,

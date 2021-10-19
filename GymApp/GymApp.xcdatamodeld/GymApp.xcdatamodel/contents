@@ -71,7 +71,7 @@
         <element name="Record" positionX="-414" positionY="27" width="128" height="104"/>
         <element name="RecordRow" positionX="-108" positionY="135" width="128" height="104"/>
         <element name="RecordSection" positionX="174.0546875" positionY="298.34765625" width="128" height="119"/>
-        <element name="Sport" positionX="-10.16796875" positionY="-91.13671875" width="128" height="133"/>
+        <element name="Sport" positionX="-10.16796875" positionY="-91.13671875" width="128" height="119"/>
         <element name="SportTag" positionX="156.94140625" positionY="-207.95703125" width="128" height="73"/>
     </elements>
 </model>

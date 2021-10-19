@@ -23,7 +23,16 @@
                value = "plan?.sectionList[0].rowList">
             </PersistentString>
             <PersistentString
+               value = "navigationController">
+            </PersistentString>
+            <PersistentString
+               value = "plan!.sectionList.count">
+            </PersistentString>
+            <PersistentString
                value = "plan?.sectionList[0].rowList.count">
+            </PersistentString>
+            <PersistentString
+               value = "tableView.cellForRow(at: IndexPath(row: 1, section: 1))">
             </PersistentString>
             <PersistentString
                value = "plan">
@@ -72,10 +81,26 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in closure #2 in PlanModuleInteractor.loadPlan():PlanModuleInteractor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isSportOk">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PlanCollectionViewCell.collectionView(_:layout:sizeForItemAt:):PlanCreateView.swift">
          <PersistentStrings>
             <PersistentString
                value = "label.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleView.viewDidLoad():SportModuleView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "navigationController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -98,6 +123,14 @@
             </PersistentString>
             <PersistentString
                value = "self.navigationController?">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CustomDropDownTextField.setupTableView():CustomDropDownTextField.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableView.delegate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -146,6 +179,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "SportDataManager.fetchAllSport():SportCoreDataManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "managedObjectContext">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SportDropDownMenu.addTagOrUnit():SportDropDownMenu.swift">
          <PersistentStrings>
             <PersistentString
@@ -153,6 +194,41 @@
             </PersistentString>
             <PersistentString
                value = "UIApplication.shared.keyWindow">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanService.isUpToDate(new:old:):PlanService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "new.sectionList.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanModuleInteractor.updatePlan(plan:):PlanModuleInteractor.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "String(planJson)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportDataManager.fetchSport(id:):SportCoreDataManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "managedObjectContext">
+            </PersistentString>
+            <PersistentString
+               value = "CoreDataManagedContext.sharedInstance.managedObjectContext">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.planEditViewController.getter:PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "planEditViewController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -249,6 +325,29 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "TableViewTextFieldCell.init(style:reuseIdentifier:):SportEditViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.frame">
+            </PersistentString>
+            <PersistentString
+               value = "self.bounds">
+            </PersistentString>
+            <PersistentString
+               value = "self.frame.width - width">
+            </PersistentString>
+            <PersistentString
+               value = "self.frame.width">
+            </PersistentString>
+            <PersistentString
+               value = "textField.frame">
+            </PersistentString>
+            <PersistentString
+               value = "self.contentView.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ExercisingModuleView.tableView(_:cellForRowAt:):ExercisingModuleView.swift">
          <PersistentStrings>
             <PersistentString
@@ -264,6 +363,22 @@
          <PersistentStrings>
             <PersistentString
                value = "plan?.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleView.showCreateSuccess():SportModuleView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "editViewController.navigationController">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleView.setupBar():SportModuleView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "navigationController">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -319,7 +434,7 @@
          contextName = "RecordCollectionViewCell.setupTimeLabel():RecordCollectionViewCell.swift">
          <PersistentStrings>
             <PersistentString
-               value = "timeLabel.frame">
+               value = "timeImageView.image?.size">
             </PersistentString>
             <PersistentString
                value = "timeImageView.image">
@@ -331,7 +446,7 @@
                value = "timeImageView.frame">
             </PersistentString>
             <PersistentString
-               value = "timeImageView.image?.size">
+               value = "timeLabel.frame">
             </PersistentString>
             <PersistentString
                value = "timeLabel.intrinsicContentSize.height">
@@ -354,6 +469,14 @@
          <PersistentStrings>
             <PersistentString
                value = "plan.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlanModulePresenter.addSectionInView(sports:):PlanModulePresenter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "view">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -454,6 +577,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in PlanEditView.saveSuccessfully():PlanEditView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "navigationController">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "DetailCellView.setupButtons():DetailCellView.swift">
          <PersistentStrings>
             <PersistentString
@@ -490,6 +621,29 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PlanEditView.tableView(_:numberOfRowsInSection:):PlanEditView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "numberOfRowsInSection">
+            </PersistentString>
+            <PersistentString
+               value = "section">
+            </PersistentString>
+            <PersistentString
+               value = "plan?.sectionList[section-1]">
+            </PersistentString>
+            <PersistentString
+               value = "plan?.sectionList[0].rowList.count">
+            </PersistentString>
+            <PersistentString
+               value = "plan">
+            </PersistentString>
+            <PersistentString
+               value = "plan?.sectionList[indexPath.section-1].rowList.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in PlanCreateView.deletSectionAction(sender:):PlanCreateView.swift">
          <PersistentStrings>
             <PersistentString
@@ -507,13 +661,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "PlanEditView.tableView(_:numberOfRowsInSection:):PlanEditView.swift">
+         contextName = "CustomDropDownTextField.tableView(_:numberOfRowsInSection:):CustomDropDownTextField.swift">
          <PersistentStrings>
             <PersistentString
-               value = "plan?.sectionList[0].rowList.count">
-            </PersistentString>
-            <PersistentString
-               value = "plan?.sectionList[indexPath.section-1].rowList.count">
+               value = "unitList.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -542,15 +693,21 @@
                value = "view.frame">
             </PersistentString>
             <PersistentString
+               value = "editViewController">
+            </PersistentString>
+            <PersistentString
+               value = "navigationController">
+            </PersistentString>
+            <PersistentString
                value = "UIApplication.shared.statusBarFrame.size.height">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "PlanListViewController.startAction(planModel:):PlanListView.swift">
+         contextName = "closure #1 in SportModuleInteractor.createSport(sport:):SportModuleInteractor.swift">
          <PersistentStrings>
             <PersistentString
-               value = "introductionView">
+               value = "presenter">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -564,6 +721,14 @@
       </ContextState>
       <ContextState
          contextName = "PlanCreatePresenter.addSectionInView(sports:):PlanCreatePresenter.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PlanListViewController.startAction(planModel:):PlanListView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "introductionView">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "PlanEditViewController.viewDidLoad():PlanEditViewController.swift">
@@ -585,10 +750,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Plan.toPlanModel():PlanCoreDataManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.planSections">
+            </PersistentString>
+            <PersistentString
+               value = "self.planSections[0]">
+            </PersistentString>
+            <PersistentString
+               value = "self.planSections?.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "GymAppTests.testUpdatePlan():GymAppTests.swift">
          <PersistentStrings>
             <PersistentString
                value = "result?.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SportModuleView.loadData(datas:):SportModuleView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sportList">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -717,6 +904,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "Array&lt;&#x3c4;_0_0&gt;.toSportModels():SportEntity.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PlanModuleRouter.receiveTheSportResult(sports:):PlanModuleRouter.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "presenter">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in LoginModuleInteractor.handleSignIn():LoginModuleInteractor.swift">
          <PersistentStrings>
             <PersistentString
@@ -728,7 +926,7 @@
          contextName = "PlanService.syncToCoreData(result:):PlanService.swift">
          <PersistentStrings>
             <PersistentString
-               value = "result.toPlanModel()">
+               value = "plansResponse">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -752,31 +950,34 @@
          contextName = "PlanEditView.tableView(_:didSelectRowAt:):PlanEditView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "tableView.numberOfRows">
-            </PersistentString>
-            <PersistentString
                value = "tableView.numberOfRows(inSection: 1)">
             </PersistentString>
             <PersistentString
-               value = "indexPath">
+               value = "tableView.numberOfRows">
+            </PersistentString>
+            <PersistentString
+               value = "section.rowList.count">
             </PersistentString>
             <PersistentString
                value = "indexPath.section">
             </PersistentString>
             <PersistentString
-               value = "restTimeIndexPath">
-            </PersistentString>
-            <PersistentString
                value = "indexPath.row">
             </PersistentString>
             <PersistentString
-               value = "section.rowList.count">
+               value = "restTimeIndexPath">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "PlanSection.toPlanSectionModel():PlanSectionCoreDataManager.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "self.sport.unit">
+            </PersistentString>
             <PersistentString
                value = "self.toPlanSectionModel()">
             </PersistentString>
@@ -824,7 +1025,7 @@
          contextName = "PlanEditView.tableView(_:cellForRowAt:):PlanEditView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "cell.timesTF.isEnabled">
+               value = "plan">
             </PersistentString>
             <PersistentString
                value = "indexPath.row/2-1">
@@ -857,7 +1058,7 @@
                value = "cell.textField">
             </PersistentString>
             <PersistentString
-               value = "plan">
+               value = "cell.timesTF.isEnabled">
             </PersistentString>
             <PersistentString
                value = "indexPath.section]">

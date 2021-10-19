@@ -10,6 +10,8 @@ import UIKit
 
 class SportModuleRouter: SportModuleRouterProtocol {
     
+    var planRouter: PlanModuleRouterProtocol?
+    
     static func build(planPresenter: PlanModulePresenterProtocol) -> UIViewController {
         // Use this method to create the module and the viewcontroller.
         let view = SportListView()
@@ -21,6 +23,7 @@ class SportModuleRouter: SportModuleRouterProtocol {
         presenter.view = view
         presenter.router = router
         presenter.interactor = interactor
+        interactor.presenter = presenter
         
         presenter.viewDidLoad()
         
@@ -29,9 +32,10 @@ class SportModuleRouter: SportModuleRouterProtocol {
         return nav
     }
     
-    static func buildListForChose(sections: [PlanSectionModel],planPresenter: PlanModulePresenterProtocol) -> UIViewController {
+    static func buildListForChose(sections: [PlanSectionModel], planRouter: PlanModuleRouterProtocol) -> UIViewController {
         
-        let view = SportListView()
+//        let view = SportListView()
+        let view = SportModuleView(viewMode: .choice)
         let presenter : SportModulePresenterProtocol = SportModulePresenter()
         let router : SportModuleRouterProtocol = SportModuleRouter()
         let interactor: SportModuleInteractorProtocol = SportModuleInteractor()
@@ -41,9 +45,12 @@ class SportModuleRouter: SportModuleRouterProtocol {
         presenter.view = view
         presenter.router = router
         presenter.interactor = interactor
-        presenter.planPresenter = planPresenter
+        
+        router.planRouter = planRouter
         
         presenter.showSportsList(sections: sections)
+        
+        interactor.presenter = presenter
         
         let nav = UINavigationController(rootViewController: view)
         
@@ -51,13 +58,13 @@ class SportModuleRouter: SportModuleRouterProtocol {
     }
     
     func sendTheChoseResult(sports: [SportModel]?) {
-//        if let sports = sports {
-////            planRouter?.receiveTheSportResult(sports: sports)
-//        }
+        if let sports = sports {
+            planRouter?.receiveTheSportResult(sports: sports)
+        }
     }
     
     public func buildSportModuleView() -> UITableViewController{
-        let view = SportModuleView()
+        let view = SportModuleView(viewMode: .manager)
         let presenter : SportModulePresenterProtocol = SportModulePresenter()
         let router : SportModuleRouterProtocol = SportModuleRouter()
         let interactor: SportModuleInteractorProtocol = SportModuleInteractor()
@@ -66,6 +73,7 @@ class SportModuleRouter: SportModuleRouterProtocol {
         presenter.view = view
         presenter.router = router
         presenter.interactor = interactor
+        interactor.presenter = presenter
         
         presenter.loadSportManagerViewData()
                 

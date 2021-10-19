@@ -11,9 +11,47 @@ import Lottie
 
 private let collectionCellId = "PlanCollectionViewCell"
 
-class PlanEditView: UITableViewController, UITextFieldDelegate {
+class InputErrorMessageHandler {
+    
+    enum DataType {
+        case value
+        case times
+    }
+    
+    struct ErrorMessage {
+        let rowIndex : Int
+        let sectionIndex: Int
+        let type: DataType
+        var message: String
+    }
     
     
+    var errorList : [ErrorMessage] = []
+    
+    func addError(row: Int, section: Int, type: DataType, message: String){
+        if let errorIndex = errorList.firstIndex(
+            where: {$0.rowIndex==row && $0.type == type && $0.sectionIndex==section }) {
+            errorList[errorIndex].message = message
+        } else {
+            errorList.append(ErrorMessage(rowIndex: row, sectionIndex: section, type: type, message: message))
+        }
+    }
+    
+    func cleanError(rowIndex: Int, sectionIndex: Int , type: DataType){
+        if let errorIndex = errorList.firstIndex(
+            where: {$0.rowIndex==rowIndex && $0.type == type && $0.sectionIndex==sectionIndex}) {
+            errorList.remove(at: errorIndex)
+        }
+    }
+    
+    func isThereError() -> String? {
+        return errorList.first?.message
+    }
+    
+}
+
+class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+
 //    var presenter: PlanModulePresenterProtocol?
 //    let listPresenter: PlanModulePresenterProtocol
     
@@ -28,10 +66,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
     let sectionHeaderCellId = "sectionHeaderCellId"
     let restTimeCellId = "restTimeCell"
     
-    //test
-    let testCellId = "a"
-    //end
-    
 
     @objc func dismissKeyboard(on: UIButton){
         view.endEditing(true)
@@ -42,26 +76,23 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
     var snapshotImageView : UIImageView?
     var selectedIndexPath: IndexPath?
     
+    var errorMessage = InputErrorMessageHandler()
+    
+    let dataPickerView = UIPickerView()
+    
     let titleTF: UITextField = {
         let tf = UITextField()
-//        tf.text = "PlanTitle"
         tf.translatesAutoresizingMaskIntoConstraints = false
-        
-        
         
         return tf
     }()
     
-//    init(listPresenter: PlanModulePresenterProtocol) {
-//        self.listPresenter = listPresenter
-//
-//        super.init(nibName: nil, bundle: nil)
-//    }
     
     init(plan: PlanModel, listView: ForPlanEditViewProtocol) {
         self.plan = plan
         self.listView = listView
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -86,13 +117,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupLoadingAnimationView()
-        
-        title = "编辑计划"
-        
+    fileprivate func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PlanTableViewCell.self, forCellReuseIdentifier: tableCellId)
@@ -100,10 +125,22 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: sectionHeaderCellId)
         tableView.register(RestTimeTableViewCell.self, forCellReuseIdentifier: restTimeCellId)
         
+        dataPickerView.delegate = self
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.setupToHideKeyboardOnTapOnView()
+        
+        setupLoadingAnimationView()
+        
+        title = "编辑计划"
+        
+        setupTableView()
+        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveAction))
-    
-        
         
     }
 
@@ -114,7 +151,13 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         
         if let plan = plan {
             // One is for title, another is for the add Button.
-            return plan.sectionList.count + 2
+            var count = plan.sectionList.count
+            
+            count += 1 // PlanName Section.
+            count += 1 // Add Sport Button Section.
+            count += 1 // Delete Sport Button Section.
+            
+            return count
         }
         return 0
     }
@@ -125,8 +168,8 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         let totalRow = tableView.numberOfRows(inSection: indexPath.section)
         switch indexPath.row {
         case 0:
-            
             //The title row.
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: tableCellId) as! PlanTableViewCell
             cell.setNumLabel.text = "组"
             cell.lastValueLabel.text = "上一次的记录"
@@ -138,28 +181,44 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
             cell.multiplicationSymbol.image = nil
             cell.deleteBtn.isHidden = true
             cell.deleteBtn.isUserInteractionEnabled = false
+            
 //            cell.backgroundColor = .lightGray
             return cell
             
         case totalRow - 1:
-            
             // The last row in the section is the the button to add row.
             // The action of this button is in the tableView's disSelectRowAt.
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: addButtonCellId) as! AddRowButtonCell
             return cell
             
         default:
+            // Plan's Data row.
             
             if indexPath.row%2 != 0 {
+                
+                // sectionIndex for secion in plan.
+                // rowIndex for row in section.
+                let rowIndex = (indexPath.row-1)/2
+                let sectionIndex = indexPath.section-1
                 
                 // PlanRow
                 let cell = tableView.dequeueReusableCell(withIdentifier: tableCellId) as! PlanTableViewCell
                 cell.valueTF.delegate = self
+                cell.valueTF.textContentType = .telephoneNumber
                 cell.timesTF.delegate = self
+//                cell.timesTF.inputView = dataPickerView
+                cell.timesTF.setupTimesInputView()
+                cell.timesTF.textContentType = .telephoneNumber
+                
+                cell.valueTF.rowIndex = rowIndex
+                cell.valueTF.sectionIndex = sectionIndex
+                cell.timesTF.rowIndex = rowIndex
+                cell.timesTF.sectionIndex = sectionIndex
 
                 if(plan?.sectionList.count != 0){
-                    let value = plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-1)/2].value
-                    let times = plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-1)/2].times
+                    let value = plan!.sectionList[sectionIndex].rowList[rowIndex].value
+                    let times = plan!.sectionList[sectionIndex].rowList[rowIndex].times
                     
                     if (times == 0){
                         cell.timesTF.text = ""
@@ -177,17 +236,15 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                     cell.valueTF.text = "-"
                     cell.timesTF.text = "-"
                 }
-                cell.setNumLabel.text = "\((indexPath.row-1)/2+1)"
+                cell.setNumLabel.text = "\(rowIndex+1)"
                 
                 cell.lastValueLabel.text = "-"
                 
-                cell.valueTF.keyboardType = .numbersAndPunctuation
+                cell.valueTF.keyboardType = .decimalPad
                 
                 // Set the layer.
                 cell.valueTF.backgroundColor = UIColor(red: 209, green: 209, blue: 214)
                 cell.valueTF.layer.cornerRadius = 8
-
-                cell.timesTF.keyboardType = .numbersAndPunctuation
                 
                 // Set the layer.
                 cell.timesTF.backgroundColor = UIColor(red: 209, green: 209, blue: 214)
@@ -204,6 +261,9 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "restTimeCell") as! RestTimeTableViewCell
 //                cell.textField.text = "\(plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-2)/2].restTime)"
                 cell.textField.sec = plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-2)/2].restTime
+                cell.textField.sectionIndex = indexPath.section-1
+                cell.textField.rowIndex = (indexPath.row-2)/2
+                cell.textField.delegate = self
 
                 return cell
             }
@@ -226,8 +286,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 30
     }
-
-    
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -239,16 +297,16 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
             // Show plan title.
             return titleSectionView(title: plan!.name,width: tableView.frame.width, height: 50)
             
-        case numberOfSections - 1:
+        case numberOfSections - 2:
             // Show the add section button.
             return addBtnSectionView(tableView)
-
+        case numberOfSections - 1:
+            return deletePlanView(tableView)
         default:
             let title = plan?.sectionList[section-1].sport.name
             let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: sectionHeaderCellId)
             cell?.textLabel?.text = title
         
-            
             let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
             cell?.addSubview(btn)
             btn.setImage(UIImage(named: "close"), for: .normal)
@@ -320,21 +378,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
                 let restTimeIndexPath = IndexPath(row: indexPath.row+1, section: indexPath.section)
                 tableView.insertRows(at: [indexPath,restTimeIndexPath], with: .fade)
             }
-            
-//            // The addRowButton pressed.
-//            plan?.sectionList[indexPath.section-1].rowList.append(PlanRowModel(
-//                                                                    id: 0,
-//                                                                    seq: (indexPath.row-1)/2+1,
-//                                                                    lastValue: 0,
-//                                                                    value: 0,
-//                                                                    times: 0,
-//                                                                    restTime: 0,
-//                                                                    last_changed: 0,
-//                                                                    plan_id: 0,
-//                                                                    plan_section_id: 0))
-            
-            
-            
+
         }
     }
 
@@ -344,7 +388,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         let numberOfRowsInSection = tableView.numberOfSections
         
         switch section {
-        case 0, numberOfRowsInSection-1:
+        case 0, numberOfRowsInSection-1, numberOfRowsInSection-2:
             return 0
         default:
             if let count = plan?.sectionList[section-1].rowList.count {
@@ -356,16 +400,85 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         }
     }
     
+//MARK: PickerView Methods.
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 50
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(row+1)"
+    }
+    
 //MARK: TextField Method.
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         print("tf 1: \(textField)")
-
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         print("tf 2: ")
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        print("textFieldDidEndEditing")
+        
+        // 1. Set name.
+        
+        
+        // 2. Set value and times.
+        if textField is TextFieldWithIndex {
+            
+            let tf = textField as! TextFieldWithIndex
+            
+            let rowIndex = tf.rowIndex
+            let sectionIndex = tf.sectionIndex
+            var message = ""
+            switch tf.dataType {
+            case .value:
+                
+                if let value = Float(tf.text!){
+                    if value <= 0 {
+                        showAlert(message: "请输入一个大于0的数。")
+                        tf.text = ""
+                        plan?.sectionList[tf.sectionIndex].rowList[tf.rowIndex].value = value
+                        return
+                    }
+                    plan?.sectionList[tf.sectionIndex].rowList[tf.rowIndex].value = value
+                } else {
+                    showAlert(message: "数值输入有误，请重新输入。")
+                    tf.text = ""
+                    plan?.sectionList[tf.sectionIndex].rowList[tf.rowIndex].value = 0
+                }
+                
+            case .times:
+                if let times = Int(tf.text!){
+                    plan?.sectionList[tf.sectionIndex].rowList[tf.rowIndex].times = times
+                    errorMessage.cleanError(rowIndex: rowIndex,
+                                            sectionIndex: sectionIndex,
+                                            type: .times)
+                    return
+                } else {
+                    message = "\(plan!.sectionList[sectionIndex].sport.name)的第\(rowIndex+1)组运动次数不符合规则，\n请填写一个正整数。"
+                    errorMessage.addError(row: rowIndex,
+                                          section: sectionIndex,
+                                          type: .times,
+                                          message: message)
+                }
+            
+            }
+        }
+        
+        // 3. Set rest time.
+        if textField is CountDownTextField {
+            let tf = textField as! CountDownTextField
+            plan?.sectionList[tf.sectionIndex].rowList[tf.rowIndex].restTime = tf.sec
+        }
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -376,7 +489,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == titleTF{
+        if textField == titleTF {
             return (textField.text?.count ?? 0) + string.count - range.length <= 11
         } else {
             return true
@@ -457,6 +570,31 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         )
         
         return v
+    }
+    
+    fileprivate func deletePlanView(_ tableView: UITableView) -> UIView? {
+
+        let v = UIView()
+        
+        let btn = UIButton()
+        v.addSubview(btn)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("删除计划", for: .normal)
+        btn.backgroundColor = .systemRed
+        btn.layer.cornerRadius = 8
+        
+        btn.addTarget(self, action: #selector(delBtnAction), for: .touchUpInside)
+        
+        //Layout
+        NSLayoutConstraint.activate(
+            NSLayoutConstraint.constraints(withVisualFormat: "|-16-[v0]-16-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0": btn])
+        )
+        
+        return v
+    }
+    
+    @objc func delBtnAction(){
+        print("del")
     }
     
     
@@ -576,7 +714,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         snapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
         snapshot.layer.shadowRadius = 5.0
         snapshot.layer.shadowOpacity = 0.4
-        
         
         return snapshot
     }
@@ -699,30 +836,29 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
     
     @objc func saveAction(){
         
-        plan?.name = titleTF.text!
+        // 1. Check name.
+        if(plan?.name.count == 0){
+            showAlert(message: "请输入运动名称。")
+            return
+        }
         
-        if plan!.sectionList.count > 0 {
-            
-            for sectionIndex in 0...plan!.sectionList.count-1 {
-                // Save planSection.
-                // Processing the data.
-
-                let rowsCount = plan!.sectionList[sectionIndex].rowList.count
-                if( rowsCount != 0){
-                    for rowIndex in 0...rowsCount-1 {
-                        let cell = tableView.cellForRow(at: IndexPath(row: rowIndex*2+1, section: sectionIndex+1)) as! PlanTableViewCell
-                        // Save planRow.
-                        plan?.sectionList[sectionIndex].rowList[rowIndex].value = Float.init(cell.valueTF.text!)!
-                        plan?.sectionList[sectionIndex].rowList[rowIndex].times = Int.init(cell.timesTF.text!)!
-                        plan?.sectionList[sectionIndex].rowList[rowIndex].seq = Int.init(cell.setNumLabel.text!)!
-                        
-                        // Get the restTime.
-                        let restCell = tableView.cellForRow(at: IndexPath(row: rowIndex*2+2, section: sectionIndex+1)) as! RestTimeTableViewCell
-                        plan?.sectionList[sectionIndex].rowList[rowIndex].restTime = restCell.textField.sec
-                    }
+        // 2. Check value and times.
+        for s in 0 ..< plan!.sectionList.count {
+            let section = plan!.sectionList[s]
+            for r in 0 ..< section.rowList.count {
+                let row = section.rowList[r]
+                if (row.value == 0) {
+                    showAlert(message: "请填写\(section.sport.name)中第\(r+1)组的数值数据。")
+                    return
+                }
+                if (row.times == 0){
+                    showAlert(message: "请填写\(section.sport.name)中第\(r+1)组的运动次数。")
+                    return
                 }
             }
         }
+        
+        
         
         setupLoadingAnimationView()
         
@@ -730,69 +866,13 @@ class PlanEditView: UITableViewController, UITextFieldDelegate {
         
         listView.savePlan(planModel: plan!)
         
-        // Output the plan json string.
-//        do {
-//            let data = try JSONEncoder().encode(plan)
-//            let str = String(data: data, encoding: .utf8)
-//            print("\(str)")
-//
-////            saveSuccessfully()
-//            saveError()
-//
-//            print("  ")
-//            // Send the json to presenter and get the response plan from server.
-//
-//
-//        } catch {
-//            print(error)
-//        }
+    }
+    
+    func showAlert(message: String){
+        let alert = UIAlertController(title: "提示", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "确认", style: .cancel, handler: nil))
         
-        
-        
-        /*
-        // Saving operation. (Save to CoreData)
-        // Change. (2021/0709)
-        if plan?.objectId == nil {
-            // Create new plan.
-            
-            // Update the name.
-            plan?.name = titleTF.text!
-            
-//            plan?.sectionList[0].rowList
-
-            // Saving the new plan.
-            if let result = presenter?.createPlan(plan: plan!) {
-                plan = result
-                tableView.reloadData()
-                
-                // Dismiss and tell the list to reload.
-                self.dismiss(animated: true, completion: nil)
-                listPresenter.showAllPlans()
-                
-            }
-        } else {
-            // Updating the plan.
-            if (presenter!.savePlan(plan: plan!)) {
-//                let alert = UIAlertController(title: "提示", message: "成功保存！", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
-////                present(alert, animated: true, completion: nil)
-//                print("Save successful!")
-                
-                
-                // Dismiss and tell the list to reload.
-                self.dismiss(animated: true, completion: nil)
-                listPresenter.showAllPlans()
-                
-                
-            } else {
-                let alert = UIAlertController(title: "提示", message: "保存失败！", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
-                present(alert, animated: true, completion: nil)
-                print("Failed to save.")
-            }
-        }
-         */
-        
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -804,13 +884,8 @@ extension PlanEditView {
         
         loadingAnimationView.hide()
         
-        
-//        AnimationView = .init(name:"loading-animation")
-        
         let successAnimation = AnimationView(name: "success-animation")
-        
-//        tableView.addSubview(<#T##view: UIView##UIView#>)
-        
+
         view.addSubview(successAnimation)
         successAnimation.translatesAutoresizingMaskIntoConstraints = false
         
@@ -821,12 +896,10 @@ extension PlanEditView {
             successAnimation.centerYAnchor.constraint(equalTo: tableView.centerYAnchor,constant: -topBarHeight),
         ])
         
-
-        
-        
         successAnimation.play { finish in
             if(finish){
-                self.navigationController?.popViewController(animated: true)
+                successAnimation.removeFromSuperview()
+                self.navigationController?.popToRootViewController(animated: true)
             }
         }
         
@@ -839,7 +912,6 @@ extension PlanEditView {
         
         loadingAnimationView.hide()
         
-        
         let alert = UIAlertController(title: "提示", message: "保存出错，请稍后重试。", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -848,7 +920,14 @@ extension PlanEditView {
     
     
     func addSection(sections: [PlanSectionModel]) {
-        plan?.sectionList.append(contentsOf: sections)
+        // Set the seq in section.
+        var varSections = sections
+        var count = plan!.sectionList.count
+        for s in 0 ..< varSections.count {
+            varSections[s].seq = Int16(count + 1)
+            count = count + 1
+        }
+        plan?.sectionList.append(contentsOf: varSections)
         tableView.reloadData()
     }
     
@@ -874,4 +953,20 @@ extension UITableViewController {
         }
         return top
     }
+    
+    func setupToHideKeyboardOnTapOnView()
+        {
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+                target: self,
+                action: #selector(UITableViewController.dismissKeyboard))
+
+            tap.cancelsTouchesInView = false
+            view.addGestureRecognizer(tap)
+        }
+
+        @objc func dismissKeyboard()
+        {
+            view.endEditing(true)
+        }
+    
 }

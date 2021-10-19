@@ -61,6 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let vc = BottomTabBarController()
         
         let vc = LoginModuleRouter.build()
+        
 //        let vc = LoadingViewController()
         
         
@@ -69,6 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
 //        let vc = SportViewController()
 //        let vc = SportModuleView()
+//        let vc = SportModuleRouter().buildSportModuleView()
 //        let vc = ExercisingModuleView()
 //        let vc = PlanTestVC()
 //        let vc = NewPlanTestVC()
