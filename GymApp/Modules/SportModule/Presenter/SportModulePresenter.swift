@@ -9,9 +9,7 @@
 import Foundation
 
 class SportModulePresenter: SportModulePresenterProtocol {
-    
-    
-    
+
     func showCreateSuccess() {
         view?.showCreateSuccess()
     }
@@ -21,12 +19,9 @@ class SportModulePresenter: SportModulePresenterProtocol {
     }
     
     func loadSportFail(){
-        
+        view?.loadSportFail()
     }
-    
-    
-    
-    
+
     var view : SportModuleViewProtocol?
     var router: SportModuleRouterProtocol?
     var interactor: SportModuleInteractorProtocol?
@@ -37,7 +32,6 @@ class SportModulePresenter: SportModulePresenterProtocol {
     func viewDidLoad() {
         
     }
-    
     
 //MARK: For Router
     // For router to call.
@@ -55,10 +49,8 @@ class SportModulePresenter: SportModulePresenterProtocol {
                 }
             }
             
-//            view?.loadData(selectedList: selectedList,data: sportModels)
-            view?.loadData(datas: [selectedList, sportModels])
-            
-            
+            view?.loadData(datas: sportModels)
+
         }
         
     }
@@ -66,7 +58,8 @@ class SportModulePresenter: SportModulePresenterProtocol {
     func loadSportManagerViewData(){
         let manager = SportDataManager()
         let fetchResult = manager.fetchAllSport()
-        view?.loadData(datas: [fetchResult?.toSportModels()])
+        
+        view?.loadData(datas: fetchResult.toSportModels())
     }
     
     func sendTheChoseResult(sports: [SportModel]?) {
@@ -118,41 +111,5 @@ class SportModulePresenter: SportModulePresenterProtocol {
             return false
         }
     }
-    
-    
-    // Unit
-    /*
-    func getUnitList() -> [SportUnitModel]? {
-        let manager = SportUnitDataManager()
-        if let result = manager.fetchAllUnit() {
-            if result.count == 0 {
-                return nil
-            }
-            else {
-                return result.toSportUnitModels()
-            }
-        }
-        return nil
-    }
-    func createUnit(name: String) -> SportUnitModel? {
-        let manager = SportUnitDataManager()
-        
-        if let result = manager.createUnit(name: name) {
-            return result.toSportUnitModel()
-        }
-        else {
-            return nil
-        }
-    }
-    func isUnitExists(name: String) -> Bool {
-        let manager = SportUnitDataManager()
-        if manager.isAlreadyExits(name: name) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
- */
     
 }

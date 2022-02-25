@@ -35,7 +35,7 @@ class PlanModelTest: XCTestCase {
         do {
             let planResponseModel = try JSONDecoder().decode(PlanModel.self
                                                     , from: data)
-
+            
             let manager = PlanCoreDataManager()
             if let planResult = manager.createPlan(model: planResponseModel) {
                 let planResultModel = planResult.toPlanModel()

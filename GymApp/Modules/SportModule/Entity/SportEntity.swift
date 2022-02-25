@@ -29,12 +29,7 @@ struct SportModel : Codable{
     }
     
     func encode(to encoder: Encoder) throws {
-//        enum CodingKeys: String, CodingKey{
-//            case id = "id"
-//            case name = "name"
-//            case unit = "unit"
-//        }
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(id, forKey: .id)
@@ -74,7 +69,6 @@ struct SportResponseModel : Codable {
     var id : Int
     var name: String
     var unit: String
-//    var user_id: Int
 }
 
 

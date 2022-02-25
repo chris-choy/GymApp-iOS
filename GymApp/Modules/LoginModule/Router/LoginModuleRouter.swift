@@ -15,8 +15,6 @@ class LoginModuleRouter: LoginModuleRouterProtocol {
     static func build() -> UIViewController {
         
         // Use this method to create the module and the viewcontroller.
-        
-        
         let presenter : LoginModulePresenterProtocol = LoginModulePresenter()
         let view = LoginModuleView()
         let router : LoginModuleRouterProtocol = LoginModuleRouter()

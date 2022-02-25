@@ -75,9 +75,9 @@ class GymAppTests: XCTestCase {
         let result = manager.fetchAllSport()
         XCTAssertNotNil(result)
 
-        print("count = \(result!.count)")
+        print("count = \(result.count)")
 
-        for item in result! {
+        for item in result {
             print("\(item.name!) unit=\(item.unit)")
         }
 //        XCTAssertEqual(result?.count, 0)

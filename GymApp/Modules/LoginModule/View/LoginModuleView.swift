@@ -15,10 +15,12 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
     
     let loadingAnimationView = LoadingAnimationView()
     
-
+    var registerView: RegisterViewProtocols?
+    
     let usernameTF : UITextField = {
         let tf = UITextField()
         tf.placeholder = "用户名"
+        tf.backgroundColor = UIColor(named: "TextFieldBackground")
         
         tf.translatesAutoresizingMaskIntoConstraints = false
         
@@ -28,6 +30,7 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
     let passwordTF : UITextField = {
         let tf = UITextField()
         tf.placeholder = "密码"
+        tf.backgroundColor = UIColor(named: "TextFieldBackground")
         
         tf.translatesAutoresizingMaskIntoConstraints = false
         
@@ -37,7 +40,10 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
     let signInButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("登陆", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
+        
+        btn.backgroundColor = UIColor(named: "ButtonBackground")
+        btn.setTitleColor(.white, for: .normal)
+        
         
         btn.layer.cornerRadius = 10
         
@@ -49,7 +55,9 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
     let signUpButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("注册", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
+        
+        btn.backgroundColor = UIColor(named: "ButtonBackground")
+        btn.setTitleColor(.white, for: .normal)
         
         btn.layer.cornerRadius = 10
         
@@ -68,8 +76,6 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
     
     let logoImageView: UIImageView = {
         let iv = UIImageView()
-//        iv.image = UIImage(named: "AppIcon")
-        
         iv.layer.cornerRadius = 20
         iv.clipsToBounds = true
         
@@ -101,42 +107,34 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        setupLoadingAnimationView()
-        
         
         // Set View.
         view.backgroundColor = .white
         
         // test setting.
-        usernameTF.layer.borderWidth = 1
-        passwordTF.layer.borderWidth = 1
-        signInButton.layer.borderWidth = 1
-        signUpButton.layer.borderWidth = 1
+//        usernameTF.layer.borderWidth = 1
+//        passwordTF.layer.borderWidth = 1
+//        signInButton.layer.borderWidth = 1
+//        signUpButton.layer.borderWidth = 1
 //        stackView.layer.borderWidth = 1
 //        logoImageView.layer.borderWidth = 1
         // test setting end.
         
         setupViews()
-        
-        
+        setupLoadingAnimationView()
         
         // Test
-        // Auto login.
+        usernameTF.text = "user1"
+        passwordTF.text = "password1"
         handleSignIn()
         // Test end.
         
     }
     
-    
     func setupViews(){
         view.addSubview(stackView)
-        
         view.addSubview(logoImageView)
-//        view.addSubview(usernameTF)
-//        view.addSubview(passwordTF)
-//        view.addSubview(signInbutton)
-        
-        
+
         // Add the view into stack view.
         stackView.addArrangedSubview(usernameTF)
         stackView.addArrangedSubview(passwordTF)
@@ -153,9 +151,7 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
         
         usernameTF.delegate = self
         passwordTF.delegate = self
-        
-        
-        
+
         usernameTF.setLeftPaddingPoints(10)
         passwordTF.setLeftPaddingPoints(10)
         usernameTF.setRightPaddingPoints(10)
@@ -165,8 +161,6 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
         
         passwordTF.isSecureTextEntry = true
         
-        
-        
         // Logo imageView.
         NSLayoutConstraint.activate([
             logoImageView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -100),
@@ -175,13 +169,9 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
             logoImageView.widthAnchor.constraint(equalToConstant: 100),
         ])
         
-        
-        
         if let name = getHighResolutionAppIconName() {
             logoImageView.image = UIImage(named: name)
         }
-        
-        
         
         // Stack view setting.
         stackView.spacing = 20
@@ -191,9 +181,6 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6)
         ])
-        
-        
-        
         
         // Sign in button.
         NSLayoutConstraint.activate([
@@ -206,8 +193,24 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
     }
     
     @objc func handleSignIn(){
-        loadingAnimationView.show()
-        presenter?.handleSignIn()
+        
+        guard usernameTF.text?.isEmpty == false else {
+            self.present(AlertController.showConfirmOnlyAlert(title: "提示", message: "请输入用户名。", action: nil), animated: true, completion: nil)
+            return
+        }
+        
+        guard passwordTF.text?.isEmpty == false else {
+            self.present(AlertController.showConfirmOnlyAlert(title: "提示", message: "请输入密码。", action: nil), animated: true, completion: nil)
+            return
+        }
+        
+        // 1. Get usernmae and password.
+        if let username = usernameTF.text,
+           let password = passwordTF.text{
+            
+            loadingAnimationView.show()
+            presenter?.handleSignIn(username: username, password: password)
+        }
         
     }
     
@@ -227,23 +230,17 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
             }
         }))
         
-        
-        
-        
         self.present(alert, animated: true, completion: nil)
     }
     
     @objc func handleSignUp(){
         
-//        perform(#selector(showMainViewController), with: nil, afterDelay: 0.01)
-        print("sign up")
-        
-        showErrorAlert(title: "提示", message: "网络连接出错。")
+        let registerVC = RegisterViewController(loginView: self)
+        registerView = registerVC
+                
+        navigationController?.pushViewController(registerVC, animated: true)
 
     }
-    
-    
-    
     
     @objc func dismissKeyboard() {
         usernameTF.resignFirstResponder()
@@ -257,22 +254,26 @@ class LoginModuleView: UIViewController, UITextFieldDelegate {
             
             self.dismiss(animated: true, completion: nil)
             
-            
             keyWindow.rootViewController = BottomTabBarController()
         }
     }
     
-    
-
 }
 
 extension LoginModuleView: LoginModuleViewProtocol {
-    func showNetworkErrorAlert() {
-        loadingAnimationView.hide()
-        showErrorAlert(title: "提示", message: "网络连接出错。")
-        
+    func showSignUpSuccess() {
+        registerView?.showSignUpSuccess()
     }
     
+    func showSignUpFailed(message: String){
+        registerView?.showSignUpFailed(message: message)
+    }
+    
+    func showSignInErrorAlert(message: String) {
+        loadingAnimationView.hide()
+        present(AlertController.showConfirmCancelAlert(title: "提示", message: message),
+                animated: true, completion: nil)
+    }
     
     func navigationTo(vc: UIViewController) {
         
@@ -281,14 +282,12 @@ extension LoginModuleView: LoginModuleViewProtocol {
             
             self.dismiss(animated: true, completion: nil)
             
-            
             keyWindow.rootViewController = BottomTabBarController()
         }
         
     }
     
 }
-
 
 extension UITextField{
     
@@ -306,12 +305,27 @@ extension UITextField{
     
     func setBottomBorder() {
             self.borderStyle = .none
+        
             self.layer.backgroundColor = UIColor.white.cgColor
-            
             self.layer.masksToBounds = false
             self.layer.shadowColor = UIColor.gray.cgColor
             self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
             self.layer.shadowOpacity = 1.0
             self.layer.shadowRadius = 0.0
         }
+    
+}
+
+extension LoginModuleView: ForRegisterView{
+    
+    func signUp(user: User) {
+        self.presenter?.signUp(user: user)
+    }
+    
+}
+
+protocol ForRegisterView {
+    
+    func signUp(user : User)
+    
 }

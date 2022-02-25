@@ -18,14 +18,14 @@ enum ViewMode {
     case choice
 }
 
-protocol SportModuleViewProtocol : class {
+protocol SportModuleViewProtocol : AnyObject {
     
     var presenter: SportModulePresenterProtocol? {set get}
     
     // Add some methods here.
 //    func loadData(selectedList: [Bool] ,data: [SportModel])
     
-    func loadData(datas: [Any])
+    func loadData(datas: [SportModel])
     
     func showCreateSuccess()
     func showFailMessage(message: String)
@@ -33,18 +33,16 @@ protocol SportModuleViewProtocol : class {
     
 }
 
-protocol SportModuleRouterProtocol: class {
+protocol SportModuleRouterProtocol: AnyObject {
     
     var planRouter: PlanModuleRouterProtocol? {set get}
     
     static func buildListForChose(sections: [PlanSectionModel], planRouter: PlanModuleRouterProtocol) -> UIViewController
-    
-    static func build(planPresenter: PlanModulePresenterProtocol) -> UIViewController
-    
+
     func sendTheChoseResult(sports: [SportModel]?)
 }
 
-protocol SportModulePresenterProtocol: class {
+protocol SportModulePresenterProtocol: AnyObject {
     
     var view: SportModuleViewProtocol? {set get}
     var router: SportModuleRouterProtocol? {set get}
@@ -60,9 +58,7 @@ protocol SportModulePresenterProtocol: class {
     
     // For View to call.
     // Sport.
-//    func createSport(sport: SportModel) -> SportModel?
     func saveSport(sport: SportModel, mode: SaveMode)
-//    func updateSport(sport: SportModel)
     func fetchAllSportFromServer()
     
     // Tag.
@@ -75,20 +71,15 @@ protocol SportModulePresenterProtocol: class {
     func showFailMessage(message: String)
     func loadSportFail()
     
-    // Unit.
-//    func getUnitList() -> [SportUnitModel]?
-//    func createUnit(name: String) -> SportUnitModel?
-//    func isUnitExists(name: String) -> Bool
 }
 
-protocol SportModuleInteractorProtocol: class {
+protocol SportModuleInteractorProtocol: AnyObject {
     
     var presenter: SportModulePresenterProtocol? {set get}
     
     func fetchAllSports() -> [Sport]?
     
     func saveSport(sport: SportModel, mode: SaveMode)
-//    func updateSport(sport: SportModel)
     func fetchAllSportFromServer()
     
 }

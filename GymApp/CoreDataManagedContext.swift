@@ -28,7 +28,3 @@ class CoreDataManagedContext {
     private init() {}
     
 }
-
-
-// Print CoreData Path.
-

@@ -41,17 +41,7 @@ class PlanCoreDataManager {
         }
         return nil
     }
-    
-//    func fetchPlan(id: Int) -> Plan? {
-//        do {
-//            let result = try context.existingObject(with: objectId) as! Plan
-//            return result
-//        } catch {
-//            print(error)
-//        }
-//        return nil
-//    }
-    
+
     func fetchPlan(name: String) -> Plan? {
 
         let request : NSFetchRequest<Plan> = Plan.fetchRequest()
@@ -115,7 +105,7 @@ class PlanCoreDataManager {
         do {
             try context.execute(deleteRequest)
             
-        } catch let error as NSError {
+        } catch let _ as NSError {
             // TODO: handle the error
         }
     }
@@ -134,7 +124,6 @@ class PlanCoreDataManager {
         if let sectionList = sectionList {
             plan.addToPlanSections(sectionList)
         }
-
 
         do {
             try context.save()
@@ -222,23 +211,14 @@ class PlanCoreDataManager {
         if let sport = sportManager.fetchSport(name: model.name){
             return sport
         } else {
-            // Create
-            let sport = NSEntityDescription.insertNewObject(forEntityName: "Sport", into: context) as! Sport
-            sport.name = model.name
-            sport.id = Int32(model.id)
-            sport.user_id = Int64(model.user_id)
-            return sport
+            return sportManager.createSport(model: model)!
         }
 
     }
-    
-    
-    
+
     func createPlan_bak(model: PlanModel) -> Plan?{
-        
 
         let sectionManager = PlanSectionCoreDataManager()
-        
         
         // Check if it already exists.
         if (fetchPlan(name: model.name) != nil){
@@ -274,9 +254,7 @@ class PlanCoreDataManager {
         }
 
     }
-    
-    
-    
+
     func updatePlan(plan: PlanModel) -> Bool{
         
         let sectionManager = PlanSectionCoreDataManager()

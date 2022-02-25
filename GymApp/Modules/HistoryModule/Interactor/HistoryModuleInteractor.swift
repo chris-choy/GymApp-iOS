@@ -10,12 +10,36 @@ import Foundation
 
 class HistoryModuleInteractor: HistoryModuleInteractorProtocol {
     
+    func showRecords() {
+        let result = self.loadRecordData()
+        self.presenter?.showRecords(records: result)
+    }
+    
+    
+    var presenter: HistoryModulePresenterProtocol?
     
     func loadRecordData() -> [RecordModel] {
         let manager = RecordCoreDataManager()
         
-//        let result = manager.fetchAllRecords()
+        if let result = manager.fetchAllRecords() {
+            return result.toRecordModels()
+        } else {
+            return []
+        }
         
-        return manager.fetchAllRecords().toRecordModels()
+    }
+    
+    func getAllRecords() {
+        RecordService.shared.getAllRecords { res in
+            switch(res) {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.showRecords()
+                }
+            case .failure(let err):
+                self.presenter?.showErrorAlert()
+                print(err)
+            }
+        }
     }
 }

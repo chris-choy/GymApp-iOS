@@ -14,8 +14,7 @@ protocol PlanModuleViewProtocol : AnyObject {
     
     func showData(planModel: [PlanModel])
     func addSection(sections: [PlanSectionModel])
-//    func reloadData()
-    
+
     func showErrorAlert()
     func showUpdateError()
     func showUpdateSuccessfully()
@@ -60,7 +59,6 @@ protocol PlanModulePresenterProtocol: AnyObject {
     
     // For view to call.
     func buildSportListView(sections: [PlanSectionModel]) -> UIViewController
-//    func buildPlanEditViewToEdit(plan: PlanModel) -> UIViewController
     func buildPlanEditViewToCreate() -> UIViewController
     func buildExercisingModuleView(planModel: PlanModel) -> UIViewController
     func savePlan(plan: PlanModel)
@@ -71,10 +69,6 @@ protocol PlanModulePresenterProtocol: AnyObject {
     
     // View to Server
     func savePlan(requestPlan: PlanModel) -> PlanModel?
-    
-    
-    
-    
 }
 
 protocol PlanModuleInteractorProtocol: AnyObject {
@@ -86,12 +80,8 @@ protocol PlanModuleInteractorProtocol: AnyObject {
     func updatePlan(plan: PlanModel)
     func createPlan(plan: PlanModel) -> PlanModel?
     func savePlan(requestPlan: PlanModel) -> PlanModel?
-    
-    
+
     // PlanService
     func loadData()
-    
-    
-    
-    
+
 }

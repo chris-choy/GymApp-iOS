@@ -44,8 +44,7 @@ class CustomDropDownTextField: UITextField, UITableViewDataSource, UITableViewDe
         delegate = self
         
 //        setupView()
-        
-//        self.inputview
+
     }
     
     required init?(coder: NSCoder) {
@@ -89,26 +88,12 @@ class CustomDropDownTextField: UITextField, UITableViewDataSource, UITableViewDe
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         
         tableView.backgroundColor = .white
-        
-        // layout
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            tableView.topAnchor.constraint(equalTo: self.bottomAnchor),
-//            tableView.widthAnchor.constraint(equalTo: self.widthAnchor),
-//            tableView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            tableView.heightAnchor.constraint(equalToConstant: 100)
-//        ])
-        
-        
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-//        addSubview(stackView)
         setupView()
         tableView.becomeFirstResponder()
         tableView.isScrollEnabled = true
-//        self.bringSubviewToFront(stackView)
-        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -121,18 +106,12 @@ class CustomDropDownTextField: UITextField, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return unitList.count
         return 5
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        <#code#>
-//    }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -141,7 +120,5 @@ class CustomDropDownTextField: UITextField, UITableViewDataSource, UITableViewDe
 
         return cell ?? UITableViewCell()
     }
-    
-    
-    
+
 }

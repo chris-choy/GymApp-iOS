@@ -150,8 +150,11 @@ class PlanTest: XCTestCase {
     }
     
     func testCreatePlanWithJson(){
+        
+        print("--------------------testCreatePlanWithJson--------------------")
+        
         let str = """
-            [ { "id" : 4, "name" : "plan_test_1", "seq" : 1, "user_id" : 4, "sectionList" : [ { "id" : 7, "seq" : 1, "plan_id" : 4, "sport" : { "name" : "sport1", "unit" : "unit1", "id" : 3, "user_id" : 4 }, "rowList" : [ { "id" : 9, "plan_id" : 4, "plan_section_id" : 7, "seq" : 1, "value" : 1111.0, "times" : 11, "restTime" : 2, "lastValue" : 1, "last_Changed" : 1626685285000 } ], "last_changed" : 1622627763000 }, { "id" : 8, "seq" : 2, "plan_id" : 4, "sport" : { "name" : "sport2", "unit" : "unit2", "id" : 4, "user_id" : 4 }, "rowList" : [ { "id" : 11, "plan_id" : 4, "plan_section_id" : 8, "seq" : 1, "value" : 333.0, "times" : 33, "restTime" : 4, "lastValue" : 3, "last_Changed" : 1626685287000 }, { "id" : 12, "plan_id" : 4, "plan_section_id" : 8, "seq" : 2, "value" : 444.0, "times" : 44, "restTime" : 6, "lastValue" : 5, "last_Changed" : 1626685287000 }, { "id" : 13, "plan_id" : 4, "plan_section_id" : 8, "seq" : 3, "value" : 555.0, "times" : 55, "restTime" : 8, "lastValue" : 7, "last_Changed" : 1626685289000 } ], "last_changed" : 1622627763000 } ], "last_changed" : 1624527051000 }, { "id" : 26, "name" : "plan_test_2", "seq" : 2, "user_id" : 4, "sectionList" : [ { "id" : 28, "seq" : 1, "plan_id" : 26, "sport" : { "name" : "sport2", "unit" : "unit2", "id" : 4, "user_id" : 4 }, "rowList" : [ { "id" : 31, "plan_id" : 26, "plan_section_id" : 28, "seq" : 1, "value" : 333.0, "times" : 3, "restTime" : 0, "lastValue" : 0, "last_Changed" : 1624633949000 }, { "id" : 37, "plan_id" : 26, "plan_section_id" : 28, "seq" : 2, "value" : 555.0, "times" : 5, "restTime" : 0, "lastValue" : 0, "last_Changed" : 1624633949000 } ], "last_changed" : 1624610389000 } ], "last_changed" : 1626703085000 } ]
+            [{"id":217,"name":"Plan1","seq":1,"user_id":4,"sectionList":[{"id":218,"seq":1,"plan_id":217,"sport":{"name":"A1","unit":"A","id":29,"user_id":4,"last_changed":1629217589000},"rowList":[{"id":219,"plan_id":217,"plan_section_id":218,"seq":1,"value":11.0,"times":2,"restTime":60,"lastValue":0,"last_changed":1637660016000}],"last_changed":1637660015000},{"id":220,"seq":2,"plan_id":217,"sport":{"name":"B1","unit":"B","id":30,"user_id":4,"last_changed":1629217954000},"rowList":[{"id":221,"plan_id":217,"plan_section_id":220,"seq":1,"value":22.0,"times":4,"restTime":5,"lastValue":0,"last_changed":1637660016000}],"last_changed":1637660016000},{"id":222,"seq":3,"plan_id":217,"sport":{"name":"Test133","unit":"Test13","id":32,"user_id":4,"last_changed":1629278997000},"rowList":[{"id":223,"plan_id":217,"plan_section_id":222,"seq":1,"value":11.0,"times":5,"restTime":5,"lastValue":0,"last_changed":1637743080000}],"last_changed":1637743080000}],"last_changed":1637660015000},{"id":224,"name":"测试计划","seq":2,"user_id":4,"sectionList":[{"id":225,"seq":1,"plan_id":224,"sport":{"name":"哑铃弯举","unit":"kg","id":35,"user_id":4,"last_changed":1634109643000},"rowList":[{"id":226,"plan_id":224,"plan_section_id":225,"seq":1,"value":55.0,"times":7,"restTime":248,"lastValue":0,"last_changed":1637743226000}],"last_changed":1637743139000},{"id":228,"seq":2,"plan_id":224,"sport":{"name":"仰卧起坐","unit":"个","id":33,"user_id":4,"last_changed":1634109596000},"rowList":[{"id":229,"plan_id":224,"plan_section_id":228,"seq":1,"value":66.0,"times":3,"restTime":5,"lastValue":0,"last_changed":1637743139000},{"id":232,"plan_id":224,"plan_section_id":228,"seq":2,"value":7.0,"times":7,"restTime":6,"lastValue":0,"last_changed":1637743216000},{"id":233,"plan_id":224,"plan_section_id":228,"seq":3,"value":11.0,"times":29,"restTime":300,"lastValue":0,"last_changed":1637743216000}],"last_changed":1637743139000},{"id":230,"seq":3,"plan_id":224,"sport":{"name":"飞鸟","unit":"kg","id":34,"user_id":4,"last_changed":1634109611000},"rowList":[{"id":231,"plan_id":224,"plan_section_id":230,"seq":1,"value":88.0,"times":8,"restTime":1026,"lastValue":0,"last_changed":1637743139000}],"last_changed":1637743139000}],"last_changed":1637743139000}]
             """
             
         if let data = str.data(using: .utf8){
@@ -168,7 +171,7 @@ class PlanTest: XCTestCase {
                     
                     
             } catch {
-                print("error")
+                print(error)
             }
             
             
@@ -176,7 +179,7 @@ class PlanTest: XCTestCase {
         }
         
             
-        
+        print("--------------------testCreatePlanWithJson end--------------------")
         
         
     }

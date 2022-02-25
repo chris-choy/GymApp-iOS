@@ -18,8 +18,16 @@ class HistoryModulePresenter: HistoryModulePresenterProtocol {
         
     }
     
-    func loadRecordData() -> [RecordModel]{
-        return interactor!.loadRecordData()
+    func getAllRecords(){
+        return interactor!.getAllRecords()
+    }
+    
+    func showRecords(records: [RecordModel]) {
+        view?.showRecords(records: records)
+    }
+    
+    func showErrorAlert() {
+        view?.showErrorAlert()
     }
     
 }

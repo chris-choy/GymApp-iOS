@@ -14,11 +14,8 @@ class PlanRowCoreDataManager {
     
     // Fetch.
     func fetchPlanRows() -> NSSet {
-//        setupContext()
         let request : NSFetchRequest<PlanRow> = PlanRow.fetchRequest()
-
         request.sortDescriptors = [NSSortDescriptor(key: "setNum", ascending: false)]
-        
         planRowFC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         
         do {
@@ -38,7 +35,6 @@ class PlanRowCoreDataManager {
     }
     
     func createPlanRow(row: PlanRowModel) -> PlanRow?{
-//        setupContext()
         
         let planRow = NSEntityDescription.insertNewObject(forEntityName: "PlanRow", into: managedObjectContext) as! PlanRow
         planRow.id = Int16(row.id)
@@ -56,8 +52,7 @@ class PlanRowCoreDataManager {
         } catch {
             print(error)
         }
-        
-        
+
         return planRow
     }
 }

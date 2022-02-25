@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 // https://stackoverflow.com/a/51231881
 
 final class CustomFlowLayout: UICollectionViewFlowLayout {

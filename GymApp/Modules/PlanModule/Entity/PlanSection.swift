@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 struct PlanSectionModel: Codable {
     var id : Int
     var seq: Int16
@@ -18,8 +17,7 @@ struct PlanSectionModel: Codable {
     let sport: SportModel
     let last_changed: Int
     let plan_id: Int
-    
-    
+
     enum CodingKeys: String, CodingKey{
         case id = "id"
         case seq = "seq"
@@ -57,56 +55,5 @@ struct PlanSectionModel: Codable {
         self.last_changed = last_changed
         self.plan_id = plan_id
     }
-    
-    
-    
-    
-    
+
 }
-
-//struct PlanSectionResponseModel: Codable{
-//
-//    var id: Int
-//    var plan_id : Int
-////        var unit: String
-//    var rowList: [PlanRowResponseModel]
-//    var seq: Int
-//
-//    var sport: SportResponseModel
-//
-//
-//}
-
-//extension PlanSectionModel {
-//
-//    func toPlanSectionResponseModel(plan_id : Int, seq: Int) -> PlanSectionResponseModel {
-//
-//        let resModel = PlanSectionResponseModel(id: id,
-//                                                plan_id: plan_id,
-//                                                rowList: rowList.toPlanRowResponseModels(plan_section_id: id),
-//                                                seq: seq,
-//                                                sport: sport.toSportResponseModel())
-//
-//        return resModel
-//    }
-//
-//}
-//
-//
-//extension Array where Element == PlanSectionModel {
-//    func toPlanSectionResponseModel(plan_id: Int) -> [PlanSectionResponseModel] {
-//        var resModelList: [PlanSectionResponseModel] = []
-//
-//        for seq in 1 ... count {
-//            resModelList.append(self[seq-1].toPlanSectionResponseModel(plan_id: plan_id, seq: seq))
-//        }
-//
-//        return resModelList
-//    }
-//}
-
-
-
-
-
-

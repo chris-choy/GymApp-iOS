@@ -47,6 +47,8 @@ class PlanServiceTest: XCTestCase {
             switch(res){
             case .success(_):
                 print(" ")
+                
+                
                 // Convert the result to PlanResponseModel.
 //                do {
 //                    let plansResponse = try JSONDecoder().decode([PlanModel].self, from: data)
@@ -57,14 +59,16 @@ class PlanServiceTest: XCTestCase {
 //                } catch  {
 //                    print(error.localizedDescription)
 //                }
+                
             case .failure(let err):
                 print("error")
                 print(err)
                 exp.fulfill()
+                
             }
         }
         
-        waitForExpectations(timeout: 20, handler: nil)
+//        waitForExpectations(timeout: 10, handler: nil)
         
         print("------------------------------testGetAllPlan------------------------------")
     }

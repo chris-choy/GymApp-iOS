@@ -15,7 +15,10 @@ protocol LoginModuleViewProtocol : class {
     // Add some methods here.
     func navigationTo(vc : UIViewController)
     
-    func showNetworkErrorAlert()
+    func showSignInErrorAlert(message: String)
+    func showSignUpSuccess()
+    func showSignUpFailed(message: String)
+    
 }
 
 protocol LoginModuleRouterProtocol: AnyObject {
@@ -28,22 +31,29 @@ protocol LoginModuleRouterProtocol: AnyObject {
 
 }
 
-protocol LoginModulePresenterProtocol: class {
+protocol LoginModulePresenterProtocol: AnyObject {
     
     var view: LoginModuleViewProtocol? {set get}
     var router: LoginModuleRouterProtocol? {set get}
     var interactor: LoginModuleInteractorProtocol? {set get}
     
     func viewDidLoad()
-    func handleSignIn()
+    
+    func handleSignIn(username: String, password: String)
+    func signUp(user: User)
+    
     func showMainScreen()
     
-    func showNetworkErrorAlert()
+    func showSignInErrorAlert(message: String)
+    
+    func showSignUpSuccess()
+    func showSignUpFailed(message: String)
 }
 
-protocol LoginModuleInteractorProtocol: class {
+protocol LoginModuleInteractorProtocol: AnyObject {
     
     var presenter: LoginModulePresenterProtocol? {set get}
     
-    func handleSignIn()
+    func handleSignIn(username: String, password: String)
+    func signUp(user: User)
 }

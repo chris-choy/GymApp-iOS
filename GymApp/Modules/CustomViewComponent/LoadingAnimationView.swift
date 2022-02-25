@@ -48,4 +48,6 @@ class LoadingAnimationView: UIView {
         self.isUserInteractionEnabled = false
     }
     
+    
+    
 }

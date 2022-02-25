@@ -52,20 +52,13 @@ class InputErrorMessageHandler {
 
 class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
-//    var presenter: PlanModulePresenterProtocol?
-//    let listPresenter: PlanModulePresenterProtocol
-    
     let listView: ForPlanEditViewProtocol
-    
-    
     let loadingAnimationView = LoadingAnimationView()
-    
-    
+
     let tableCellId = "tableCellId"
     let addButtonCellId = "addButtonCellId"
     let sectionHeaderCellId = "sectionHeaderCellId"
     let restTimeCellId = "restTimeCell"
-    
 
     @objc func dismissKeyboard(on: UIButton){
         view.endEditing(true)
@@ -101,11 +94,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     
     fileprivate func setupLoadingAnimationView() {
         view.addSubview(loadingAnimationView)
-        
-//        let viewHeight: CGFloat = view.frame.size.height
-//        let tableViewContentHeight: CGFloat = tableView.contentSize.height
-//        let marginHeight: CGFloat = (viewHeight - tableViewContentHeight) / 2.0
-        
+
         loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -113,7 +102,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         ])
         
         loadingAnimationView.accessibilityElementsHidden = true
-//        loadingAnimationView.isUserInteractionEnabled = false
         
     }
     
@@ -138,8 +126,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         title = "编辑计划"
         
         setupTableView()
-        
-        
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveAction))
         
     }
@@ -186,8 +173,8 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
             return cell
             
         case totalRow - 1:
-            // The last row in the section is the the button to add row.
-            // The action of this button is in the tableView's disSelectRowAt.
+            // The last row in the section is the the button for adding row.
+            // The button's action is in the tableView's disSelectRowAt.
             
             let cell = tableView.dequeueReusableCell(withIdentifier: addButtonCellId) as! AddRowButtonCell
             return cell
@@ -207,7 +194,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
                 cell.valueTF.delegate = self
                 cell.valueTF.textContentType = .telephoneNumber
                 cell.timesTF.delegate = self
-//                cell.timesTF.inputView = dataPickerView
                 cell.timesTF.setupTimesInputView()
                 cell.timesTF.textContentType = .telephoneNumber
                 
@@ -258,19 +244,16 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
             } else {
                 // Rest Time Row
                 
-                let cell = tableView.dequeueReusableCell(withIdentifier: "restTimeCell") as! RestTimeTableViewCell
-//                cell.textField.text = "\(plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-2)/2].restTime)"
-                cell.textField.sec = plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-2)/2].restTime
-                cell.textField.sectionIndex = indexPath.section-1
-                cell.textField.rowIndex = (indexPath.row-2)/2
-                cell.textField.delegate = self
+                let restTimeCell = tableView.dequeueReusableCell(withIdentifier: "restTimeCell") as! RestTimeTableViewCell
 
-                return cell
+                restTimeCell.textField.sec = plan!.sectionList[indexPath.section-1].rowList[(indexPath.row-2)/2].restTime
+                restTimeCell.textField.sectionIndex = indexPath.section-1
+                restTimeCell.textField.rowIndex = (indexPath.row-2)/2
+                restTimeCell.textField.delegate = self
+
+                return restTimeCell
             }
-            
-            
-            
-        
+
         }
     }
     
@@ -319,8 +302,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
             
             return cell
             
-            // Show the plan section details.
-//            return planSectionView(title: title!, tableView)
         }
     }
     
@@ -342,10 +323,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         
         let alert = UIAlertController(title: "提示", message: "确定删除吗？", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "确定", style: .destructive, handler: { UIAlertAction in
-//            let sectionIndex = sender.tag-1
-            
             self.deleteSection(sectionIndex: sender.tag-1)
-            
         })
         
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: { UIAlertAction in
@@ -361,6 +339,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1){
             
+            // Action for adding plan row.
             if var section = plan?.sectionList[indexPath.section-1] {
                 section.rowList.append(PlanRowModel(
                                 id: 0,
@@ -382,7 +361,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         }
     }
 
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let numberOfRowsInSection = tableView.numberOfSections
@@ -393,7 +371,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         default:
             if let count = plan?.sectionList[section-1].rowList.count {
                 // Section title and the add button.
-//                return count + 2
                 return 2*count + 2
             }
             return 2
@@ -489,18 +466,21 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == titleTF {
-            return (textField.text?.count ?? 0) + string.count - range.length <= 11
-        } else {
+        
+        guard textField.markedTextRange == nil else {return true}
+        
+        let canChange = (textField.text?.count ?? 0) + string.count - range.length <= 11
+        
+        if !canChange && string.isEmpty {
+            // string="" when user pressed delete button on keyboard.
+            // We allow delete text when the length of text is over,
+            // but can't allow append text.
             return true
+        } else {
+            return canChange
         }
         
     }
-    
-    
-    
-    
-    
     
 //MARK: View Method.
     
@@ -537,7 +517,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         // ...
         
         // Label layout
-//        titleTF.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "|-16-[label]-0-[tf(tfWidth)]", options: NSLayoutConstraint.FormatOptions(), metrics: ["tfWidth": width*0.5], views: ["label": titleLabel, "tf": titleTF]))
@@ -596,9 +575,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     @objc func delBtnAction(){
         print("del")
     }
-    
-    
-    
+
     fileprivate func planSectionView(title: String,_ tableView: UITableView) -> UIView? {
         // PlanSection View.
         let v = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
@@ -624,7 +601,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
 // MARK: Action Method
     
     @objc func addBtnAction(){
-//        present(presenter!.buildSportListView(sections: plan!.sectionList), animated: true, completion: nil)
         present(listView.buildSportListView(sections: plan!.sectionList),animated: true, completion: nil)
     }
     
@@ -678,11 +654,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
             let restTimeCell = IndexPath(row: sender.indexPath.row+1, section: sender.indexPath.section)
             tableView.deleteRows(at: [sender.indexPath, restTimeCell], with: .bottom)
         }
-        
-        
-        
-        
-        
+
     }
     
     func getSnapshotOfSection(tableView: UITableView, section: CGRect) -> UIImageView {
@@ -691,16 +663,13 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         tableView.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        
-        
-        
+
         // Set the section area.
         var rect = section
         rect.origin.x*=image.scale
         rect.origin.y*=image.scale
         rect.size.width*=image.scale
         rect.size.height*=image.scale
-        
         
         print("originalImage:\(image)")
         
@@ -728,7 +697,6 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
         for row in 0...tableView.numberOfRows(inSection: section) {
             let cell = tableView.cellForRow(at: IndexPath(row: row, section: section))
             cell?.alpha = 0
-//            cell?.isOpaque = false
         }
     }
     
@@ -857,9 +825,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
                 }
             }
         }
-        
-        
-        
+
         setupLoadingAnimationView()
         
         loadingAnimationView.show()
@@ -876,9 +842,7 @@ class PlanEditView: UITableViewController, UITextFieldDelegate, UIPickerViewDele
     }
 }
 
-
 extension PlanEditView {
-    
     
     public func saveSuccessfully(){
         
@@ -902,10 +866,7 @@ extension PlanEditView {
                 self.navigationController?.popToRootViewController(animated: true)
             }
         }
-        
-        
-//        navigationController?.popViewController(animated: true)
-        
+
     }
     
     public func showSaveError(){
@@ -917,8 +878,7 @@ extension PlanEditView {
         self.present(alert, animated: true, completion: nil)
         
     }
-    
-    
+
     func addSection(sections: [PlanSectionModel]) {
         // Set the seq in section.
         var varSections = sections
@@ -931,17 +891,7 @@ extension PlanEditView {
         tableView.reloadData()
     }
     
-//    func loadData(data: Any) {
-//        if data is PlanModel{
-//            plan = data as? PlanModel
-//        } else {
-//            return
-//        }
-//    }
-    
-    
 }
-
 
 extension UITableViewController {
     var topBarHeight: CGFloat {
@@ -954,19 +904,17 @@ extension UITableViewController {
         return top
     }
     
-    func setupToHideKeyboardOnTapOnView()
-        {
-            let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-                target: self,
-                action: #selector(UITableViewController.dismissKeyboard))
+    func setupToHideKeyboardOnTapOnView(){
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UITableViewController.dismissKeyboard))
 
-            tap.cancelsTouchesInView = false
-            view.addGestureRecognizer(tap)
-        }
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
 
-        @objc func dismissKeyboard()
-        {
-            view.endEditing(true)
-        }
+    @objc func dismissKeyboard(){
+        view.endEditing(true)
+    }
     
 }

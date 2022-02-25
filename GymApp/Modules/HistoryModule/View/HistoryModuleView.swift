@@ -9,8 +9,7 @@
 import UIKit
 
 class HistoryModuleView: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-//class HistoryModuleView: UICollectionViewController {
-    
+
     var presenter: HistoryModulePresenterProtocol?
     
     var recordModels:[RecordModel] = []
@@ -19,59 +18,53 @@ class HistoryModuleView: UICollectionViewController, UICollectionViewDelegateFlo
     
     let testDetailText = ["1111\n2222\n333\n4\n5\n6","1111\n2222\n3333\n4444"]
     
+    let loadingAnimationView = LoadingAnimationView()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
+        // Do any additional setup after loading the view.
         title = "历史"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         // Load data.
-        recordModels = presenter!.loadRecordData()
-        
-        
-        /*
-        // test
-        
-        
-        let label = UILabel()
-        label.text = "History Module."
-        view.addSubview(label)
-        label.frame = CGRect(x: 0, y: 0, width: label.intrinsicContentSize.width, height: 50)
-        label.center = view.center
-        // testend
-        */
+        getAllRecords()
         
         setupView()
-        
-//        view.backgroundColor = .black
-        
-        
-        /*
-        // 测试cell的动态高度
-        let customFlowLayout = CustomFlowLayout()
-        customFlowLayout.sectionInsetReference = .fromContentInset // .fromContentInset is default
-        customFlowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        customFlowLayout.minimumInteritemSpacing = 10
-        customFlowLayout.minimumLineSpacing = 10
-        customFlowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        customFlowLayout.headerReferenceSize = CGSize(width: 0, height: 40)
-        
-        
-        
-        collectionView.collectionViewLayout = customFlowLayout
-        collectionView.contentInsetAdjustmentBehavior = .always
-        
-        // end
-         */
-        
+        setupRrefreshControl()
         
         collectionView.register(RecordCell.self, forCellWithReuseIdentifier: recordCellId)
     }
     
     func setupView(){
         collectionView.backgroundColor = UIColor(red: 246, green: 249, blue: 255)
+        setupLoadingAnimationView()
+    }
+    
+    func setupRrefreshControl(){
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "下拉更新历史数据")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
+        collectionView.refreshControl = refreshControl
+        
+    }
+    
+    @objc func refresh(){
+        print("refresh")
+        getAllRecords()
+    }
+    
+    fileprivate func setupLoadingAnimationView() {
+        view.addSubview(loadingAnimationView)
+        
+        loadingAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -83,8 +76,6 @@ class HistoryModuleView: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 1
-//        return recordModels.count
         return recordModels.count
     }
 
@@ -94,28 +85,6 @@ class HistoryModuleView: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
-         // 调试ui使用
-        
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: recordCellId, for: indexPath) as! RecordCell
-        
-//        cell.titleLabel.text = "row=\(indexPath.row),section=\(indexPath.section)"
-        
-//        cell.detailLabel.text = "row=\(indexPath.row), section=\(indexPath.section)"
-        
-        
-        
-        
-        /*
-        cell.titleLabel.text = "title"
-        cell.dateLabel.text = "date"
-        cell.timeLabel.text = "time"
-        
-        
- 
-        cell.detailLabel.text = testDetailText[indexPath.row]
-        */
                 
         let recordModel = recordModels[indexPath.row]
         
@@ -123,17 +92,16 @@ class HistoryModuleView: UICollectionViewController, UICollectionViewDelegateFlo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: recordCellId, for: indexPath) as! RecordCell
         cell.titleLabel.text = "\(recordModel.planName)"
         
-        
         // Format date information.
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy年mm月dd日"
+        dateFormatter.dateFormat = "yyyy年MM月dd日"
         cell.dateLabel.text = "\(dateFormatter.string(from: recordModel.date))"
         
         // Format the total time seconds to time string.
         let timeFormatter = DateComponentsFormatter()
         timeFormatter.allowedUnits = [.hour, .minute, .second]
         timeFormatter.unitsStyle = .brief
-        let formattedString = timeFormatter.string(from: TimeInterval(1000))!
+        let formattedString = timeFormatter.string(from: TimeInterval(recordModel.totalTime))!
         cell.timeLabel.text = "\(formattedString)"
         
         // Format detail text.
@@ -142,14 +110,9 @@ class HistoryModuleView: UICollectionViewController, UICollectionViewDelegateFlo
             cell.detailLabel.text?.append("\n\(section.recordRowList.count) × \(section.sportName)")
         }
         
-        
-
         return cell
         
     }
-    
-    
-    
     
     
     
@@ -181,13 +144,28 @@ class HistoryModuleView: UICollectionViewController, UICollectionViewDelegateFlo
             return CGSize.zero
         }
         
-        
     }
     
+    func getAllRecords(){
+        presenter?.getAllRecords()
+    }
     
-
 }
 
 extension HistoryModuleView: HistoryModuleViewProtocol {
     
+    func showRecords(records: [RecordModel]) {
+        recordModels = records
+        
+        collectionView.reloadData()
+        print("endRefreshing")
+        collectionView.refreshControl?.endRefreshing()
+    }
+    
+    func showErrorAlert(){
+        let alert = UIAlertController(title: "提示", message: "读取数据出错", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }

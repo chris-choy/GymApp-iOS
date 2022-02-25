@@ -7,6 +7,7 @@ target 'GymApp' do
 
   # Pods for GymApp
   pod 'lottie-ios'
+  pod 'RoundedSwitch'
 
   target 'GymAppTests' do
     inherit! :search_paths

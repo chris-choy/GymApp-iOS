@@ -13,20 +13,20 @@ class Record_OperationTest: XCTestCase {
     
     func testFetchAllRecord(){
         print("test fetch all")
-        let recordManager = RecordCoreDataManager()
-        
-        
-        var count = 0
-        let result = recordManager.fetchAllRecords()
-        
-        print("---------------------------------------------------------------------------")
-        print("count=\(result.count)")
-        print("result = \(result)")
-        
-        for r in result {
-            count += 1
-            print("\(count):\(r.plan?.name)")
-        }
+//        let recordManager = RecordCoreDataManager()
+//        
+//        
+//        var count = 0
+//        let result = recordManager.fetchAllRecords()
+//        
+//        print("---------------------------------------------------------------------------")
+//        print("count=\(result!.count)")
+//        print("result = \(result)")
+//        
+//        for r in result! {
+//            count += 1
+//            print("\(count):\(r.plan?.name)")
+//        }
         print("---------------------------------------------------------------------------")
     }
 
@@ -124,13 +124,13 @@ class Record_OperationTest: XCTestCase {
         
         
         // Create the Record.
-        let manager = RecordCoreDataManager()
-        
-        if let plan = planManager.fetchAllPlans()?.first {
-            let recordResult = manager.createRecordWithoutSection(planName: plan.name!)
-            XCTAssertNotNil(recordResult)
-            print(recordResult)
-        }
+//        let manager = RecordCoreDataManager()
+//        
+//        if let plan = planManager.fetchAllPlans()?.first {
+//            let recordResult = manager.createRecordWithoutSection(planName: plan.name!)
+//            XCTAssertNotNil(recordResult)
+//            print(recordResult)
+//        }
         
         
         

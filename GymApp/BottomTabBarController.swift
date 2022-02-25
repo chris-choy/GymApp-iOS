@@ -13,37 +13,58 @@ class BottomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // ????
+//        self.tabBar.barTintColor = .green
+        // ????
         
-        let planNavigationController = UINavigationController(rootViewController: PlanListViewController(collectionViewLayout: UICollectionViewFlowLayout()))
-
+        
+        let planNavigationController = UINavigationController(rootViewController: PlanModuleRouter.buildPlanListView())
+        
         planNavigationController.tabBarItem.image = UIImage(named: "checklist")
-//        planNavigationController.tabBarItem.title = "计划"
+        planNavigationController.tabBarItem.title = "计划"
         
         
-        let sportNavigationController = UINavigationController(rootViewController: SportViewController())
+        let sportNavigationController = UINavigationController(rootViewController:SportModuleRouter().buildSportModuleView())
         sportNavigationController.tabBarItem.image = UIImage(named: "gym")
         sportNavigationController.tabBarItem.title = "运动"
         
         
-        let startNavigationController = UINavigationController(rootViewController: SportViewController())
+        
+        sportNavigationController.navigationBar.prefersLargeTitles = true
+        
+        /*
+        let startNavigationController = UINavigationController(rootViewController:ExercisingModuleView())
         startNavigationController.tabBarItem.image = UIImage(named: "run")
         startNavigationController.tabBarItem.title = "开始锻炼"
+        */
         
-        let historyNavigationController = UINavigationController(rootViewController: SportViewController())
+        let historyNavigationController = UINavigationController(rootViewController: HistoryModuleRouter.build())
         historyNavigationController.tabBarItem.image = UIImage(named: "history")
         historyNavigationController.tabBarItem.title = "历史"
         
-        let profileNavigationController = UINavigationController(rootViewController: SportViewController())
+        let profileNavigationController = UINavigationController(rootViewController: ProfileModuleRouter.build())
         profileNavigationController.tabBarItem.image = UIImage(named: "user")
         profileNavigationController.tabBarItem.title = "我的"
         
         viewControllers = [planNavigationController,
                            sportNavigationController,
-                           startNavigationController,
+//                           startNavigationController,
                            historyNavigationController,
-                           profileNavigationController]
+                           profileNavigationController
+        ]
         
+        
+        
+        
+        
+        // test.
+        selectedIndex = 1
+        // test end.
     }
+    
+//    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+//        <#code#>
+//    }
     
     @objc func addAction() {
         print("add")

@@ -1,0 +1,6 @@
+framework module RoundedSwitch {
+  umbrella header "RoundedSwitch-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -38,24 +38,32 @@ class CountDownTextField: UITextField  {
     let pickerView : UIPickerView = {
         let picker = UIPickerView()
         
-        
         return picker
     }()
     
     let toolbar : UIToolbar = {
         let toolbar = UIToolbar()
-        let btn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(doneAction))
         
-        toolbar.setItems([btn], animated: true)
-        
+        let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(doneAction))
+        toolbar.setItems([doneBtn], animated: true)
+
         // style
         toolbar.barStyle = .default
         toolbar.isTranslucent = true
         toolbar.sizeToFit()
         
+        // Set title.
+        let titleLabel = UILabel()
+        titleLabel.text = "休息时间"
+        toolbar.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            titleLabel.centerYAnchor.constraint(equalTo: toolbar.centerYAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: toolbar.centerXAnchor)
+        ])
+        
         return toolbar
     }()
-    
     
     
     @objc func doneAction(){

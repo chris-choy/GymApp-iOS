@@ -9,14 +9,35 @@
 import Foundation
 
 class ExercisingModuleInteractor: ExercisingModuleInteractorProtocol {
-    func createRecord(model: RecordModel) -> Bool {
-        let recordManager = RecordCoreDataManager()
+    var presenter: ExercisingModulePresenterProtocol?
+    
+    func createRecord(model: RecordModel) {
         
-//        if let result = recordManager.createRecord(model: model){
-////            print(result)
-//            return true
-//        }
-        
-        return false
+        do {
+            
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            
+            let data = try encoder.encode(model)
+            
+            RecordService.shared.createRecord(recordData: data) { res in
+                switch(res){
+                case .success(()):
+                    DispatchQueue.main.async {
+                        self.presenter?.showSuccessAlert()
+                    }
+                case .failure(let err):
+                    DispatchQueue.main.async {
+                        self.presenter?.showFailedAlert()
+                    }
+                    
+                    print(err)
+                }
+            }
+        } catch {
+            print(error)
+        }
+
     }
+
 }

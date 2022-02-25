@@ -18,68 +18,52 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        
-        
-        
-//        window?.rootViewController = BottomTabBarController()
-
-        
-        
-        // 用于测试PlanEditModule
-        /*
-        let manager = PlanCoreDataManager()
-        
-        if let plans = manager.fetchAllPlans() {
-            
-            let planModel : PlanModel?
-            if plans.count == 0{
-                planModel = PlanModel(objectId: nil, name: "PlanName")
-            } else {
-//                planModel = PlanModel(objectId: plans[0].objectID, name: plans[0].name!)
-                let array = plans[0].planSections?.allObjects as! [PlanSection]
-                planModel = PlanModel(objectId: plans[0].objectID, name: plans[0].name!, sectionList: array.toPlanSectionModels())
-            }
-            
-
-            
-            let vc = PlanEditRouter.buildPlanEditView(plan: planModel!)
-            
-            let nav = UINavigationController(rootViewController: vc)
-            
-            window?.rootViewController = nav
-            
-        }
-        */
-        
-        
         let window = UIWindow(windowScene: windowScene)
+        let vc = LoginModuleRouter.build()
+        
+        
+        // ---------------------------测试使用---------------------------
+        
+        
+//        var vc : UIViewController?
+//        // 数据准备
+//        // 用于测试PlanEditModule
+//
+//        let manager = PlanCoreDataManager()
+//
+//
+//        if let plans = manager.fetchAllPlans() {
+//
+//            if plans.count != 0{
+//
+//                // 将数据载入VC
+//                vc = ExercisingModuleView(planModel: plans[0].toPlanModel())
+//            }
+//
+//
+//
+//        }
         
         
         // VC 选择
 //        let vc = BottomTabBarController()
-        
-        let vc = LoginModuleRouter.build()
-        
-//        let vc = LoadingViewController()
-        
-        
 //        let vc = PickerVIewTeTableViewController()
-        
-        
 //        let vc = SportViewController()
 //        let vc = SportModuleView()
 //        let vc = SportModuleRouter().buildSportModuleView()
-//        let vc = ExercisingModuleView()
+//        let vc = ExercisingModuleView(planModel: <#T##PlanModel#>)
 //        let vc = PlanTestVC()
 //        let vc = NewPlanTestVC()
 //        let vc = PlanEditView()
         
-        
-        
-//        let nav = UINavigationController(rootViewController: vc)
-        window.rootViewController = vc
+
+        let nav = UINavigationController(rootViewController: vc)
+        // ---------------------------测试使用---------------------------
+
+        window.rootViewController = nav
         window.makeKeyAndVisible()
         self.window = window
         

@@ -11,20 +11,12 @@ import UIKit
 
 
 class PlanTableViewCell: UITableViewCell {
-    
-    
-    
+
     var setNumLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.backgroundColor = .white
         label.textAlignment = .center
-        
-        // test
-        label.layer.borderWidth = 1
-        // testend
-        
-        
+
         // Calculate the text max size.
         label.text = "99"
         label.widthAnchor.constraint(equalToConstant: label.intrinsicContentSize.width).isActive = true
@@ -42,7 +34,6 @@ class PlanTableViewCell: UITableViewCell {
     
     var valueTF: TextFieldWithIndex = {
        let tf = TextFieldWithIndex()
-//        tf.text = "数值"
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.textAlignment = .center
         tf.dataType = .value
@@ -51,25 +42,15 @@ class PlanTableViewCell: UITableViewCell {
         tf.text = "  数值  "
         tf.sizeToFit()
         tf.widthAnchor.constraint(equalToConstant: tf.frame.width).isActive = true
-        
-        // Set the layer.
-//        tf.backgroundColor = .systemGray
-//        tf.layer.cornerRadius = 8
-        
+
         tf.placeholder = "数值"
-        
-        
-        // test
-        tf.layer.borderWidth = 1
-        // testend
-        
+
         return tf
     }()
 
     var timesTF: TextFieldWithIndex = {
         let tf = TextFieldWithIndex()
         tf.translatesAutoresizingMaskIntoConstraints = false
-//        tf.backgroundColor = .green
         tf.textAlignment = .center
         tf.dataType = .times
         
@@ -78,12 +59,7 @@ class PlanTableViewCell: UITableViewCell {
         tf.placeholder = "次数"
         tf.sizeToFit()
         tf.widthAnchor.constraint(equalToConstant: tf.frame.width).isActive = true
-        
-        
-        // test
-        tf.layer.borderWidth = 1
-        // testend
-     
+
         return tf
     }()
     
@@ -107,21 +83,13 @@ class PlanTableViewCell: UITableViewCell {
         label.widthAnchor.constraint(equalToConstant: label.intrinsicContentSize.width).isActive = true
         label.text = ""
 
-        
-        
-        // test
-        label.layer.borderWidth = 1
-        // testend
-        
         return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style:style, reuseIdentifier: reuseIdentifier)
-        
         setupView()
-        
-        
+
     }
     
     required init?(coder: NSCoder) {
@@ -164,7 +132,6 @@ class PlanTableViewCell: UITableViewCell {
                                                 "v4":multiplicationSymbol,
                                                 "v5":timesTF,
                                                 "v6":deleteBtn] ))
-    
     }
     
 }
@@ -174,10 +141,7 @@ class CustomDeleteButton: UIButton {
 }
 
 class TextFieldWithIndex: UITextField, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    
-    
-    
+
     enum TextFieldDataType {
         case value
         case times
@@ -186,7 +150,6 @@ class TextFieldWithIndex: UITextField, UIPickerViewDelegate, UIPickerViewDataSou
     var sectionIndex : Int = 0
     var dataType: TextFieldDataType = .value
     
-//    var value : Float = 0
     var times = 0
     
     let pickerView = UIPickerView()
@@ -198,11 +161,9 @@ class TextFieldWithIndex: UITextField, UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     @objc func doneAction(){
-//        sec = pickerView.selectedRow(inComponent: 0)*60 + pickerView.selectedRow(inComponent: 1)
         self.endEditing(true)
     }
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

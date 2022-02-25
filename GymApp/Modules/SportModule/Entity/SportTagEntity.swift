@@ -106,14 +106,11 @@ class SportTagDataManager {
 
 extension Array where Element == SportTag {
     func toSportTagModels() -> [SportTagModel]{
+        
         var set: [SportTagModel] = []
         for u in self {
             set.append(u.toSportTagModel())
         }
-        
-        // Sort by the setNum.
-        // Because the CoreData saved the data not in order.
-//        set.sort(by: {$0.setNum < $1.setNum})
         
         return set
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19461" systemVersion="21A559" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Plan" representedClassName="Plan" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="last_changed" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -7,7 +7,6 @@
         <attribute name="seq" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="user_id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="planSections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlanSection"/>
-        <relationship name="recordList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Record" inverseName="plan" inverseEntity="Record"/>
     </entity>
     <entity name="PlanRow" representedClassName="PlanRow" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -33,8 +32,8 @@
     <entity name="Record" representedClassName="Record" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="planName" attributeType="String"/>
         <attribute name="totalTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="plan" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" inverseName="recordList" inverseEntity="Plan"/>
         <relationship name="recordSectionList" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="RecordSection" inverseName="record" inverseEntity="RecordSection"/>
     </entity>
     <entity name="RecordRow" representedClassName="RecordRow" syncable="YES" codeGenerationType="class">
@@ -48,15 +47,16 @@
         <attribute name="costTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sport" attributeType="String"/>
+        <attribute name="sportUnit" attributeType="String"/>
         <relationship name="record" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Record" inverseName="recordSectionList" inverseEntity="Record"/>
         <relationship name="recordRowList" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="RecordRow" inverseName="rowSection" inverseEntity="RecordRow"/>
-        <relationship name="sport" maxCount="1" deletionRule="Nullify" destinationEntity="Sport"/>
     </entity>
     <entity name="Sport" representedClassName="Sport" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="last_changed" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="unit" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="unit" attributeType="String"/>
         <attribute name="user_id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="tag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SportTag" inverseName="sport" inverseEntity="SportTag"/>
     </entity>
@@ -65,12 +65,12 @@
         <relationship name="sport" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sport" inverseName="tag" inverseEntity="Sport"/>
     </entity>
     <elements>
-        <element name="Plan" positionX="-587.1171875" positionY="-120.31640625" width="128" height="134"/>
+        <element name="Plan" positionX="-587.1171875" positionY="-120.31640625" width="128" height="119"/>
         <element name="PlanRow" positionX="-608.88671875" positionY="290.66796875" width="128" height="193"/>
         <element name="PlanSection" positionX="-589.96484375" positionY="79.26171875" width="128" height="134"/>
         <element name="Record" positionX="-414" positionY="27" width="128" height="104"/>
         <element name="RecordRow" positionX="-108" positionY="135" width="128" height="104"/>
-        <element name="RecordSection" positionX="174.0546875" positionY="298.34765625" width="128" height="119"/>
+        <element name="RecordSection" positionX="174.0546875" positionY="298.34765625" width="128" height="134"/>
         <element name="Sport" positionX="-10.16796875" positionY="-91.13671875" width="128" height="119"/>
         <element name="SportTag" positionX="156.94140625" positionY="-207.95703125" width="128" height="73"/>
     </elements>

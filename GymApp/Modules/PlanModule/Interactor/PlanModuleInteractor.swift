@@ -8,10 +8,8 @@
 
 import Foundation
 
-
 class PlanModuleInteractor: PlanModuleInteractorProtocol {
-    
-    
+
     var presenter: PlanModulePresenterProtocol?
     
     let planManager = PlanCoreDataManager()
@@ -46,11 +44,7 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
                 case .success(_):
                     
                     // Tell the view to update the plan data.
-//                    self.presenter?.showAllPlans()
-                    
                     DispatchQueue.main.async {
-//                        self.presenter?.showAllPlans()
-//                        self.presenter?.
                         self.presenter?.showUpdateSuccessfully()
                     }
                     
@@ -67,15 +61,8 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
         
     }
     
-    private func loadSport(){
-        
-    }
-    
-    
     fileprivate func loadPlan() {
-        
-//        var isSportOk = false
-        
+        // 1. Load sport data first.
         SportService.shared.getAllSports { res in
             switch res {
             case .failure(let err):
@@ -83,16 +70,9 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
                 print("读取错误")
                 self.presenter?.showErrorAlert()
             case .success(_):
-//                print(Unmanaged.passUnretained(isSportOk).toOpaque())
-                
-//                isSportOk = true
-                print("读取成功")
-                
-                // 2. Load Plan data.
+                // 2. Load plan data.
                 PlanService.shared.getAllPlans(completion: {
-                    (res) in
-                    
-                    switch res {
+                    (res) in switch res {
                     case .failure(let err):
                         print(err)
                         self.presenter?.showErrorAlert()
@@ -101,45 +81,13 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
                         DispatchQueue.main.async {
                             self.presenter?.showAllPlans()
                         }
-                        
                     }
                 })
-                
             }
         }
-        
-//        // 2. Load Plan data.
-//        PlanService.shared.getAllPlans(completion: {
-//            (res) in
-//
-//            switch res {
-//            case .failure(let err):
-//                print(err)
-//            case .success(_):
-//                // Convert the result to PlanResponseModel.
-//                if isSportOk {
-//                    DispatchQueue.main.async {
-//                        self.presenter?.showAllPlans()
-//                    }
-//                } else {
-//                    // Tell the view that there is error.
-//                    DispatchQueue.main.async {
-//                        self.presenter?.showErrorAlert()
-//                    }
-//
-//                }
-//
-//            }
-//        })
-        
-        
     }
     
     func loadData() {
-        
-        // 1. Load Sport data.
-//        loadSport()
-        
         loadPlan()
     }
     
@@ -154,19 +102,7 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
                 res in
                 switch(res){
                 case .success(_):
-//                        self.presenter?.loadData()
-                print("a")
-                
-//                        do {
-//                            let responsePlan = try JSONDecoder().decode(PlanModel.self, from: result)
-//
-//                            // 1. According to the plan_id, fetch the plan object in the CoreData.
-//                            //    Create the object if not exists.
-//
-//
-//                        } catch {
-//                            print(error)
-//                        }
+                    print("a")
                 case .failure(let error):
                     print(error)
                 }
@@ -175,13 +111,7 @@ class PlanModuleInteractor: PlanModuleInteractorProtocol {
         } catch {
             print(error)
         }
-        
-        
-        
-        
         return nil
     }
-    
-    
-    
+
 }

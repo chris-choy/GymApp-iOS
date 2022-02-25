@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class SportEditViewController: UITableViewController, UITextFieldDelegate {
     
     let cellId = "cellId"
@@ -19,12 +17,7 @@ class SportEditViewController: UITableViewController, UITextFieldDelegate {
     var sportModel: SportModel
     
     let loadingAnimationView = LoadingAnimationView()
-    
-//    enum EditMode {
-//        case create
-//        case edit
-//    }
-    
+
     let editMode : SaveMode
     
     init(sport: SportModel, listView: ForAddingWindowProtocol, editMode: SaveMode) {
@@ -100,7 +93,6 @@ class SportEditViewController: UITableViewController, UITextFieldDelegate {
             }
         }
         
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,33 +137,35 @@ class SportEditViewController: UITableViewController, UITextFieldDelegate {
                 }
             default:
                 cell.textLabel?.text = "删除"
-//                cell.textLabel?.text = "default"
             }
-            
-            
+
             return cell
         }
         
         return UITableViewCell()
-        
-        
+
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == textField {
-            return (textField.text?.count ?? 0) + string.count - range.length <= 11
-        } else {
+        
+        guard textField.markedTextRange == nil else {return true}
+        
+        let canChange = (textField.text?.count ?? 0) + string.count - range.length <= 11
+        
+        if !canChange && string.isEmpty {
+            // string="" when user pressed delete button on keyboard.
+            // We allow delete text when the length of text is over,
+            // but can't allow append text.
             return true
+        } else {
+            return canChange
         }
+        
     }
     
     
     func createSuccess(){
         loadingAnimationView.hide()
-        
-//        let alert = UIAlertController(title: "提示", message: "创建成功", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
-//        present(alert, animated: true, completion: nil)
     }
     
     func showAlertMessage(message: String){
@@ -181,33 +175,7 @@ class SportEditViewController: UITableViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-    
-//    func showRepeatedNameAlert(){
-//        loadingAnimationView.hide()
-//        let alert = UIAlertController(title: "提示", message: "", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
-//        present(alert, animated: true, completion: nil)
-//    }
-    
-    
-    
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        print("tf 1: \(textField)")
-//
-//    }
-//
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        print("tf 2: ")
-//        return true
-//    }
-//
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        print("tf 3")
-//
-//        return true
-//    }
-    
+
 }
 
 
@@ -229,7 +197,6 @@ class TableViewTextFieldCell: UITableViewCell {
 
         NSLayoutConstraint.activate([
             textField.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            //            textField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3),
             textField.widthAnchor.constraint(equalToConstant: width),
             textField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20)
         ])
@@ -237,8 +204,7 @@ class TableViewTextFieldCell: UITableViewCell {
         textField.setBottomBorder()
         textField.setLeftPaddingPoints(5)
         textField.setRightPaddingPoints(5)
-        
-        
+
         textField.borderStyle = .none
     }
     

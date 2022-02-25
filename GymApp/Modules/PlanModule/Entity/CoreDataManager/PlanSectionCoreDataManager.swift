@@ -12,8 +12,7 @@ class PlanSectionCoreDataManager {
     var planSectionFC: NSFetchedResultsController<PlanSection>?
     let managedObjectContext = CoreDataManagedContext.sharedInstance.managedObjectContext
     let context = CoreDataManagedContext.sharedInstance.managedObjectContext
-    
-    
+
     // Fetch.
     func fetchPlanSections() {
         
@@ -86,15 +85,13 @@ class PlanSectionCoreDataManager {
                 return nil
             }
         }
-        
-        
+
         do {
             try context.save()
         } catch (let err){
             print(err)
         }
-        
-        
+
         return planSection
     }
     
@@ -137,11 +134,9 @@ extension PlanSection {
             last_changed: Int(self.last_changed),
             plan_id: Int(self.plan_id))
             
-        
         return model
     }
 }
-
 
 extension Array where Element == PlanSection {
     func toPlanSectionModels() -> [PlanSectionModel]{

@@ -31,12 +31,7 @@ struct PlanModel : Codable{
     
     
     func encode(to encoder: Encoder) throws {
-//        enum CodingKeys: String, CodingKey{
-//            case id = "id"
-//            case name = "name"
-//            case sectionList = "sectionList"
-//        }
-        
+
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(id, forKey: .id)
@@ -76,86 +71,8 @@ struct PlanModel : Codable{
         self.seq = seq
         self.user_id = user_id
     }
-    
-//    init() {
-//        let plan = PlanModel(id: self.id, objectId: nil, name: name, sectionList: planSectionList, last_changed: last_changed)
-//    }
-    
-    
-    
-    
-    
+
 }
-
-//struct PlanResponseModel: Codable{
-////    let objectId : NSManagedObjectID
-//    
-//    var id : Int
-//    var name : String
-//    var sectionList: [PlanSectionResponseModel]
-//    var seq: Int
-//    var user_id : Int
-//    var last_changed : Int
-// 
-//}
-//
-//extension PlanResponseModel {
-//    func toPlanModel() -> PlanModel {
-//        
-//        // Create Section.
-//        var planSectionList : [PlanSectionModel] = []
-//        for section in sectionList {
-//            var rowList : [PlanRowModel] = []
-//            for row in section.rowList{
-//                // Create Row.
-//                let planRow = PlanRowModel(
-//                    id: row.id,
-//                    seq: row.seq,
-//                    lastValue: 0,
-//                    value: row.value,
-//                    times: 1, restTime: 0)
-//                
-//                // Add into rowList.
-//                rowList.append(planRow)
-//            }
-//            
-//            let sport = SportModel(id: section.sport.id, objectId: nil, name: section.sport.name, unit: SportUnitModel(name: section.sport.name, sportNames: nil))
-//            
-//            let planSection = PlanSectionModel(
-//                id: 0,
-//                seq: Int16(section.seq),
-//                unit: section.sport.unit,
-//                rowList: rowList,
-//                sport: sport)
-//            
-//            planSectionList.append(planSection)
-//        }
-//        
-//        
-//        // Create Plan.
-//        let plan = PlanModel(id: self.id, objectId: nil, name: name, sectionList: planSectionList, last_changed: last_changed, seq: seq)
-//        
-//        return plan
-//    }
-//}
-
-
-
-
-//extension PlanModel {
-//    func toPlanResponseModel() -> PlanResponseModel{
-//        
-//        let resModel = PlanResponseModel(id: id ?? 0,
-//                                         name: name,
-//                                         sectionList: sectionList.toPlanSectionResponseModel(plan_id: id ?? 0),
-//                                         seq: 0,
-//                                         user_id: 0,
-//                                         last_changed: 0)
-//        
-//        return resModel
-//    }
-//}
-
 
 extension Array where Element == Plan {
     func toPlanModels() -> [PlanModel]{
@@ -168,7 +85,3 @@ extension Array where Element == Plan {
         return models
     }
 }
-
-
-
-

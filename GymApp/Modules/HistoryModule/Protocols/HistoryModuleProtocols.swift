@@ -8,32 +8,39 @@
 
 import UIKit
 
-protocol HistoryModuleViewProtocol : class {
+protocol HistoryModuleViewProtocol : AnyObject {
     
     var presenter: HistoryModulePresenterProtocol? {set get}
     
     // Add some methods here.
+    func showRecords(records: [RecordModel])
+    func showErrorAlert()
     
 }
 
-protocol HistoryModuleRouterProtocol: class {
+protocol HistoryModuleRouterProtocol: AnyObject {
     
     static func build() -> UIViewController
 
 }
 
-protocol HistoryModulePresenterProtocol: class {
+protocol HistoryModulePresenterProtocol: AnyObject {
     
     var view: HistoryModuleViewProtocol? {set get}
     var router: HistoryModuleRouterProtocol? {set get}
     var interactor: HistoryModuleInteractorProtocol? {set get}
     
     func viewDidLoad()
-    func loadRecordData() -> [RecordModel]
+    
+    func showRecords(records: [RecordModel])
+    func getAllRecords()
+    func showErrorAlert()
 }
 
-protocol HistoryModuleInteractorProtocol: class {
+protocol HistoryModuleInteractorProtocol: AnyObject {
     
-    func loadRecordData() -> [RecordModel]
+    var presenter: HistoryModulePresenterProtocol? {set get}
+    
+    func getAllRecords()
     
 }

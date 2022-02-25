@@ -44,8 +44,9 @@ class SportServiceTest: XCTestCase {
         // 进行操作.
         SportService.shared.getAllSports { res in
             switch(res){
-            case .success(_):
+            case .success():
                 print("success")
+                
                 exp.fulfill()
             case .failure(_):
                 exp.fulfill()
@@ -54,6 +55,10 @@ class SportServiceTest: XCTestCase {
         }
         
         waitForExpectations(timeout: 20, handler: nil)
+        
+        
+        let sports = SportDataManager().fetchAllSport()
+        print(sports.toSportModels())
         
         print("------------------------------testGetAllSport------------------------------")
     }

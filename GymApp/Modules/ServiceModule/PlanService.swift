@@ -15,11 +15,8 @@ class PlanService: NSObject {
     
     //#MARK: public
     func updatePlan(requestPlan: Data ,completion: @escaping (Result< (), Error>) -> ()){
-        let url = URL(string: ConfigConstant.serverAdderss + "/plan/update")!
         
-        // test
-        print(String.init(data: requestPlan, encoding: .utf8))
-        // test
+        let url = URL(string: ConfigConstant.serverAdderss + "/plan/update")!
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -67,10 +64,11 @@ class PlanService: NSObject {
     
     
     func getAllPlans(completion: @escaping (Result< () , Error>) -> ()){
-//        let id_token = UserDefaults.standard.string(forKey: "id_token") as! String
+        
+        print("idtoken=\(id_token)")
         
         // Set request information.
-        let url = URL(string: ConfigConstant.serverAdderss + "/plan/complete")!
+        let url = URL(string: ConfigConstant.serverAdderss + "/plan/all")!
         
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -98,21 +96,14 @@ class PlanService: NSObject {
             DispatchQueue.main.async {
                 self.syncToCoreData(result: data)
             }
-//            self.syncToCoreData(result: data)
-            
-            
             
             completion(.success(()))
-        
-            
+
         }.resume()
         
     }
     
-    
-    
     // MARK: fileprivate
-    
     fileprivate func isUpToDate(new: PlanModel, old: PlanModel) -> Bool{
         
         // Check for the plans and its timestamp.
@@ -154,17 +145,22 @@ class PlanService: NSObject {
     
     fileprivate func syncToCoreData(result: Data){
         do {
+//            let t = String(data: result, encoding: .utf8)
+            // 1. Transfrom result data to PlanModel.
             let plansResponse = try JSONDecoder().decode([PlanModel].self, from: result)
             let planCoredataManager = PlanCoreDataManager()
             
+            // 2. To check if it needs to update the data in CoreData.
             if let oldPlans = planCoredataManager.fetchAllPlans(){
                 var tags = [Bool](repeating: false, count: oldPlans.count)
                 
+                // 2.1 Clear the plan in the Coredata.
                 if plansResponse.count == 0 {
                     for plan in oldPlans {
                         planCoredataManager.deletePlan(id: plan.objectID)
                     }
                 } else {
+                // 2.2 Check the plans in coredata if they are up-to-date.
                     for planModel in plansResponse {
                         
                         if let oldPlanIndex = oldPlans.firstIndex(where: {$0.id == planModel.id}){
@@ -182,7 +178,6 @@ class PlanService: NSObject {
                             _ = planCoredataManager.createPlan(model: planModel)
                         }
                         
-                        
                         // Delete the plan in coredata but not in result.
                         while true {
                             if let del = tags.firstIndex(where: { $0 == false }){
@@ -194,21 +189,7 @@ class PlanService: NSObject {
                         }
                     }
                 }
-                
             }
-            
-            
-            
-//            if plansResponse.count == 0 {
-//
-//            } else {
-//
-//
-//
-//
-//            }
-            
-            
             
         } catch  {
             

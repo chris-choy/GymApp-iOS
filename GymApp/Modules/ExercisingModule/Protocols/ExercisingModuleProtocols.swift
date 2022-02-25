@@ -8,33 +8,40 @@
 
 import UIKit
 
-protocol ExercisingModuleViewProtocol : class {
+protocol ExercisingModuleViewProtocol : AnyObject {
     
     var presenter: ExercisingModulePresenterProtocol? {set get}
     
     // Add some methods here.
+    func showSuccessAlert()
+    func showFailedAlert()
     
 }
 
-protocol ExercisingModuleRouterProtocol: class {
+protocol ExercisingModuleRouterProtocol: AnyObject {
     
-    static func build() -> UIViewController
     static func buildExercisingView(planMoldel: PlanModel) -> UIViewController
 
 }
 
-protocol ExercisingModulePresenterProtocol: class {
+protocol ExercisingModulePresenterProtocol: AnyObject {
     
     var view: ExercisingModuleViewProtocol? {set get}
     var router: ExercisingModuleRouterProtocol? {set get}
     var interactor: ExercisingModuleInteractorProtocol? {set get}
     
     func viewDidLoad()
-    func createRecord(model: RecordModel) -> Bool
+    func createRecord(model: RecordModel)
+    
+    func showSuccessAlert()
+    func showFailedAlert()
+    
 }
 
-protocol ExercisingModuleInteractorProtocol: class {
+protocol ExercisingModuleInteractorProtocol: AnyObject {
     
-    func createRecord(model: RecordModel) -> Bool
+    var presenter: ExercisingModulePresenterProtocol? {set get}
+    
+    func createRecord(model: RecordModel)
     
 }

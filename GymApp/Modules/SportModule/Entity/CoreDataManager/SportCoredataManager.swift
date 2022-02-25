@@ -13,14 +13,14 @@ class SportDataManager {
     var fc: NSFetchedResultsController<Sport>?
     let managedObjectContext = CoreDataManagedContext.sharedInstance.managedObjectContext
     
-    func fetchAllSport() -> [Sport]?{
+    func fetchAllSport() -> [Sport]{
         
         let request : NSFetchRequest<Sport> = NSFetchRequest(entityName: "Sport")
         
         do {
             let result = try managedObjectContext.fetch(request)
             if result.count == 0 {
-                return nil
+                return result
             }
             else{
                 return result
@@ -30,7 +30,7 @@ class SportDataManager {
             print(error)
         }
         
-        return nil
+        return []
     }
     
     func fetchSport(id: Int) -> Sport? {
@@ -120,17 +120,12 @@ class SportDataManager {
         sport.id = Int32(model.id)
         sport.user_id = Int64(model.user_id)
         sport.unit = model.unit
-        // 这里还有未完成的unit创建。
-
+        
         try! managedObjectContext.save()
         
         return sport
-
-
     }
-    
-    
-    
+
     func createSport(name: String, unit: String) -> Sport?{
         
         // Check for sport and unit.
@@ -139,22 +134,6 @@ class SportDataManager {
             return nil
         }
         
-        /*
-        var unitObject : SportUnit?
-        
-        unitObject = SportUnitDataManager().fetchUnit(name: unit)
-        
-        if unitObject == nil {
-            // Create unit.
-            unitObject = SportUnitDataManager().createUnit(name: unit)
-        }
-            
-        guard unitObject != nil else {
-            print("createSport: error in fetchUnit and createUnit.")
-            return nil
-        }
-         */
-        
         // Create Sport
         let sport = NSEntityDescription.insertNewObject(forEntityName: "Sport", into: managedObjectContext) as! Sport
         sport.name = name
@@ -162,8 +141,7 @@ class SportDataManager {
         
         try! managedObjectContext.save()
         return sport
-        
-        
+
     }
     
     func deleteSport(name: String) {
@@ -176,7 +154,18 @@ class SportDataManager {
         } else {
             print("Can't find the sport.")
         }
-        
-        
+
+    }
+    
+    func deleteSport(objectId: NSManagedObjectID){
+        do {
+            if let sport = try managedObjectContext.existingObject(with: objectId) as? Sport{
+                managedObjectContext.delete(sport)
+                try managedObjectContext.save()
+            }
+            
+        } catch {
+            print(error)
+        }
     }
 }

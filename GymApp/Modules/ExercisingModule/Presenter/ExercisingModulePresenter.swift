@@ -9,7 +9,14 @@
 import Foundation
 
 class ExercisingModulePresenter: ExercisingModulePresenterProtocol {
+    func showSuccessAlert() {
+        view?.showSuccessAlert()
+    }
     
+    func showFailedAlert() {
+        view?.showFailedAlert()
+    }
+
     var view : ExercisingModuleViewProtocol?
     var router: ExercisingModuleRouterProtocol?
     var interactor: ExercisingModuleInteractorProtocol?
@@ -18,13 +25,8 @@ class ExercisingModulePresenter: ExercisingModulePresenterProtocol {
         
     }
     
-    func createRecord(model: RecordModel) -> Bool {
-        if (interactor!.createRecord(model: model) == true){
-            return true
-        } else {
-            return false
-        }
-        
+    func createRecord(model: RecordModel) {
+        interactor?.createRecord(model: model)
     }
     
 }

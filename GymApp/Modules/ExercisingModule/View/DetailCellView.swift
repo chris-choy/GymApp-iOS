@@ -63,7 +63,7 @@ class DetailCellView : UIView {
         // Calculate the max size.
         tf.text = "111111"
         tf.sizeToFit()
-        tf.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        tf.widthAnchor.constraint(equalToConstant: 85).isActive = true
         
         // View.
 //        tf.layer.borderWidth = 1
@@ -71,59 +71,48 @@ class DetailCellView : UIView {
         tf.layer.cornerRadius = 8
         tf.backgroundColor = Color.lightBackground.value
         
-        // test.
-        tf.text = "12"
-        // end.
         
         return tf
     }()
     
-    
     var unitLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        
-        label.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        // test
-        label.text = "kg"
-//        label.layer.borderWidth = 1
-        // end
-        
+
         return label
     }()
     
-//    var multiplicationSymbol: UIImageView = {
-//        let iv = UIImageView()
-//        iv.image = UIImage(imageLiteralResourceName: "cross")
-//        iv.translatesAutoresizingMaskIntoConstraints = false
-//
-//        return iv
-//    }()
+    let timesTF : UITextField = {
+        let tf = UITextField()
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        
+        tf.layer.cornerRadius = 8
+        tf.backgroundColor = Color.lightBackground.value
+        
+        tf.textAlignment = .center
+        
+        tf.widthAnchor.constraint(equalToConstant: 85).isActive = true
+
+        return tf
+    }()
     
     let timesLabel : UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        // test.
-        label.text = "3组"
-        // end.
+        label.text = "次"
         
+        label.translatesAutoresizingMaskIntoConstraints = false
+
         return label
     }()
     
+    
+    
     init() {
-//        self.exercisingModuleView = exercisingModuleView
         super.init(frame: CGRect.zero)
         
         setupView()
     }
-    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//
-//        setupView()
-//    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -134,7 +123,6 @@ class DetailCellView : UIView {
     func setupView() {
         
         self.layer.cornerRadius = 8
-        
         
         setValuesFontStyle(name: "Helvetica Neue", size: 25)
         setTitleLabel()
@@ -176,7 +164,6 @@ class DetailCellView : UIView {
         nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
         addSubview(finishButton)
         
-        
         // Height constraints.
         NSLayoutConstraint.activate([
             skipButton.heightAnchor.constraint(equalTo: skipButton.widthAnchor),
@@ -200,16 +187,13 @@ class DetailCellView : UIView {
     }
     
     func setupValues(){
-//        addSubview(valueTF)
-//        addSubview(multiplicationSymbol)
-//        addSubview(unitLabel)
-//        addSubview(timesLabel)
         
-        let valueStackView = UIStackView(arrangedSubviews: [valueTF,unitLabel,timesLabel])
+        let valueStackView = UIStackView(arrangedSubviews: [valueTF,unitLabel,timesTF,timesLabel])
         addSubview(valueStackView)
         valueStackView.translatesAutoresizingMaskIntoConstraints = false
         valueStackView.axis = .horizontal
-        
+        valueStackView.spacing = 3
+        valueStackView.setCustomSpacing(25, after: unitLabel)
         
         // Horizontal constraints.
         NSLayoutConstraint.activate([
@@ -221,44 +205,12 @@ class DetailCellView : UIView {
             valueStackView.bottomAnchor.constraint(equalTo: skipButton.topAnchor, constant: -20)
         ])
         
-//        NSLayoutConstraint.activate([
-//            multiplicationSymbol.heightAnchor.constraint(equalTo: unitLabel.heightAnchor),
-//            multiplicationSymbol.widthAnchor.constraint(equalTo: unitLabel.heightAnchor)
-//        ])
-        
-        
-        
-        /*
-        
-        /// Constraint.
-        // Vertical.
-        NSLayoutConstraint.activate([
-            valueTF.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            multiplicationSymbol.centerYAnchor.constraint(equalTo: valueTF.centerYAnchor),
-            unitLabel.centerYAnchor.constraint(equalTo: valueTF.centerYAnchor),
-            timesLabel.centerYAnchor.constraint(equalTo: valueTF.centerYAnchor),
-        ])
-        
-        // Honrizontal.
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(
-            withVisualFormat: "[value]-0-[unit]-0-[cross]-0-[times]",
-            options: NSLayoutConstraint.FormatOptions(),
-            metrics: nil,
-            views: [
-                "value": valueTF,
-                "cross": multiplicationSymbol,
-                "unit": unitLabel,
-                "times":timesLabel])
-        )
-        
-         */
-        
-        
     }
     
     func setValuesFontStyle(name: String,size: CGFloat){
         valueTF.font = UIFont(name: name, size: size)
         unitLabel.font = UIFont(name: name, size: size)
+        timesTF.font = UIFont(name: name, size: size)
         timesLabel.font = UIFont(name: name, size: size)
     }
     

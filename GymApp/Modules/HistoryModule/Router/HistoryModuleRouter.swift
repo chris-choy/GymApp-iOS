@@ -23,6 +23,7 @@ class HistoryModuleRouter: HistoryModuleRouterProtocol {
         presenter.view = view
         presenter.router = router
         presenter.interactor = interactor
+        interactor.presenter = presenter
         
         return view
     }

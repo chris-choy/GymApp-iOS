@@ -18,9 +18,7 @@ class RecordCell: UICollectionViewCell {
         let label = UILabel()
         
         label.text = "全身训练"
-        
-//        label.layer.borderWidth = 1
-        
+
         return label
     }()
     
@@ -29,24 +27,14 @@ class RecordCell: UICollectionViewCell {
         
         label.text = "2020年11月3日"
         
-       
-        
-//        label.layer.borderWidth = 1
-        
         return label
     }()
     
     let detailLabel: UILabel = {
         let label = UILabel()
-        
-//        label.text = "运动列表\n1 × 单臂哑铃划船\n2 × 下腹抬腿"
 
-        
         label.numberOfLines = 0
         label.sizeToFit()
-        
-//        label.layer.borderWidth = 1
-        
         
         return label
     }()
@@ -65,8 +53,6 @@ class RecordCell: UICollectionViewCell {
     
     let timeLabel : UILabel = {
         let label = UILabel()
-
-//
         label.text = "52min"
         return label
     }()
@@ -84,9 +70,7 @@ class RecordCell: UICollectionViewCell {
         sv.axis = .vertical
         return sv
     }()
-    
-    
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -108,21 +92,12 @@ class RecordCell: UICollectionViewCell {
         self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.contentView.layer.cornerRadius).cgPath
     }
     
-    
-    
     func setupViews(){
-//        addSubview(titleLabel)
-//        addSubview(dateLabel)
-//        addSubview(timeLabel)
-//        addSubview(detailTextView)
-//        setupStackView()
-        
+
 //        layer.borderWidth = 1
         layer.cornerRadius = 8
         backgroundColor = .white
-        
-        
-        
+
         // Use autolayout.
         addSubview(titleLabel)
         addSubview(dateLabel)
@@ -145,10 +120,6 @@ class RecordCell: UICollectionViewCell {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateImageView.translatesAutoresizingMaskIntoConstraints = false
         
-//        let att = dateLabel.attributedText
-        
-//        let estimateFrame = NSString("1111年11月11日").boundingRect(with: CGSize(width: 999, height: 20), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.: att], context: nil)
-        
         NSLayoutConstraint.activate([
             dateImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: padding),
             dateImageView.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
@@ -156,16 +127,11 @@ class RecordCell: UICollectionViewCell {
             dateImageView.widthAnchor.constraint(equalToConstant: lineHeight)
         ])
         
-//        dateLabel.font = UIFont.systemFont(ofSize: 15)
         NSLayoutConstraint.activate([
             dateLabel.centerYAnchor.constraint(equalTo: dateImageView.centerYAnchor),
             dateLabel.leftAnchor.constraint(equalTo: dateImageView.rightAnchor, constant: 5),
             dateLabel.heightAnchor.constraint(equalToConstant: lineHeight),
-//            dateLabel.widthAnchor.constraint(equalToConstant: estimateFrame.width)
         ])
-        
-        
-        
         
         // Time Label
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -178,14 +144,11 @@ class RecordCell: UICollectionViewCell {
             timeImageView.widthAnchor.constraint(equalToConstant: lineHeight)
         ])
         
-//        timeLabel.font = UIFont.systemFont(ofSize: 15)
         NSLayoutConstraint.activate([
             timeLabel.centerYAnchor.constraint(equalTo: timeImageView.centerYAnchor),
             timeLabel.leftAnchor.constraint(equalTo: timeImageView.rightAnchor, constant: 5),
             timeLabel.heightAnchor.constraint(equalToConstant: lineHeight),
-//            dateLabel.widthAnchor.constraint(equalToConstant: estimateFrame.width)
         ])
-        
         
         // Detail Label.
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -200,30 +163,13 @@ class RecordCell: UICollectionViewCell {
         setShadowLayer()
         
         setupTextStyle()
-        
-//        setupConstraints()
-        
-//        setupDateLabel()
-//        setupTimeLabel()
+
     }
     
-    func setupConstraints(){
-        
-        // StackView
-//        NSLayoutConstraint.activate([
-//            stackView.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -2*padding),
-//            stackView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -2*padding),
-//            stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-//        ])
-        
-        
-    }
+    
     
     func setupTextStyle(){
-        
-        
-        
+
         titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         
         detailLabel.font = UIFont.preferredFont(forTextStyle: .body)
@@ -242,19 +188,14 @@ class RecordCell: UICollectionViewCell {
         timeStackView.addArrangedSubview(dateLabel)
         timeStackView.addArrangedSubview(timeImageView)
         timeStackView.addArrangedSubview(timeLabel)
-        
-        
-    
+
         addSubview(stackView)
     
         stackView.addArrangedSubview(titleLabel)
-//        stackView.addArrangedSubview(dateLabel)
-//        stackView.addArrangedSubview(timeLabel)
         stackView.addArrangedSubview(timeStackView)
         stackView.addArrangedSubview(detailLabel)
         
         stackView.spacing = 5
-        
         
     }
     
@@ -274,29 +215,19 @@ class RecordCell: UICollectionViewCell {
         
         let text = NSMutableAttributedString(string: "")
         
-        
         let calendarAttachment = NSTextAttachment()
         calendarAttachment.image = UIImage(named: "calendar")
         calendarAttachment.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
         
         let date = NSAttributedString(string: " 2020年11月3日")
         
-        
         text.append(NSAttributedString(attachment: calendarAttachment))
         text.append(date)
-        
-        
-        
-//        label.attributedText = text
-        
+   
         dateLabel.attributedText = text
     }
     
     func setupTimeLabel(){
-        
-//        timeImageView.bounds = CGRect(x: 0, y: 0, width: 20, height: 20)
-//        timeImageView.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
-//        let image = UIImage(named: "clock", scale: 0.5)
         
         timeLabel.text = "52min"
         
@@ -310,55 +241,7 @@ class RecordCell: UICollectionViewCell {
 
         }
         
-        
-//        timeImageView.center = timeImageView.superview!.center
-        
-        
-        
-        
-        
-        /*
-        let style = NSMutableParagraphStyle()
-            style.alignment = .center
-            style.minimumLineHeight = timeLabel.intrinsicContentSize.height
-        
-        
-        let text = NSMutableAttributedString(string: " ",attributes: [NSAttributedString.Key.paragraphStyle: style])
-        
-        let clockAttachment = NSTextAttachment()
-        clockAttachment.image = UIImage(named: "clock")
-        clockAttachment.adjustsImageSizeForAccessibilityContentSizeCategory = true
-        
-        
-        clockAttachment.bounds = CGRect(x: 0, y: 0, width: timeLabel.intrinsicContentSize.height, height: timeLabel.intrinsicContentSize.height)
-        
-        
-        let totalTime = NSAttributedString(string: " 52min")
-        
-        text.append(NSAttributedString(attachment: clockAttachment))
-        text.append(totalTime)
-        
-        timeLabel.attributedText = text
-        */
-        
-//        timeImageView.bounds = CGRect(x: 0, y: 0, width: timeLabel.intrinsicContentSize.height, height: timeLabel.intrinsicContentSize.height)
-        
-//        timeImageView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-        
-//        timeImageView.contentMode = .
-        
-//        timeLabel.text = "52min"
-        
     }
-    
-    
-    /*
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-            let layoutAttributes = super.preferredLayoutAttributesFitting(layoutAttributes)
-            layoutIfNeeded()
-            layoutAttributes.frame.size = systemLayoutSizeFitting(UIView.layoutFittingCompressedSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-            return layoutAttributes
-        }*/
     
 }
 

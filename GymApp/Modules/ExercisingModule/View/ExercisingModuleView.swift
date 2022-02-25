@@ -10,35 +10,26 @@ import UIKit
 
 class ExercisingModuleView: UIViewController {
     
-    var presenter: ExercisingModulePresenterProtocol?
-    
-    var currentRow: Int = 0
-    
-    var groupTimeArray : [Int] = []
-    
-    var isHighlighted : [[Bool]] = []
-    
-    var recordModel: RecordModel
+    var presenter      : ExercisingModulePresenterProtocol?
+    var currentRow     : Int      = 0
+    var groupTimeArray : [Int]    = []
+    var isHighlighted  : [[Bool]] = []
+    var recordModel    : RecordModel
     
     init(planModel: PlanModel) {
         self.planModel = planModel
         
         // Initiate the record according to the plan.
-        self.recordModel = RecordModel(planName: planModel.name,
+        self.recordModel = RecordModel(id: 0,
+                                       planName: planModel.name,
                                        date: Date(),
                                        totalTime: 0,
                                        recordSectionList: [])
         
-//        detailCell = DetailCellView(exercisingModuleView: self)
-        
         detailCell = DetailCellView()
         
         super.init(nibName: nil, bundle: nil)
-        
-        
-        
-//        detailCell = DetailCellView(exercisingModuleView: self)
-        
+
     }
     
     required init?(coder: NSCoder) {
@@ -46,81 +37,6 @@ class ExercisingModuleView: UIViewController {
     }
     
     let planModel : PlanModel
-    
-//    var planModel : PlanModel = {
-//
-//        let row1 = PlanRowModel(setNum: 1,
-//                                lastValue: 0,
-//                                value: 15,
-//                                times: 8)
-//
-//        let row2 = PlanRowModel(setNum: 2,
-//                                lastValue: 0,
-//                                value: 16,
-//                                times: 8)
-//
-//        let row3 = PlanRowModel(setNum: 3,
-//                                lastValue: 0,
-//                                value: 15,
-//                                times: 8)
-//
-//        let row4 = PlanRowModel(setNum: 4,
-//                                lastValue: 0,
-//                                value: 16,
-//                                times: 8)
-//
-//        let section1 = PlanSectionModel(sectionIndex: 0,
-//                                        unit: "kg",
-//                                        rowList: [row1,row2,row3,row4],
-//                                        sport: SportModel(name: "侧平举",
-//                                                          unit: SportUnitModel(name: "kg", sportNames: nil)))
-//
-//        let row5 = PlanRowModel(setNum: 1,
-//                                lastValue: 0,
-//                                value: 5,
-//                                times: 8)
-//
-//        let row6 = PlanRowModel(setNum: 2,
-//                                lastValue: 0,
-//                                value: 5,
-//                                times: 10)
-//
-//        let section2 = PlanSectionModel(sectionIndex: 1,
-//                                        unit: "kg",
-//                                        rowList: [row5,row6],
-//                                        sport: SportModel(name: "双哑铃前平举",
-//                                                          unit: SportUnitModel(name: "kg", sportNames: nil)))
-//
-//        let row7 = PlanRowModel(setNum: 1,
-//                                lastValue: 0,
-//                                value: 8,
-//                                times: 8)
-//
-//        let row8 = PlanRowModel(setNum: 2,
-//                                lastValue: 0,
-//                                value: 8,
-//                                times: 10)
-//
-//        let row9 = PlanRowModel(setNum: 3,
-//                                lastValue: 0,
-//                                value: 8,
-//                                times: 10)
-//
-//        let section3 = PlanSectionModel(sectionIndex: 2,
-//                                        unit: "kg",
-//                                        rowList: [row7,row8,row9],
-//                                        sport: SportModel(name: "双哑铃侧平举",
-//                                                          unit: SportUnitModel(name: "kg", sportNames: nil)))
-//
-//        let sectionList = [section1, section2, section3]
-//
-//        let model = PlanModel(
-//            objectId: nil,
-//            name: "Plan!!!",
-//            sectionList:sectionList)
-//
-//        return model
-//    }()
     
     let schedualCellId = "schedualCellId"
     
@@ -137,23 +53,11 @@ class ExercisingModuleView: UIViewController {
         return cell
     }()
     
-//    let detailCell : DetailCellView = {
-//        let cell = DetailCellView(exercisingModuleView: )
-//        cell.translatesAutoresizingMaskIntoConstraints = false
-//        return cell
-//    }()
-    
-//    var detailCell : DetailCellView?
-    
     let detailCell : DetailCellView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
-//        navigationItem.title = "aa"
-        
-//        navigationController?.navigationBar.topItem?.title = "锻炼"
         title = "锻炼"
         
         view.backgroundColor = .white
@@ -178,6 +82,8 @@ class ExercisingModuleView: UIViewController {
         //testend.
         
         
+        
+        
     }
     
     
@@ -187,23 +93,13 @@ class ExercisingModuleView: UIViewController {
         detailCell.exercisingModuleView = self
     }
     
-    
-    
-    
-    
     func setupViews() {
-//        detailCell = DetailCellView(exercisingModuleView: self)
         detailCell.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailCell)
-        
-        
+
         view.addSubview(timeCell)
         setupSchedualCell()
-        
-        
-        
-        
-        
+
     }
     
     fileprivate func setupSchedualCell() {
@@ -232,32 +128,28 @@ class ExercisingModuleView: UIViewController {
         
         let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (navigationController?.navigationBar.frame.height ?? 0.0)
         
-//        let titleBarHeight = navigationController!.navigationBar.frame.height
-        
-//        let tabBarHeight = self.tabBarController?.tabBar.frame.height
-        
-        
         // tabBar
         
         let tabBarHeight = self.tabBarController?.tabBar.frame.height ?? CGFloat(0)
         
         // Calculate the detailCell size.
-//        let screenHeight = UIScreen.main.bounds.height
         let screenHeight = view.frame.height
         let detailHeight = screenHeight - topBarHeight - tabBarHeight - tsWidth - 3*padding
-        let detailWidth = screenWidth - 2*padding
+        let detailWidth  = screenWidth - 2*padding
 
-        let mertics = ["top": topBarHeight+padding,
-                       "tsWidth": tsWidth,
-                       "tsHeight": tsWidth,
-                       "detailHeight": detailHeight,
-                       "detailWidth": detailWidth,
-                       "padding": padding]
-        let viewDict = ["time":timeCell,
-                        "schedual":schedualCell,
-                        "detail": detailCell]
+        let mertics = ["top"          : topBarHeight+padding,
+                       "tsWidth"      : tsWidth,
+                       "tsHeight"     : tsWidth,
+                       "detailHeight" : detailHeight,
+                       "detailWidth"  : detailWidth,
+                       "padding"      : padding]
+        
+        let viewDict = ["time"     : timeCell,
+                        "schedual" : schedualCell,
+                        "detail"   : detailCell]
         
         
+        // Height.
         NSLayoutConstraint.activate([
             schedualCell.heightAnchor.constraint(equalTo: timeCell.heightAnchor),
             schedualCell.centerYAnchor.constraint(equalTo: timeCell.centerYAnchor)
@@ -281,7 +173,6 @@ class ExercisingModuleView: UIViewController {
             }
         }
         
-        
         // Update the new row.
         if let indexPath = getIndexPath(currentRow) {
             schedualCell.cellForRow(at: indexPath)?.imageView?.isHidden = false
@@ -293,14 +184,15 @@ class ExercisingModuleView: UIViewController {
         
         if let index = getIndexPath(currentRow){
             detailCell.titleLabel.text = planModel.sectionList[index.section].sport.name
-            detailCell.valueTF.text = "\(planModel.sectionList[index.section].rowList[index.row].value)"
-            detailCell.unitLabel.text = planModel.sectionList[index.section].sport.name
-            detailCell.timesLabel.text = "\(planModel.sectionList[index.section].rowList[index.row].times)"
+            detailCell.valueTF.text    = "\(planModel.sectionList[index.section].rowList[index.row].value)"
+            detailCell.unitLabel.text  = planModel.sectionList[index.section].sport.unit
+            detailCell.timesTF.text    = "\(planModel.sectionList[index.section].rowList[index.row].times)"
         }
         
     }
     
     func getIndexPath(_ currentRow: Int) -> IndexPath? {
+        
         // Get the data's indexPath accroding to the index of row(currentRow) in the UI.
         
         var row = currentRow
@@ -323,20 +215,7 @@ class ExercisingModuleView: UIViewController {
 
 extension ExercisingModuleView: UITableViewDelegate, UITableViewDataSource {
     
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-//        var rowCount = 0
-//
-//        for section in planModel.sectionList {
-//            rowCount += section.rowList.count
-//        }
-//
-//        return rowCount
-        
-        
-        
         return planModel.sectionList[section].rowList.count
         
     }
@@ -352,25 +231,8 @@ extension ExercisingModuleView: UITableViewDelegate, UITableViewDataSource {
         
         // Set the imageView highlight
         cell?.imageView?.isHidden = !isHighlighted[indexPath.section][indexPath.row]
-        
-        
-        
+
         return cell!
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-//        updateRowHightLight()
-        
-//        print(cell.isSelected,indexPath)
-//        if(indexPath.row == 2) {
-//            cell.imageView?.isHidden = false
-//        }
-//        if (cell.isHighlighted) {
-//            cell.imageView?.isHidden = false
-//        } else {
-//            cell.imageView?.isHidden = true
-//        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -385,31 +247,17 @@ extension ExercisingModuleView: UITableViewDelegate, UITableViewDataSource {
         return planModel.sectionList[section].sport.name
     }
     
-    
-    
-    
-    
 }
 
 extension ExercisingModuleView: ExercisingModuleViewForOtherViewProtocol{
     func skipAction() {
-        
-        
+
         // Make a empty RecordRow.
         createEmptyRecordRowModel()
-        
         
         // Update the UI.
         updateUIForNextRow()
         
-        
-        
-        // test
-//        updateRowHightLight()
-        
-        print("skip")
-        
-        // test end
     }
     
     func createEmptyRecordRowModel(){
@@ -447,7 +295,7 @@ extension ExercisingModuleView: ExercisingModuleViewForOtherViewProtocol{
                                                                         recordRowList: []))
             }
             
-            if let timesText = detailCell.timesLabel.text,
+            if let timesText = detailCell.timesTF.text,
                let valueText = detailCell.valueTF.text
             {
                 if let times = Int(timesText),
@@ -493,7 +341,6 @@ extension ExercisingModuleView: ExercisingModuleViewForOtherViewProtocol{
             // Add the total time into the RecordModel.
             recordModel.totalTime = timeCell.totalSeconds
             
-            
             // test
             print("finish in updateUIForNextRow")
             
@@ -521,17 +368,10 @@ extension ExercisingModuleView: ExercisingModuleViewForOtherViewProtocol{
     func finishAction() {
         // 如果还没到最后就结束 且需要保存记录，则为后面的各个row创建empty record row。
         // ...
-        
-        
-        
+
         // 保存记录
-        if (presenter?.createRecord(model: recordModel) == true) {
-            print("success.")
-        } else {
-            print("faild.")
-        }
+        presenter?.createRecord(model: recordModel)
     }
-    
     
 }
 
@@ -546,5 +386,19 @@ protocol ExercisingModuleViewForOtherViewProtocol {
 
 
 extension ExercisingModuleView: ExercisingModuleViewProtocol {
+    func showSuccessAlert() {
+        let alert = UIAlertController(title: "提示", message: "此次运动记录已保存成功，可以在历史记录中查询。", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func showFailedAlert() {
+        
+        let alert = UIAlertController(title: "提示", message: "记录保存失败，请稍后重试。", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
     
 }

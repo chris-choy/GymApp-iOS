@@ -10,13 +10,8 @@ import Foundation
 import UIKit
 import CoreData
 
-
-
 class PlanModulePresenter: PlanModulePresenterProtocol {
-    
-    
-    
-    
+
     func savePlan(requestPlan: PlanModel) -> PlanModel? {
         return interactor?.savePlan(requestPlan: requestPlan)
     }
@@ -24,15 +19,11 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
     func showUpdateError(){
         view?.showUpdateError()
     }
-    
-    
-    
-    
+
     var view : PlanModuleViewProtocol?
     var router: PlanModuleRouterProtocol?
     var interactor: PlanModuleInteractorProtocol?
 
-    
     func viewDidLoad() {
         
     }
@@ -42,10 +33,6 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
     func buildPlanEditViewToCreate() -> UIViewController {
         return PlanModuleRouter.buildPlanEditViewToCreate(listPresenter: self)
     }
-    
-//    func buildPlanEditViewToEdit(plan: PlanModel) -> UIViewController {
-//        return PlanModuleRouter.buildPlanEditView(plan: plan, listPresenter: self)
-//    }
     
     // Sport
     func buildSportListView(sections: [PlanSectionModel]) -> UIViewController{
@@ -57,9 +44,7 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
     func buildExercisingModuleView(planModel: PlanModel) -> UIViewController{
         return router!.buildExercisingModuleView(planModel: planModel)
     }
-    
-    
-    
+
 // MARK: Fow view to call.
     func fetchPlan(name: String) -> Plan? {
         return interactor?.fetchPlan(name: name)
@@ -72,12 +57,6 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
             view?.showData(planModel: p.toPlanModels())
         }
     }
-    
-//    func showEditPlan(plan: PlanModel) {
-//        view?.showData(data: plan)
-//    }
-    
-    
     
     func addSectionInView(sports: [SportModel]) {
         
@@ -106,7 +85,6 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
         
         if let result = interactor?.updatePlan(plan: plan) {
             
-            
 //            completion(.success(result))
             
         } else {
@@ -114,13 +92,10 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
         }
         
     }
-    
-    
-    
+
     func createPlan(plan: PlanModel) -> PlanModel? {
         return interactor?.createPlan(plan: plan)
     }
-    
     
 //#MARK: Tell view to do.
     
@@ -135,6 +110,5 @@ class PlanModulePresenter: PlanModulePresenterProtocol {
     func loadData() {
         interactor?.loadData()
     }
-    
 
 }

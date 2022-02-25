@@ -14,14 +14,14 @@ class TimeCellView : UIView {
     let totalTimeLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-
+        label.font = UIFont(name: "Helvetica Neue", size: 21)
         return label
     }()
     
     let groupTimeLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-
+        label.font = UIFont(name: "Helvetica Neue", size: 21)
         return label
     }()
     
@@ -29,18 +29,19 @@ class TimeCellView : UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "总时间"
+        label.font = UIFont(name: "Helvetica Neue", size: 23)
         return label
     }()
     
     let groupTimeTitle : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "分组时间"
+        label.text = "本组时间"
+        label.font = UIFont(name: "Helvetica Neue", size: 23)
         return label
     }()
     
     var totalSeconds = -1
-    
     var groupSeconds = -1
     
     override init(frame: CGRect) {
@@ -65,59 +66,15 @@ class TimeCellView : UIView {
         groupSeconds = -1
     }
     
-    
-    func setupView() {
+    let stackView : UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.distribution = .fillEqually
         
-        self.layer.cornerRadius = 8
-        
-        totalTimeLabel.font = UIFont(name: "Helvetica Neue", size: 25)
-        groupTimeLabel.font = UIFont(name: "Helvetica Neue", size: 25)
-        
-        setupLabels()
-        setupConstraints()
-    }
-    
-    func setupLabels(){
-        self.addSubview(totalTimeTitle)
-        self.addSubview(totalTimeLabel)
-        self.addSubview(groupTimeLabel)
-        self.addSubview(groupTimeTitle)
-    }
-    
-    func setupConstraints(){
-        
-        
-//        NSLayoutConstraint.activate([
-//            totalTimeLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-//            totalTimeLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            setTimeLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-//            setTimeLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-//        ])
-        
-        NSLayoutConstraint.activate([
-            totalTimeLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            totalTimeTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            groupTimeLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            groupTimeTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        ])
-        
-        NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[v1]-[v2]-[v3]-[v4]-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v1": totalTimeTitle, "v2": totalTimeLabel, "v3": groupTimeTitle, "v4": groupTimeLabel,]))
-        
-        
-        // Title constraint.
-//        NSLayoutConstraint.activate([
-        //            totalTimeTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-        //            totalTimeTitle.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-        //            setTimeTitle.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-        //            setTimeTitle.topAnchor.constraint(equalTo: totalTimeLabel.bottomAnchor, constant: 10),
-        //        ])
-                
-                
-    }
-        
-    public func te(){
-        print("test")
-    }
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
     
     @objc func updateTotalTime(){
         
@@ -131,11 +88,9 @@ class TimeCellView : UIView {
         totalTimeLabel.text = formatter.string(from: TimeInterval(totalSeconds))
         
         if(totalSeconds <= 60) {
-            totalTimeLabel.text?.append("s")
+            totalTimeLabel.text?.append("秒")
         }
-        
-        //
-        
+
     }
     
     @objc func updateGroupTime(){
@@ -150,10 +105,43 @@ class TimeCellView : UIView {
         groupTimeLabel.text = formatter.string(from: TimeInterval(groupSeconds))
         
         if(groupSeconds <= 60) {
-            groupTimeLabel.text?.append("s")
+            groupTimeLabel.text?.append("秒")
         }
         
-        //
+    }
+    
+    
+    func setupView() {
+        
+        addSubview(stackView)
+        
+        self.layer.cornerRadius = 8
+        
+        setupLabels()
+        setupConstraints()
+    }
+    
+    func setupLabels(){
+        
+        stackView.addArrangedSubview(totalTimeTitle)
+        stackView.addArrangedSubview(totalTimeLabel)
+        stackView.addArrangedSubview(groupTimeTitle)
+        stackView.addArrangedSubview(groupTimeLabel)
+        
+        stackView.spacing = 0
+        stackView.setCustomSpacing(15, after: totalTimeLabel)
         
     }
+    
+    func setupConstraints(){
+
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            stackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.85),
+            stackView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.85)
+        ])
+                
+    }
+    
 }

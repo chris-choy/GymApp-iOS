@@ -10,27 +10,6 @@ import UIKit
 
 class ExercisingModuleRouter: ExercisingModuleRouterProtocol {
     
-    static func build() -> UIViewController {
-        
-        /*
-        
-        // Use this method to create the module and the viewcontroller.
-        
-        let view = ExercisingModuleView()
-        let presenter : ExercisingModulePresenterProtocol = ExercisingModulePresenter()
-        let router : ExercisingModuleRouterProtocol = ExercisingModuleRouter()
-        let interactor: ExercisingModuleInteractorProtocol = ExercisingModuleInteractor()
-        
-        view.presenter = presenter
-        presenter.view = view
-        presenter.router = router
-        presenter.interactor = interactor
-        return view
- 
-        */
-        return UIViewController()
-    }
-    
     static func buildExercisingView(planMoldel: PlanModel) -> UIViewController {
         
         // Use this method to create the module and the viewcontroller.
@@ -43,6 +22,7 @@ class ExercisingModuleRouter: ExercisingModuleRouterProtocol {
         presenter.view = view
         presenter.router = router
         presenter.interactor = interactor
+        interactor.presenter = presenter
         return view
     }
 }

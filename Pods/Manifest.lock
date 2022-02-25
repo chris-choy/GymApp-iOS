@@ -1,16 +1,20 @@
 PODS:
   - lottie-ios (3.1.9)
+  - RoundedSwitch (3.0.0)
 
 DEPENDENCIES:
   - lottie-ios
+  - RoundedSwitch
 
 SPEC REPOS:
   trunk:
     - lottie-ios
+    - RoundedSwitch
 
 SPEC CHECKSUMS:
   lottie-ios: 3a3758ef5a008e762faec9c9d50a39842f26d124
+  RoundedSwitch: 2cfb983d76acc6b5027c14a6e52d148a559c24cf
 
-PODFILE CHECKSUM: 0512159ab040492394cfeddb2246abbf3015d8a8
+PODFILE CHECKSUM: 25876b0ff49855ee42976e10422a956106abb66d
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.11.2

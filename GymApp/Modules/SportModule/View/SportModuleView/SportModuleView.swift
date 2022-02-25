@@ -9,7 +9,6 @@
 
 import UIKit
 
-
 class SportModuleView: UITableViewController, UITextFieldDelegate {
     
     let sportCellId = "sportCellId"
@@ -20,6 +19,8 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
     var addingWin: SportAddingWindow?
     
     var editViewController: SportEditViewController? = nil
+    
+//    refreshControl = UIRefreshControl()
     
     // HeaderStruct is for constructing the tableView's headerIndex.
     struct HeaderStruct {
@@ -36,6 +37,16 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
     
     let viewMode : ViewMode
     
+    
+    let loadingAnimationView = LoadingAnimationView()
+    
+    fileprivate func setupLoadingAnimationView() {
+        view.addSubview(loadingAnimationView)
+        
+        tableView.backgroundView = loadingAnimationView
+
+    }
+    
     init(viewMode: ViewMode) {
         self.viewMode = viewMode
         super.init(style: .plain)
@@ -45,13 +56,10 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         setupBar()
         
@@ -63,14 +71,29 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
         }
         
         tableView.allowsMultipleSelection = true
-        
-        
-        
 
+        // Color.
+        tableView.backgroundColor = .white
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.attributedTitle = NSAttributedString(string: "下拉更新运动数据")
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
+        setupLoadingAnimationView()
+        
         // test
-        presenter?.fetchAllSportFromServer()
+        loadSportData()
         // test end
         
+    }
+    
+    @objc func refresh(){
+        loadSportData()
+    }
+    
+    func loadSportData(){
+        loadingAnimationView.show()
+        presenter?.fetchAllSportFromServer()
     }
     
     fileprivate func setupBar() {
@@ -127,12 +150,8 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
                 
             }
 
-            
-            
-            
         }
-        
-        
+
         // Sort.
         headerList.sort(by: {$0.letter < $1.letter})
         for i in 0..<headerList.count{
@@ -142,11 +161,9 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
             let other = headerList.remove(at: otherIndex)
             headerList.insert(other, at: headerList.count)
         }
-        
-        
+
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return headerList[section].ni.count
     }
@@ -182,14 +199,12 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
         
         return titles
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         
         return index
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch viewMode {
         case .manager:
@@ -202,16 +217,8 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
             self.navigationController?.pushViewController( editViewController! , animated: true)
         case .choice:
             break
-            
-//            tableView.cellForRow(at: indexPath)?.isSelected = true
-//            if (tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark){
-//                tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//            } else {
-//                tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-//            }
         }
-        
-        
+
     }
     
     @objc func rightBtnAction() {
@@ -246,50 +253,40 @@ class SportModuleView: UITableViewController, UITextFieldDelegate {
         addingWin?.nameTextField.resignFirstResponder()
         return true
     }
-    
-    
 
 }
 
 extension SportModuleView: SportModuleViewProtocol{
-    func loadData(datas: [Any]) {
-//        datas as [Any]
-        
-        for data in datas {
-            if data is [SportModel] {
-                sportList = data as! [SportModel]
-            
-                setupIndexTitle()
-                tableView.reloadData()
+    
+    
+    func loadData(datas: [SportModel]) {
                 
-            }
-        }
+        sportList = datas
+        setupIndexTitle()
+        tableView.reloadData()
+        refreshControl?.endRefreshing()
+        loadingAnimationView.hide()
         
     }
     
     func showCreateSuccess() {
         
-        /*
-        if let addingWin = addingWin {
-            addingWin.removeFromSuperview()
-            // show success alert.
-            
-        }
- */
         if let editViewController = editViewController {
             editViewController.createSuccess()
             editViewController.navigationController?.popToRootViewController(animated: true)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                let alert = UIAlertController(title: "提示", message: "成功", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                let alert = UIAlertController(title: "提示", message: "创建成功。", preferredStyle: .alert)
+                self.present(alert, animated: true) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                      alert.dismiss(animated: true, completion: nil)
+                    }
+                }
+
             }
-            
-            
+
             presenter?.fetchAllSportFromServer()
             
-//            navigationController?.popToRootViewController(animated: true)
         }
         
         editViewController = nil
@@ -298,7 +295,6 @@ extension SportModuleView: SportModuleViewProtocol{
     
     func showFailMessage(message: String) {
 
-        
         if let editViewController = editViewController {
             editViewController.showAlertMessage(message: "创建失败，网络连接错误。")
         }
@@ -306,17 +302,19 @@ extension SportModuleView: SportModuleViewProtocol{
     }
     
     func loadSportFail(){
-        let alert = UIAlertController(title: "提示", message: "由于网络原因，加载运动出错。", preferredStyle: .alert)
+        let alert = UIAlertController(title: "提示", message: "由于网络原因，加载运动数据出错。", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
+        
+        loadingAnimationView.hide()
         
         present(alert, animated: true, completion: nil)
     }
     
     func loadSportSuccess(){
-//        tableView.reloadData()
+        tableView.reloadData()
+        loadingAnimationView.hide()
     }
-    
-    
+
 }
 
 extension SportModuleView: ForAddingWindowProtocol {
@@ -350,4 +348,3 @@ extension SportModuleView: ForAddingWindowProtocol {
     }
     
 }
-
