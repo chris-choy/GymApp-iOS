@@ -1,5 +1,6 @@
-<div align="center">
- <img src="https://user-images.githubusercontent.com/23289235/150794034-37a77fec-0a5d-4289-8d14-e844bccf465e.png" height = "150" alt="logo" />
+
+<div align="center" >
+ <img src="https://user-images.githubusercontent.com/23289235/150794034-37a77fec-0a5d-4289-8d14-e844bccf465e.png" alt="logo" style="max-height:150px;"/>
 </div>
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
@@ -7,12 +8,30 @@
 ## 1.背景介绍
 此项目是基于UIKit和CoreData编写的一款在iOS上的运动记录App，该App在于提供用户创建运动的计划，记录运动的数据以及分析运动数据。
 
-## 2. 软件截图
-1. 计划列表
-2. 编辑计划
-3. 运动历史
+## 2. 软件功能
+### 2.1 运动计划管理
+* 每个运动计划包含多组运动项目。
+* 每个运动项目支持自定义运动数值，例如哑铃每组5次、跑步每组5分钟、俯卧撑每组10个等等。
+* 自定义每组休息时间。
 
-## 2. VIPER架构介绍
+### 2.2 运动项目管理
+* 支持自定义运动名称。
+* 支持自定义运动的单位，kg、lb、分钟、秒钟等等。
+
+### 2.3 记录运动数据
+* 记录每次完成整个运动计划的运动时间。
+* 记录每组运动的实际数值，允许和计划数值不相同。
+* 记录每组的休息时间，运动过程中可产生一定的督促作用。
+
+## 3. 软件截图
+
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/23289235/155956311-12690ce2-ccf8-4135-8a13-123b20cba738.png" alt="viper" />
+</div>
+
+
+
+## 4. VIPER架构介绍
 
 VIPER是一个由MVC开始逐渐发展衍生出来的一种架构。
 
@@ -32,10 +51,10 @@ https://www.alfianlosari.com/posts/building-todo-list-ios-app-with-viper-archite
 
 
 
-## 3.测试环境
+## 5.测试环境
 XCode 13.2.1 (13C100)
 
-## 4.运行环境配置
+## 6.运行环境配置
 配置服务器的ip和端口号，文件路径如下：
 
     ~/GymApp/Config/ConfigConstant

@@ -33,7 +33,7 @@ class PlanCollcetionCell: UICollectionViewCell {
     
     let detailText: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = UIColor(named: "PlanCollectionCellDetailTextColor")
         label.font = UIFont.gymFont(size: .PlanCollectionCellDetail, bold: false)
         
         label.translatesAutoresizingMaskIntoConstraints = false
